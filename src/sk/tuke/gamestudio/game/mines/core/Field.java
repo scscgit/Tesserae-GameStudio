@@ -41,17 +41,31 @@ public class Field {
         fillWithClues();
     }
 
+    private void generateMines() {
+        Random random = new Random();
+
+        int minesToSet = mineCount;
+        while(minesToSet > 0){
+            int row = random.nextInt(rowCount);
+            int column = random.nextInt(columnCount);
+            if (tiles[row][column] == null) {
+                tiles[row][column] = new Mine();
+                minesToSet--;
+            }
+        }
+    }
+
     private void fillWithClues() {
         for(int row = 0; row < rowCount; row++) {
             for(int column = 0; column < columnCount; column++) {
                 if (tiles[row][column] == null) {
-                    tiles[row][column] = new Clue(countNeighMines(row, column));
+                    tiles[row][column] = new Clue(countNeighbourMines(row, column));
                 }
             }
         }
     }
 
-    private int countNeighMines(int row, int column) {
+    private int countNeighbourMines(int row, int column) {
         int count = 0;
         for(int rowOffset = -1; rowOffset <= 1; rowOffset++) {
             int acurRow = row + rowOffset;
@@ -69,26 +83,12 @@ public class Field {
         return count;
     }
 
-    private void generateMines() {
-        Random random = new Random();
-
-        int minesToSet = mineCount;
-        while(minesToSet > 0){
-            int row = random.nextInt(rowCount);
-            int column = random.nextInt(columnCount);
-            if (tiles[row][column] == null) {
-                tiles[row][column] = new Mine();
-                minesToSet--;
-            }
-        }
-    }
-
     public Tile getTile(int row, int column) {
         return tiles[row][column];
     }
 
     public void openTile(int row, int column) {
-        Tile tile = tiles[row][column];
+        final Tile tile = tiles[row][column];
         if(tile.getState() == TileState.CLOSED) {
             tile.setState(TileState.OPEN);
 
@@ -99,7 +99,7 @@ public class Field {
 
             if (tile instanceof Clue) {
                 if(((Clue) tile).getValue() == 0) {
-                    openNeighTile(row, column);
+                    openNeighborTile(row, column);
                 }
             }
 
@@ -109,7 +109,7 @@ public class Field {
         }
     }
 
-    private void openNeighTile(int row, int column) {
+    private void openNeighborTile(int row, int column) {
         for(int rowOffset = -1; rowOffset <= 1; rowOffset++) {
             int acurRow = row + rowOffset;
             if(acurRow >= 0 && acurRow < rowCount) {
@@ -124,7 +124,7 @@ public class Field {
     }
 
     public void markTile(int row, int column) {
-        Tile tile = tiles[row][column];
+        final Tile tile = tiles[row][column];
         if(tile.getState().equals(TileState.CLOSED)) {
             tile.setState(TileState.MARKED);
         } else if(tile.getState().equals(TileState.MARKED)) {

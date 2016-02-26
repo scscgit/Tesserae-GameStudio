@@ -33,9 +33,9 @@ public class ConsoleUI {
         show();
 
         if(field.getState() == GameState.SOLVED) {
-            System.out.println("HURAAA");
+            System.out.println("Solved!");
         } else if(field.getState() == GameState.FAILED){
-            System.out.println("SKUS ZNOVA ALE RADSEJ DACO INE");
+            System.out.println("Failed!");
         }
     }
 
@@ -52,11 +52,11 @@ public class ConsoleUI {
 
             if("O".equals(matcher.group(1))) {
                 field.openTile(row, column);
-            } else {
+            } else if("M".equals(matcher.group(1))) {
                 field.markTile(row, column);
             }
         } else {
-            System.out.println("ROB PORIADNE");
+            System.out.println("Wrong input!");
         }
     }
 
