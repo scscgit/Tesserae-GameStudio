@@ -1,10 +1,16 @@
 package sk.tuke.gamestudio.game.mines.consoleui;
 
+import sk.tuke.gamestudio.entity.Score;
 import sk.tuke.gamestudio.game.mines.core.Clue;
 import sk.tuke.gamestudio.game.mines.core.Field;
 import sk.tuke.gamestudio.game.mines.core.GameState;
 import sk.tuke.gamestudio.game.mines.core.Tile;
+import sk.tuke.gamestudio.service.ScoreException;
+import sk.tuke.gamestudio.service.ScoreService;
+import sk.tuke.gamestudio.service.ScoreServiceImpl;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,6 +20,8 @@ import java.util.regex.Pattern;
  */
 public class ConsoleUI {
     private Field field;
+
+    private ScoreService scoreService = new ScoreServiceImpl();
 
     private static final Pattern INPUT_REGEX = Pattern.compile("([OM])([A-I])([1-9])");
 
@@ -25,6 +33,8 @@ public class ConsoleUI {
     }
 
     public void play() {
+        printScore();
+
         do {
             show();
             handleInput();
@@ -34,6 +44,15 @@ public class ConsoleUI {
 
         if(field.getState() == GameState.SOLVED) {
             System.out.println("Solved!");
+            int score = field.getScore();
+            System.out.println("Score: " + score);
+            try {
+                String user = System.getProperty("user.name");
+                scoreService.addScore(new Score(user, "mines" , score, new Date()));
+            }catch (ScoreException e) {
+                e.printStackTrace();
+            }
+            printScore();
         } else if(field.getState() == GameState.FAILED){
             System.out.println("Failed!");
         }
@@ -94,6 +113,21 @@ public class ConsoleUI {
                 }
             }
             System.out.println();
+        }
+    }
+
+    private void printScore() {
+        try {
+            List<Score> scores = scoreService.getBestScoresForGame("mines");
+            int index = 1;
+            System.out.println("No. Player          Score");
+            System.out.println("-------------------------");
+            for (Score score : scores) {
+                System.out.format("%2d. %-16s %4d\n", index, score.getPlayer(), score.getPoints());
+                index++;
+            }
+        }catch (ScoreException e) {
+            e.printStackTrace();
         }
     }
 }

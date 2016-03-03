@@ -16,12 +16,15 @@ public class Field {
 
     private GameState state = GameState.PLAYING;
 
+    private long startMillis;
+
     public Field(int rowCount, int columnCount, int mineCount) {
         this.rowCount = rowCount;
         this.columnCount = columnCount;
         this.mineCount = mineCount;
         tiles = new Tile[rowCount][columnCount];
         generate();
+        startMillis = System.currentTimeMillis();
     }
 
     public int getRowCount() {
@@ -151,5 +154,13 @@ public class Field {
             }
         }
         return count;
+    }
+
+    public int getScore() {
+        if(state == GameState.SOLVED) {
+            int seconds = (int)((System.currentTimeMillis() - startMillis) / 1000);
+            return rowCount * columnCount * 3 - seconds;
+        }
+        return 0;
     }
 }
