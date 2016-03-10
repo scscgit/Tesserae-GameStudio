@@ -1,11 +1,12 @@
 package sk.tuke.gamestudio.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by jaros_000 on 3.3.2016.
  */
-public class Score {
+public class Score implements Serializable, Comparable<Score> {
     private String player;
     private String game;
     private int points;
@@ -58,5 +59,10 @@ public class Score {
                 ", points=" + points +
                 ", playedOn=" + playedOn +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Score o) {
+        return o.getPoints() - getPoints();
     }
 }
