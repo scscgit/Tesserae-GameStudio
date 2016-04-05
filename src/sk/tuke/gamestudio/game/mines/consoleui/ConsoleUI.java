@@ -5,9 +5,9 @@ import sk.tuke.gamestudio.game.mines.core.Clue;
 import sk.tuke.gamestudio.game.mines.core.Field;
 import sk.tuke.gamestudio.game.mines.core.GameState;
 import sk.tuke.gamestudio.game.mines.core.Tile;
-import sk.tuke.gamestudio.service.ScoreException;
+import sk.tuke.gamestudio.service.ScoreRestServiceClient;
 import sk.tuke.gamestudio.service.ScoreService;
-import sk.tuke.gamestudio.service.ScoreServiceImpl;
+import sk.tuke.gamestudio.service.ScoreWebServiceClient;
 
 import java.util.Date;
 import java.util.List;
@@ -15,13 +15,11 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by jaros_000 on 25.2.2016.
- */
 public class ConsoleUI {
     private Field field;
 
-    private ScoreService scoreService = new ScoreServiceImpl();
+    private ScoreService scoreService = new ScoreWebServiceClient();
+    //private ScoreService scoreService = new ScoreRestServiceClient();
 
     private static final Pattern INPUT_REGEX = Pattern.compile("([OM])([A-I])([1-9])");
 
@@ -44,12 +42,13 @@ public class ConsoleUI {
 
         if(field.getState() == GameState.SOLVED) {
             System.out.println("Solved!");
-            int score = field.getScore();
-            System.out.println("Score: " + score);
+            int points = field.getScore();
+            System.out.println("Score: " + points);
             try {
-                String user = System.getProperty("user.name");
-                scoreService.addScore(new Score(user, "mines" , score, new Date()));
-            }catch (ScoreException e) {
+                String player = System.getProperty("user.name");
+                Score score = new Score(player, "mines", points, new Date());
+                scoreService.addScore(score);
+            }catch (Exception e) {
                 e.printStackTrace();
             }
             printScore();
@@ -126,7 +125,7 @@ public class ConsoleUI {
                 System.out.format("%2d. %-16s %4d\n", index, score.getPlayer(), score.getPoints());
                 index++;
             }
-        }catch (ScoreException e) {
+        }catch (Exception e) {
             e.printStackTrace();
         }
     }

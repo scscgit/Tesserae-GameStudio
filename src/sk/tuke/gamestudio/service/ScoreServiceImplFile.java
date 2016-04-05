@@ -3,10 +3,8 @@ package sk.tuke.gamestudio.service;
 import sk.tuke.gamestudio.entity.Score;
 
 import java.io.*;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -45,12 +43,5 @@ public class ScoreServiceImplFile implements ScoreService {
             }
         }
         return scores;
-    }
-
-    public static void main(String[] args) throws ScoreException {
-        Score score = new Score("jaro", "tiles", 220, new Date());
-        ScoreService scoreService = new ScoreServiceImplFile();
-        scoreService.addScore(score);
-        System.out.println(scoreService.getBestScoresForGame("tiles"));
     }
 }

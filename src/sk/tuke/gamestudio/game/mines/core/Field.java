@@ -2,9 +2,6 @@ package sk.tuke.gamestudio.game.mines.core;
 
 import java.util.Random;
 
-/**
- * Created by jaros_000 on 18.2.2016.
- */
 public class Field {
     private final int rowCount;
 

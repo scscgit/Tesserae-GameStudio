@@ -4,11 +4,15 @@ import sk.tuke.gamestudio.entity.Score;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-/**
- * Created by jaros_000 on 3.3.2016.
+/*
+CREATE TABLE score (
+    player VARCHAR(32) NOT NULL,
+    game VARCHAR(32) NOT NULL,
+    points INTEGER NOT NULL,
+    playedon DATE NOT NULL
+);
  */
 public class ScoreServiceImpl implements ScoreService {
     private static final String URL = "jdbc:postgresql://localhost/gamestudio";
@@ -44,7 +48,7 @@ public class ScoreServiceImpl implements ScoreService {
             ps.setString(1, game);
             try(ResultSet rs = ps.executeQuery()) {
                 while(rs.next()) {
-                    Score score = new Score(rs.getString(1), rs.getString(2),
+                    Score score = new Score(1, rs.getString(1), rs.getString(2),
                             rs.getInt(3), rs.getDate(4));
                     scores.add(score);
                 }
@@ -54,12 +58,5 @@ public class ScoreServiceImpl implements ScoreService {
         }
 
         return scores;
-    }
-
-    public static void main(String[] args) throws ScoreException {
-//        Score score = new Score("jaro", "tiles", 300, new Date());
-        ScoreService scoreService = new ScoreServiceImpl();
-//        scoreService.addScore(score);
-        System.out.println(scoreService.getBestScoresForGame("mines"));
     }
 }

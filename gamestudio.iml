@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="WebServicesClient" name="WebServices Client">
+      <configuration ws.engine="Glassfish / JAX-WS 2.2 RI / Metro 1.X / JWSDP 2.2" />
+    </facet>
+  </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
@@ -19,5 +24,9 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="JAX-WS-Glassfish / JAX-WS 2.2 RI / Metro 1.X / JWSDP 2.2" level="project" />
+    <orderEntry type="library" name="org.glassfish.hk2:hk2:2.4.0" level="project" />
+    <orderEntry type="library" name="org.glassfish.jersey.core:jersey-client:2.22.2" level="project" />
+    <orderEntry type="library" name="org.glassfish.jersey.media:jersey-media-json-jackson:2.22" level="project" />
   </component>
 </module>

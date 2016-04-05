@@ -11,9 +11,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by jaros_000 on 10.3.2016.
- */
+
 public class ScoreServiceImplFileTest {
     private ScoreService scoreService = new ScoreServiceImplFile();
 
@@ -36,16 +34,16 @@ public class ScoreServiceImplFileTest {
 
     @Test
     public void testAddScore2() throws Exception {
-        Score score = new Score("jaro", "tiles", 220, new Date());
+        Score score = new Score(1, "jaro", "tiles", 220, new Date());
         scoreService.addScore(score);
         assertTrue(scoreService.getBestScoresForGame("tiles").size() == 1);
     }
 
     @Test
     public void testAddScore3() throws Exception {
-        Score score = new Score("jaro", "tiles", 300, new Date());
+        Score score = new Score(1, "jaro", "tiles", 300, new Date());
         scoreService.addScore(score);
-        score = new Score("fero", "tiles", 400, new Date());
+        score = new Score(1, "fero", "tiles", 400, new Date());
         scoreService.addScore(score);
 
         List<Score> scores = scoreService.getBestScoresForGame("tiles");

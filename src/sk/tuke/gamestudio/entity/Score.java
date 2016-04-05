@@ -1,22 +1,41 @@
 package sk.tuke.gamestudio.entity;
 
+import sk.tuke.sorm.Id;
+
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * Created by jaros_000 on 3.3.2016.
- */
 public class Score implements Serializable, Comparable<Score> {
+    @Id
+    private Integer ident;
     private String player;
     private String game;
     private int points;
     private Date playedOn;
+
+    public Score() {}
 
     public Score(String player, String game, int points, Date playedOn) {
         this.player = player;
         this.game = game;
         this.points = points;
         this.playedOn = playedOn;
+    }
+
+    public Score(Integer ident, String player, String game, int points, Date playedOn) {
+        this.ident = ident;
+        this.player = player;
+        this.game = game;
+        this.points = points;
+        this.playedOn = playedOn;
+    }
+
+    public Integer getIdent() {
+        return ident;
+    }
+
+    public void setIdent(Integer ident) {
+        this.ident = ident;
     }
 
     public String getPlayer() {
@@ -54,7 +73,8 @@ public class Score implements Serializable, Comparable<Score> {
     @Override
     public String toString() {
         return "Score{" +
-                "player='" + player + '\'' +
+                "ident=" + ident +
+                ", player='" + player + '\'' +
                 ", game='" + game + '\'' +
                 ", points=" + points +
                 ", playedOn=" + playedOn +

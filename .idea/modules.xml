@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/gamestudio.iml" filepath="$PROJECT_DIR$/gamestudio.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gamestudio_server/gamestudio_server.iml" filepath="$PROJECT_DIR$/gamestudio_server/gamestudio_server.iml" />
     </modules>
   </component>
 </project>
