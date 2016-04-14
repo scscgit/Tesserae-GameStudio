@@ -12,6 +12,7 @@ import java.util.List;
 
 public class ScoreRestServiceClient implements ScoreService {
     private static final String URL = "http://localhost:8080/gamestudio_server/webapi/score";
+//    private static final String URL = "http://localhost:8080/gamestudio_server/pokus";
 
     @Override
     public void addScore(Score score) throws ScoreException {
@@ -29,12 +30,11 @@ public class ScoreRestServiceClient implements ScoreService {
     public List<Score> getBestScoresForGame(String game) throws ScoreException {
         try {
             Client client = ClientBuilder.newClient();
-            List<Score> scores = client.target(URL)
+            return client.target(URL)
                     .path("/" + game)
                     .request(MediaType.APPLICATION_JSON)
                     .get(new GenericType<List<Score>>() {
                     });
-            return scores;
         } catch (Exception e) {
             throw new ScoreException("Error loading score", e);
         }

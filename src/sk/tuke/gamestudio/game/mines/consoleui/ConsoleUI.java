@@ -5,9 +5,7 @@ import sk.tuke.gamestudio.game.mines.core.Clue;
 import sk.tuke.gamestudio.game.mines.core.Field;
 import sk.tuke.gamestudio.game.mines.core.GameState;
 import sk.tuke.gamestudio.game.mines.core.Tile;
-import sk.tuke.gamestudio.service.ScoreRestServiceClient;
-import sk.tuke.gamestudio.service.ScoreService;
-import sk.tuke.gamestudio.service.ScoreWebServiceClient;
+import sk.tuke.gamestudio.service.*;
 
 import java.util.Date;
 import java.util.List;
@@ -18,8 +16,9 @@ import java.util.regex.Pattern;
 public class ConsoleUI {
     private Field field;
 
-    private ScoreService scoreService = new ScoreWebServiceClient();
-    //private ScoreService scoreService = new ScoreRestServiceClient();
+    private ScoreService scoreService = new ScoreRestServiceClient();
+    //private ScoreService scoreService = new ScoreWebServiceClient();
+    //private ScoreService scoreService = new ScoreServiceImpl();
 
     private static final Pattern INPUT_REGEX = Pattern.compile("([OM])([A-I])([1-9])");
 
@@ -47,6 +46,7 @@ public class ConsoleUI {
             try {
                 String player = System.getProperty("user.name");
                 Score score = new Score(player, "mines", points, new Date());
+                System.out.println(score.getPlayedOn());
                 scoreService.addScore(score);
             }catch (Exception e) {
                 e.printStackTrace();
@@ -122,7 +122,7 @@ public class ConsoleUI {
             System.out.println("No. Player          Score");
             System.out.println("-------------------------");
             for (Score score : scores) {
-                System.out.format("%2d. %-16s %4d\n", index, score.getPlayer(), score.getPoints());
+                System.out.format("%2d. %-16s %4d %s\n", index, score.getPlayer(), score.getPoints(), score.getPlayedOn());
                 index++;
             }
         }catch (Exception e) {

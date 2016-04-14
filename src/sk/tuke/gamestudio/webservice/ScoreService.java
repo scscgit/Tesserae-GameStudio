@@ -17,7 +17,7 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "ScoreService", targetNamespace = "http://webservice.gamestudio.tuke.sk/", wsdlLocation = "file:/C:/Projects/gamestudio/src/sk/tuke/gamestudio/webservice/ScoreService.wsdl")
+@WebServiceClient(name = "ScoreService", targetNamespace = "http://webservice.gamestudio.tuke.sk/", wsdlLocation = "http://kpi4he:8080/gamestudio_server/ScoreService?WSDL")
 public class ScoreService
     extends Service
 {
@@ -30,7 +30,7 @@ public class ScoreService
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("file:/C:/Projects/gamestudio/src/sk/tuke/gamestudio/webservice/ScoreService.wsdl");
+            url = new URL("http://kpi4he:8080/gamestudio_server/ScoreService?WSDL");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }

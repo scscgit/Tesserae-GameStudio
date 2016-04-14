@@ -11,9 +11,11 @@ public class Score implements Serializable, Comparable<Score> {
     private String player;
     private String game;
     private int points;
+    //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX")
     private Date playedOn;
 
-    public Score() {}
+    public Score() {
+    }
 
     public Score(String player, String game, int points, Date playedOn) {
         this.player = player;

@@ -5,7 +5,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@NamedQuery(name = "Score.getBestScoresForGame", query = "SELECT s FROM Score s WHERE s.game=:game")
+@NamedQuery(name = "Score.getBestScoresForGame",
+        query = "SELECT s FROM Score s WHERE s.game=:game ORDER BY s.points DESC")
 public class Score implements Serializable, Comparable<Score> {
     @Id
     @GeneratedValue
@@ -18,6 +19,13 @@ public class Score implements Serializable, Comparable<Score> {
     private Date playedOn;
 
     public Score() {
+    }
+
+    public Score(String player, String game, int points, Date playedOn) {
+        this.player = player;
+        this.game = game;
+        this.points = points;
+        this.playedOn = playedOn;
     }
 
     public Score(Integer ident, String player, String game, int points, Date playedOn) {

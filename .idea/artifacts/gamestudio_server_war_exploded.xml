@@ -6,6 +6,9 @@
         <element id="directory" name="classes">
           <element id="module-output" name="gamestudio_server" />
         </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: org.primefaces:primefaces:5.3" />
+        </element>
       </element>
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/gamestudio_server/target/gamestudio_server/META-INF/MANIFEST.MF" />

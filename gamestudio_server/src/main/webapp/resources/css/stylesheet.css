@@ -22,8 +22,16 @@ body {
 
 h1 {
     font-family: Arial, "Arial CE", "Helvetica CE", sans-serif;
-    border-bottom: 1px solid #AFAFAF; 
-    font-size:  40px;
+    font-size:  28px;
+    font-weight: bold;
+    margin: 0px;
+    padding: 0px;
+    color: #045491;
+}
+
+h2 {
+    font-family: Arial, "Arial CE", "Helvetica CE", sans-serif;
+    font-size:  16px;
     font-weight: bold;
     margin: 0px;
     padding: 0px;
@@ -113,3 +121,11 @@ a:link:hover, a:visited:hover  {
   padding: 10px;
 }
 
+table {
+    border-collapse: collapse;
+    border: none;
+}
+
+td {
+    padding: 0;
+}

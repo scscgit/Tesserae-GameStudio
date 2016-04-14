@@ -9,7 +9,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 public class ScoreWebServiceClient implements ScoreService {
-    private sk.tuke.gamestudio.webservice.ScoreWebService scoreService = new sk.tuke.gamestudio.webservice.ScoreService().getScoreServicePort();
+    private sk.tuke.gamestudio.webservice.ScoreWebService scoreService
+            = new sk.tuke.gamestudio.webservice.ScoreService().getScoreServicePort();
 
     @Override
     public void addScore(Score score) throws ScoreException {
@@ -19,7 +20,7 @@ public class ScoreWebServiceClient implements ScoreService {
             scoreWeb.setGame(score.getGame());
             scoreWeb.setPoints(score.getPoints());
             GregorianCalendar c = new GregorianCalendar();
-            c.setTime(new Date());
+            c.setTime(score.getPlayedOn());
             scoreWeb.setPlayedOn(DatatypeFactory.newInstance().newXMLGregorianCalendar(c));
             scoreService.addScore(scoreWeb);
         } catch (Exception e) {
@@ -38,7 +39,7 @@ public class ScoreWebServiceClient implements ScoreService {
                 score.setPlayer(scoreWeb.getPlayer());
                 score.setGame(scoreWeb.getGame());
                 score.setPoints(scoreWeb.getPoints());
-                score.setPlayedOn(score.getPlayedOn());
+                score.setPlayedOn(scoreWeb.getPlayedOn().toGregorianCalendar().getTime());
                 scores.add(score);
             }
 

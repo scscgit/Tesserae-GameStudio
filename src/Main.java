@@ -1,6 +1,9 @@
 import sk.tuke.gamestudio.game.mines.consoleui.ConsoleUI;
 import sk.tuke.gamestudio.game.mines.core.Field;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Main {
 
     public static void main(String[] args) throws Exception {
