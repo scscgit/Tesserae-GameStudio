@@ -16,8 +16,8 @@ import java.util.regex.Pattern;
 public class ConsoleUI {
     private Field field;
 
-    private ScoreService scoreService = new ScoreRestServiceClient();
-    //private ScoreService scoreService = new ScoreWebServiceClient();
+    //private ScoreService scoreService = new ScoreRestServiceClient();
+    private ScoreService scoreService = new ScoreWebServiceClient();
     //private ScoreService scoreService = new ScoreServiceImpl();
 
     private static final Pattern INPUT_REGEX = Pattern.compile("([OM])([A-I])([1-9])");

@@ -1,5 +1,7 @@
 package sk.tuke.gamestudio.game.mines.jsf;
 
+import controller.User;
+import controller.UserController;
 import sk.tuke.gamestudio.entity.Score;
 import sk.tuke.gamestudio.game.mines.core.*;
 import sk.tuke.gamestudio.service.ScoreException;
@@ -10,6 +12,7 @@ import javax.faces.component.FacesComponent;
 import javax.faces.component.UICommand;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import javax.inject.Inject;
 import java.io.IOException;
 import java.util.Date;
 
@@ -17,6 +20,14 @@ import java.util.Date;
 public class MinesComponent extends UICommand {
     @EJB
     private ScoreService scoreService;
+
+    public UserController getUserController() {
+        return (UserController) getStateHelper().eval("userController");
+    }
+
+    public void setUserController(UserController userController) {
+        getStateHelper().put("userController", userController);
+    }
 
     private void processParamsAndHandleAction(FacesContext context) {
         Field field = (Field) getValue();
@@ -27,7 +38,10 @@ public class MinesComponent extends UICommand {
                 String column = (String) context.getExternalContext().getRequestParameterMap().get("column");
                 field.action(Integer.parseInt(row), Integer.parseInt(column));
                 if (field.getState() == GameState.SOLVED) {
-                    scoreService.addScore(new Score("jaro", "mines", field.getScore(), new Date()));
+                    UserController userController = getUserController();
+                    if(userController != null && userController.getLoggedUser().isLogged()) {
+                        scoreService.addScore(new Score(userController.getLoggedUser().getName(), "mines", field.getScore(), new Date()));
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
