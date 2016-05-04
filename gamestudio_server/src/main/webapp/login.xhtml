@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/page.xhtml">
+
+	<ui:define name="content">
+		Log in!
+		<h:form>
+			<h:panelGrid columns="3">
+				Login:
+				<h:inputText id="name" value="#{user.username}" />
+				<h:message for="name" errorClass="invalid" />
+				
+				Password:
+				<h:inputSecret id="pass" value="#{user.password}" />
+				<h:message for="pass" errorClass="invalid" />
+
+			</h:panelGrid>
+
+			<h:commandButton action="#{userController.login}" value="Login" />
+		</h:form>
+
+        Or register
+
+        <h:form>
+            <h:panelGrid columns="3">
+                Login:
+                <h:inputText id="name" value="#{user.username}" />
+                <h:message for="name" errorClass="invalid" />
+
+                Password:
+                <h:inputSecret id="pass" value="#{user.password}" />
+                <h:message for="pass" errorClass="invalid" />
+
+            </h:panelGrid>
+
+            <h:commandButton action="#{userController.register}" value="Register" />
+        </h:form>
+		<br />
+	</ui:define>
+</ui:composition>
