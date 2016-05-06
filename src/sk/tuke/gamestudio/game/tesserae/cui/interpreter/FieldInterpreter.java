@@ -26,6 +26,7 @@
 
 package sk.tuke.gamestudio.game.tesserae.cui.interpreter;
 
+import sk.tuke.gamestudio.entity.FavoriteGameEntity;
 import sk.tuke.gamestudio.game.Game;
 import sk.tuke.gamestudio.game.tesserae.Tesserae;
 import sk.tuke.gamestudio.game.tesserae.core.field.Direction;
@@ -38,7 +39,6 @@ import sk.tuke.gamestudio.game.tesserae.cui.ColorMode;
 import sk.tuke.gamestudio.game.tesserae.cui.FieldManager;
 import sk.tuke.gamestudio.service.favorites.FavoriteException;
 import sk.tuke.gamestudio.service.favorites.FavoriteGameDatabaseService;
-import sk.tuke.gamestudio.entity.FavoriteGameEntity;
 import sk.tuke.gamestudio.support.Utility;
 
 import java.util.List;
@@ -518,7 +518,8 @@ public class FieldInterpreter extends AbstractInterpreter
 		}
 		catch (FavoriteException e)
 		{
-			throw new InterpreterException("There was a problem with the Database for favorite games.", e);
+			throw new InterpreterException(
+				"There was a problem with the Database for favorite games.\n" + e.getMessage(), e);
 		}
 	}
 
@@ -557,8 +558,11 @@ public class FieldInterpreter extends AbstractInterpreter
 		{
 			if (favorite.getGame().equals(game))
 			{
-				if(favorite.getChosenOn()==null)
-					throw new InterpreterException(favorite.getId()+"wow, a null date... this is a serious problem y'know");
+				if (favorite.getChosenOn() == null)
+				{
+					throw new InterpreterException(
+						favorite.getId() + "wow, a null date... this is a serious problem y'know");
+				}
 				throw new InterpreterException(
 					"We understand you really like this game, but seriously,\nyou have already marked this game as your favorite on " +
 					Utility.formatDate(favorite.getChosenOn()) + ".");

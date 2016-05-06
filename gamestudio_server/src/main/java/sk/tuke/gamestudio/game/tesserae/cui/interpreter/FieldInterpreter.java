@@ -518,7 +518,8 @@ public class FieldInterpreter extends AbstractInterpreter
 		}
 		catch (FavoriteException e)
 		{
-			throw new InterpreterException("There was a problem with the Database for favorite games.", e);
+			throw new InterpreterException(
+				"There was a problem with the Database for favorite games." + e.getMessage(), e);
 		}
 	}
 
@@ -557,8 +558,11 @@ public class FieldInterpreter extends AbstractInterpreter
 		{
 			if (favorite.getGame().equals(game))
 			{
-				if(favorite.getChosenOn()==null)
-					throw new InterpreterException(favorite.getId()+"wow, a null date... this is a serious problem y'know");
+				if (favorite.getChosenOn() == null)
+				{
+					throw new InterpreterException(
+						favorite.getId() + "wow, a null date... this is a serious problem y'know");
+				}
 				throw new InterpreterException(
 					"We understand you really like this game, but seriously,\nyou have already marked this game as your favorite on " +
 					Utility.formatDate(favorite.getChosenOn()) + ".");

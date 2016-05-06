@@ -11,11 +11,24 @@ import java.util.List;
 /**
  * Created by jaros_000 on 31.3.2016.
  */
-public class SORM {
-    private static final String URL = "jdbc:postgresql://localhost/gamestudio";
-    private static final String LOGIN = "postgres";
-    private static final String PASSWORD = "postgres";
+public class SORM implements ISORM
+{
+    private String url = "jdbc:postgresql://localhost/gamestudio";
+    private String login = "postgres";
+    private String password = "postgres";
 
+    public SORM(String url, String login, String password)
+    {
+	    this.url = url;
+	    this.login = login;
+	    this.password = password;
+    }
+
+	public SORM()
+	{
+	}
+
+    @Override
     public String getDropTableString(Class<?> clazz) {
         StringBuilder sb = new StringBuilder();
         sb.append("DROP TABLE ");
@@ -23,6 +36,7 @@ public class SORM {
         return sb.toString();
     }
 
+    @Override
     public String getCreateTableString(Class<?> clazz) {
         StringBuilder sb = new StringBuilder();
         sb.append("CREATE TABLE ");
@@ -46,6 +60,7 @@ public class SORM {
         return sb.toString();
     }
 
+    @Override
     public String getInsertString(Class<?> clazz) {
         StringBuilder sb = new StringBuilder();
         sb.append("INSERT INTO ");
@@ -75,6 +90,7 @@ public class SORM {
         return sb.toString();
     }
 
+    @Override
     public String getDeleteString(Class<?> clazz) {
         StringBuilder sb = new StringBuilder();
         sb.append("DELETE FROM ");
@@ -96,9 +112,12 @@ public class SORM {
         return sb.toString();
     }
 
+    @Override
     public String getSelectString(Class<?> clazz, String condition) {
         StringBuilder sb = new StringBuilder();
         sb.append("SELECT ");
+
+	    createIfNoTable(clazz);
 
         boolean first = true;
         for (Field field : clazz.getDeclaredFields()) {
@@ -119,13 +138,16 @@ public class SORM {
         return sb.toString();
     }
 
+    @Override
     public void insert(Object object) throws Exception {
         Class<?> clazz = object.getClass();
         String query = getInsertString(clazz);
 
+	    createIfNoTable(clazz);
+
         System.out.println(query);
 
-        try (Connection connection = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+        try (Connection connection = DriverManager.getConnection(url, login, password);
              PreparedStatement ps = connection.prepareStatement(query)) {
 
             int index = 1;
@@ -144,13 +166,28 @@ public class SORM {
         }
     }
 
+	private void createIfNoTable(Class<?> clazz)
+	{
+		//Creating table if none exists
+		try (Connection connection = DriverManager.getConnection(url, login, password);
+		     PreparedStatement ps = connection.prepareStatement(getCreateTableString(clazz)))
+		{
+			ps.executeUpdate();
+		}
+		catch (Exception e)
+		{
+			System.out.println(e);
+		}
+	}
+
+	@Override
     public void delete(Object object) throws Exception {
         Class<?> clazz = object.getClass();
         String query = getDeleteString(clazz);
 
         System.out.println(query);
 
-        try (Connection connection = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+        try (Connection connection = DriverManager.getConnection(url, login, password);
              PreparedStatement ps = connection.prepareStatement(query)) {
 
             int index = 1;
@@ -171,17 +208,19 @@ public class SORM {
         }
     }
 
+    @Override
     public List<?> select(Class<?> clazz) throws Exception {
         return select(clazz, null);
     }
 
+    @Override
     public List<?> select(Class<?> clazz, String condition) throws Exception {
         List<Object> results = new ArrayList<>();
         String query = getSelectString(clazz, condition);
 
         System.out.println(query);
 
-        try(Connection connection = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+        try(Connection connection = DriverManager.getConnection(url, login, password);
             PreparedStatement ps = connection.prepareStatement(query)) {
 
             try(ResultSet rs = ps.executeQuery()) {
@@ -209,21 +248,28 @@ public class SORM {
             case "java.lang.String":
                 return "VARCHAR(32)";
             case "int":
+	        case "java.lang.Integer":
                 return "INTEGER";
             case "java.util.Date":
                 return "DATE";
+	        //case "sk.tuke.gamestudio.game.Game":
+		    //    return "BLOB";
             default:
-                throw new IllegalArgumentException("Date type " + clazz.getName() + "not supported");
+                throw new IllegalArgumentException("Date type " + clazz.getName() + " not supported");
         }
     }
 
     public static void main(String[] args) throws Exception {
         Score score = new Score(1, "jaro", "mine", 120, new Date());
 
-        SORM sorm = new SORM();
+	    String url = "jdbc:oracle:oci:@localhost:1521:xe";
+	    String login = "gamestudio";
+	    String password = "gamestudio";
+
+        ISORM sorm = new SORM(url, login, password);
         //System.out.println(sorm.getDropTableString(Score.class));
         //System.out.println(sorm.getCreateTableString(Score.class));
-        //sorm.insert(score);
+        sorm.insert(score);
         //System.out.println(sorm.getDeleteString(Score.class));
         sorm.delete(score);
 

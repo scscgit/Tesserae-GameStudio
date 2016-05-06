@@ -1,12 +1,18 @@
 package sk.tuke.gamestudio.service.score;
 
 import sk.tuke.gamestudio.entity.Score;
+import sk.tuke.sorm.ISORM;
 import sk.tuke.sorm.SORM;
 
 import java.util.List;
 
 public class ScoreServiceImplSorm implements ScoreService {
-    private SORM sorm = new SORM();
+    private ISORM sorm;
+
+    public ScoreServiceImplSorm(ISORM sorm)
+    {
+        this.sorm = sorm;
+    }
 
     @Override
     public void addScore(Score score) throws ScoreException {

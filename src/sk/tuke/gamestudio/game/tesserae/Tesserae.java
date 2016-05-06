@@ -31,10 +31,8 @@ import sk.tuke.gamestudio.game.tesserae.core.field.Settings;
 import sk.tuke.gamestudio.game.tesserae.core.field.builder.FieldBuilder;
 import sk.tuke.gamestudio.game.tesserae.core.field.builder.SimpleFieldBuilder;
 import sk.tuke.gamestudio.game.tesserae.cui.ConsoleUI;
-import sk.tuke.gamestudio.service.favorites.FavoriteException;
-import sk.tuke.gamestudio.service.favorites.FavoriteGameDatabaseService;
-import sk.tuke.gamestudio.service.favorites.FavoriteGameWebServiceClient;
-import sk.tuke.gamestudio.service.favorites.Oracle11gDatabaseServiceImpl;
+import sk.tuke.gamestudio.service.favorites.*;
+import sk.tuke.sorm.SORM;
 
 /**
  * Game tester and launcher.
@@ -78,8 +76,16 @@ public class Tesserae
 
 	public static void main(String[] args)
 	{
+		FavoriteGameDatabaseService service;
+
 		//Online database EJB service should not crash
-		FavoriteGameDatabaseService service = new FavoriteGameWebServiceClient();
+		service = new FavoriteGameWebServiceClient();
+		//service = new FavoriteGameRestServiceClient();
+
+		//String url = "jdbc:oracle:oci:@localhost:1521:xe";
+		//String login = "gamestudio";
+		//String password = "gamestudio";
+		//service = new FavoriteGameServiceImplSorm(new SORM(url, login, password));
 
 		//Empty settings waiting for player to fully configure the Field
 		//FieldBuilder builder = new SimpleFieldBuilder();

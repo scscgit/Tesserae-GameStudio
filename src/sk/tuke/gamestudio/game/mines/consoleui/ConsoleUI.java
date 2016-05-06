@@ -8,6 +8,9 @@ import sk.tuke.gamestudio.game.mines.core.Tile;
 import sk.tuke.gamestudio.service.*;
 import sk.tuke.gamestudio.service.score.ScoreRestServiceClient;
 import sk.tuke.gamestudio.service.score.ScoreService;
+import sk.tuke.gamestudio.service.score.ScoreServiceImplSorm;
+import sk.tuke.sorm.SORM;
+import sk.tuke.sorm.SORM2;
 
 import java.util.Date;
 import java.util.List;
@@ -18,6 +21,10 @@ import java.util.regex.Pattern;
 public class ConsoleUI {
     private Field field;
 
+	//String url = "jdbc:oracle:oci:@localhost:1521:xe";
+	//String login = "gamestudio";
+	//String password = "gamestudio";
+    //private ScoreService scoreService = new ScoreServiceImplSorm(new SORM2(url, login, password));
     private ScoreService scoreService = new ScoreRestServiceClient();
     //private ScoreService scoreService = new ScoreWebServiceClient();
     //private ScoreService scoreService = new ScoreServiceImpl();

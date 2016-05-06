@@ -3,7 +3,6 @@ package sk.tuke.gamestudio.game.tesserae.jsf;
 import sk.tuke.gamestudio.game.Game;
 import sk.tuke.gamestudio.game.tesserae.core.field.Field;
 import sk.tuke.gamestudio.game.tesserae.core.field.Settings;
-import sk.tuke.gamestudio.game.tesserae.core.field.builder.FieldBuilder;
 import sk.tuke.gamestudio.game.tesserae.core.field.builder.SimpleFieldBuilder;
 import sk.tuke.gamestudio.game.tesserae.core.field.builder.history.FieldHistoryRebuilder;
 import sk.tuke.gamestudio.game.tesserae.core.field.builder.history.FieldHistoryRebuilderNoHistoryException;
@@ -13,18 +12,18 @@ import sk.tuke.gamestudio.game.tesserae.cui.interpreter.FieldInterpreter;
 import sk.tuke.gamestudio.game.tesserae.cui.interpreter.InterpreterException;
 import sk.tuke.gamestudio.service.favorites.FavoriteException;
 import sk.tuke.gamestudio.service.favorites.FavoriteGameDatabaseService;
+import sk.tuke.gamestudio.service.favorites.FavoriteGameServiceJPA;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.LinkedList;
-import java.util.Scanner;
 
 /**
  * Created by Steve on 18.04.2016.
  */
-@Named("tesseraemanager")
+@Named ("tesseraemanager")
 @SessionScoped
 public class FieldInstanceManager implements Serializable, FieldManager
 {
@@ -36,7 +35,7 @@ public class FieldInstanceManager implements Serializable, FieldManager
 	//Current field color
 	private ColorMode fieldColor = ColorMode.BLACK;
 	//Database service
-	@EJB
+	//@EJB
 	private FavoriteGameDatabaseService service;
 	//History
 	private FieldHistoryRebuilder history;
@@ -49,8 +48,14 @@ public class FieldInstanceManager implements Serializable, FieldManager
 	{
 		setLastMessage("Welcome to the Tesserae. If you need <help>, just ask for it.");
 
+		this.service = new FavoriteGameServiceJPA();
+		if (service == null)
+		{
+			throw new RuntimeException("DEBUG: NO SERVICE");
+		}
+
 		//The builder for interpreter is chosen during creation of an instance of UI
-		this.interpreter = new FieldInterpreter(this, new SimpleFieldBuilder(Settings.SIMPLE_GAME), service);
+		this.interpreter = new FieldInterpreter(this, new SimpleFieldBuilder(Settings.SIMPLE_GAME), this.service);
 		this.field = null;
 	}
 
@@ -83,9 +88,9 @@ public class FieldInstanceManager implements Serializable, FieldManager
 		}
 		catch (FavoriteException e)
 		{
-			setLastMessage("Sorry, there was a problem with the database:\n"+
-			                   e.getMessage()+
-			                   "\nTry to make the game your favorite again next time.");
+			setLastMessage("Sorry, there was a problem with the database:\n" +
+			               e.getMessage() +
+			               "\nTry to make the game your favorite again next time.");
 			//switch (e.getErrorCode())
 		}
 	}

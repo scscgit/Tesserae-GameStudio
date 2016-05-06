@@ -13,10 +13,21 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public class SORM2 {
-    private static final String URL = "jdbc:postgresql://localhost/gamestudio";
-    private static final String LOGIN = "postgres";
-    private static final String PASSWORD = "postgres";
+public class SORM2 implements ISORM {
+    private String url = "jdbc:postgresql://localhost/gamestudio";
+    private String login = "postgres";
+    private String password = "postgres";
+
+    public SORM2(String url, String login, String password)
+    {
+        this.url = url;
+        this.login = login;
+        this.password = password;
+    }
+
+    public SORM2()
+    {
+    }
 
     public String getDropTableString(Class<?> clazz) {
         return String.format("DROP TABLE %s", clazz.getSimpleName());
@@ -85,7 +96,7 @@ public class SORM2 {
 
         System.out.println(query);
 
-        try (Connection connection = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+        try (Connection connection = DriverManager.getConnection(url, login, password);
              PreparedStatement ps = connection.prepareStatement(query)) {
 
             int index = 1;
@@ -104,7 +115,7 @@ public class SORM2 {
 
         System.out.println(query);
 
-        try (Connection connection = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+        try (Connection connection = DriverManager.getConnection(url, login, password);
              PreparedStatement ps = connection.prepareStatement(query)) {
 
             int index = 1;
@@ -132,7 +143,7 @@ public class SORM2 {
 
         System.out.println(query);
 
-        try (Connection connection = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+        try (Connection connection = DriverManager.getConnection(url, login, password);
              PreparedStatement ps = connection.prepareStatement(query)) {
 
             int index = 1;
@@ -157,7 +168,7 @@ public class SORM2 {
 
         System.out.println(query);
 
-        try (Connection connection = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+        try (Connection connection = DriverManager.getConnection(url, login, password);
              PreparedStatement ps = connection.prepareStatement(query)) {
 
             try (ResultSet rs = ps.executeQuery()) {
@@ -185,6 +196,7 @@ public class SORM2 {
             case "java.lang.String":
                 return "VARCHAR(32)";
             case "int":
+	        case "java.lang.Integer":
                 return "INTEGER";
             case "java.util.Date":
                 return "DATE";
@@ -238,7 +250,10 @@ public class SORM2 {
     public static void main(String[] args) throws Exception {
         Score score = new Score(1, "jaro", "mines", 120, new Date());
 
-        SORM2 sorm = new SORM2();
+	    String url = "jdbc:oracle:oci:@localhost:1521:xe";
+	    String login = "gamestudio";
+	    String password = "gamestudio";
+        SORM2 sorm = new SORM2(url, login, password);
 
         System.out.println(sorm.getCreateTableString(Score.class));
         System.out.println(sorm.getDropTableString(Score.class));
