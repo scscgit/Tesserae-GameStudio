@@ -2,8 +2,6 @@ package sk.tuke.gamestudio.game.tesserae.jsf;
 
 import sk.tuke.gamestudio.game.Game;
 import sk.tuke.gamestudio.game.tesserae.core.field.Field;
-import sk.tuke.gamestudio.game.tesserae.core.field.Settings;
-import sk.tuke.gamestudio.game.tesserae.core.field.builder.SimpleFieldBuilder;
 import sk.tuke.gamestudio.game.tesserae.core.field.builder.history.FieldHistoryRebuilder;
 import sk.tuke.gamestudio.game.tesserae.core.field.builder.history.FieldHistoryRebuilderNoHistoryException;
 import sk.tuke.gamestudio.game.tesserae.cui.ColorMode;
@@ -12,10 +10,8 @@ import sk.tuke.gamestudio.game.tesserae.cui.interpreter.FieldInterpreter;
 import sk.tuke.gamestudio.game.tesserae.cui.interpreter.InterpreterException;
 import sk.tuke.gamestudio.service.favorites.FavoriteException;
 import sk.tuke.gamestudio.service.favorites.FavoriteGameDatabaseService;
-import sk.tuke.gamestudio.support.Utility;
 
 import javax.enterprise.context.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.LinkedList;
@@ -38,9 +34,6 @@ public class FieldInstanceManager implements Serializable, FieldManager
 	private Field field;
 	//Current field color
 	private ColorMode fieldColor = ColorMode.BLACK;
-
-	//Component for which this class is working
-	private TesseraeComponent component;
 
 	//Database service
 	private FavoriteGameDatabaseService service;
@@ -72,9 +65,13 @@ public class FieldInstanceManager implements Serializable, FieldManager
 		//this.service = new FavoriteGameServiceJPA();
 		//this.service = new Oracle11gDatabaseServiceImpl();
 
-		//The builder for the interpreter is chosen during the creation of an instance of UI
-		this.interpreter = new FieldInterpreter(this, new SimpleFieldBuilder(Settings.SIMPLE_GAME), this.service);
 		this.field = null;
+	}
+
+	//Interpreter is loaded from the Component externally
+	public void setInterpreter(FieldInterpreter interpreter)
+	{
+		this.interpreter = interpreter;
 	}
 
 	public String getLastMessage()
@@ -132,6 +129,12 @@ public class FieldInstanceManager implements Serializable, FieldManager
 		}
 	}
 
+	public void interpretHelp()
+	{
+		setInputMessage("help");
+		interpretCommand();
+	}
+
 	@Override
 	public Field getManagedField()
 	{
@@ -185,7 +188,7 @@ public class FieldInstanceManager implements Serializable, FieldManager
 	@Override
 	public void goBackInTime() throws FieldHistoryRebuilderNoHistoryException
 	{
-		if(this.history == null)
+		if (this.history == null)
 		{
 			throw new FieldHistoryRebuilderNoHistoryException("There is no instance of the history.");
 		}
@@ -194,7 +197,7 @@ public class FieldInstanceManager implements Serializable, FieldManager
 	@Override
 	public LinkedList<Field> getTimeline() throws FieldHistoryRebuilderNoHistoryException
 	{
-		if(this.history == null)
+		if (this.history == null)
 		{
 			throw new FieldHistoryRebuilderNoHistoryException("There is no instance of the history.");
 		}

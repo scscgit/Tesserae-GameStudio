@@ -89,38 +89,43 @@ public class Utility
 		return new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z").format(date);
 	}
 
+	public static String divText(String div, String text)
+	{
+		return "<div class=\"" + div + "\">" + text + "</div>";
+	}
+
 	//Console color formatting
 	public static String redText(String text)
 	{
-		return "\033[31;1m" + text + "\033[0m";
+		return divText("redText", text);
 	}
 	public static String greenText(String text)
 	{
-		return "\033[32;1m" + text + "\033[0m";
+		return divText("greenText", text);
 	}
 	public static String yellowText(String text)
 	{
-		return "\033[33;1m" + text + "\033[0m";
+		return divText("yellowText", text);
 	}
 	public static String blueText(String text)
 	{
-		return "\033[34;1m" + text + "\033[0m";
+		return divText("blueText", text);
 	}
 	public static String redColor(String text)
 	{
-		return "\033[41;1m" + text + "\033[0m";
+		return divText("redColor", text);
 	}
 	public static String greenColor(String text)
 	{
-		return "\033[42;1m" + text + "\033[0m";
+		return divText("greenColor", text);
 	}
 	public static String yellowColor(String text)
 	{
-		return "\033[43;1m" + text + "\033[0m";
+		return divText("yellowColor", text);
 	}
 	public static String blueColor(String text)
 	{
-		return "\033[44;1m" + text + "\033[0m";
+		return divText("blueColor", text);
 	}
 
 	public static XMLGregorianCalendar dateToXmlGregorianCalendar(Date date) throws DatatypeConfigurationException
@@ -135,7 +140,7 @@ public class Utility
 	}
 
 	//Implementation of search for Mr. Bean based on some stackoverflow thread, not tested successfully yet
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings ("unchecked")
 	public static <T> T findBean(String beanName)
 	{
 		FacesContext context = FacesContext.getCurrentInstance();

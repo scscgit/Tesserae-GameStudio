@@ -1,0 +1,29 @@
+/*
+ * Tesserae
+ */
+
+
+
+/*
+ * Google Sign In
+ */
+
+#googleSignIn{
+    float: right;
+}
+
+.skryty {display:none;}
+
+.zobraz {display:block;}
+
+/**
+ * Farby pola vypisovaneho cez string
+ */
+
+#redText {
+    color: red;
+}
+
+#redColor {
+    color: red;
+}

@@ -4,7 +4,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import sk.tuke.gamestudio.game.Game;
-import sk.tuke.sorm.SORM;
 import sk.tuke.sorm.SORM2;
 
 import static org.junit.Assert.assertEquals;
@@ -14,7 +13,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class FavoriteGameServiceImplSormTest
 {
-	FavoriteGameDatabaseService service1;
+	//FavoriteGameDatabaseService service1;
 	FavoriteGameDatabaseService service2;
 
 	@Before
@@ -24,12 +23,12 @@ public class FavoriteGameServiceImplSormTest
 		String login = "gamestudio";
 		String password = "gamestudio";
 
-		service1 = new FavoriteGameServiceImplSorm(new SORM(url, login, password));
+		//service1 = new FavoriteGameServiceImplSorm(new SORM(url, login, password));
 		service2 = new FavoriteGameServiceImplSorm(new SORM2(url, login, password));
 
 		try
 		{
-			service1.removeFavorite("test", new Game("asdf"));
+			//service1.removeFavorite("test", new Game("asdf"));
 		}
 		catch (Exception e)
 		{
@@ -49,7 +48,7 @@ public class FavoriteGameServiceImplSormTest
 
 	}
 
-	@Test
+	/*@Test
 	public void addFavorite11() throws Exception
 	{
 		int oldSize = service1.getFavorites("test").size();
@@ -64,7 +63,7 @@ public class FavoriteGameServiceImplSormTest
 	public void addFavorite12() throws Exception
 	{
 
-	}
+	}*/
 
 	@Test
 	public void addFavorite21() throws Exception

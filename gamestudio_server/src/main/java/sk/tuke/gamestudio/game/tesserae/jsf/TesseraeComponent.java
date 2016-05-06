@@ -1,16 +1,17 @@
 package sk.tuke.gamestudio.game.tesserae.jsf;
 
 import sk.tuke.gamestudio.game.tesserae.core.field.Field;
+import sk.tuke.gamestudio.game.tesserae.core.field.Settings;
+import sk.tuke.gamestudio.game.tesserae.core.field.builder.SimpleFieldBuilder;
+import sk.tuke.gamestudio.game.tesserae.cui.interpreter.FieldInterpreter;
 import sk.tuke.gamestudio.service.favorites.FavoriteGameDatabaseService;
 
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
 import javax.faces.component.FacesComponent;
 import javax.faces.component.UICommand;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.inject.Inject;
-import javax.inject.Named;
 import java.io.IOException;
 
 /**
@@ -28,31 +29,47 @@ public class TesseraeComponent extends UICommand
 	@Override
 	public void encodeAll(FacesContext context) throws IOException
 	{
-		super.encodeAll(context);
+		//After uncommenting this, a wild weird button with the getValue().toString() text appears
+		//super.encodeAll(context);
 
-		//FieldInstanceManager manager = (FieldInstanceManager) getValue();
 		ResponseWriter writer = context.getResponseWriter();
 
 		//Debug in case of problems
-		if(favoriteService == null)
+		if (favoriteService == null)
 		{
 			writer.write("favoriteService is null.\n");
 		}
-		if(manager == null)
+		if (manager == null)
 		{
 			writer.write("manager is null.\n");
 		}
 
-		writer.write("<textarea id=\"fieldTextArea\" style=\"width:100%; text-align:center;\" readonly=\"readonly\">");
+		//The builder for the interpreter is chosen during the creation of an instance of UI
+		//manager = (FieldInstanceManager) getValue();
+		manager.setInterpreter
+			(
+				new FieldInterpreter(manager, new SimpleFieldBuilder(Settings.SIMPLE_GAME), this.favoriteService)
+			);
+
+		//writer.startElement("outputLabel", this);
+		writer.startElement("textarea", this);
+		writer.writeAttribute("id", "fieldTextArea", null);
+		writer.writeAttribute("style", "width:100%; text-align:center;", null);
+		writer.writeAttribute("readonly", "readonly", null);
 		if (manager != null)
 		{
 			Field field = manager.getManagedField();
 			if (field != null)
 			{
-				writer.write(field.toString());
+				writeTesseraeField(field, writer);
+				//writer.writeText(field.toString(manager.getFieldColor()), null);
+			}
+			else
+			{
+				writer.write(":-)");
 			}
 		}
-		writer.write("</textarea>");
+		writer.endElement("textarea");
 
 		/*
 		StringTokenizer tokenizer = new StringTokenizer(field.toString(), "\n");
@@ -67,8 +84,23 @@ public class TesseraeComponent extends UICommand
 		*/
 	}
 
+	//Draws the Tesserae Field using the HTML and/or Faces components
+	private void writeTesseraeField(Field field, ResponseWriter writer)
+	{
+
+	}
+
+	//No longer used: the service reference flow was expected to be in an opposite direction
+	@Deprecated
 	public FavoriteGameDatabaseService getFavoriteService()
 	{
 		return this.favoriteService;
+	}
+
+	//Does some magic I guess? But may not be needed.
+	@Override
+	public boolean getRendersChildren()
+	{
+		return true;
 	}
 }

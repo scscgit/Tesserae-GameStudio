@@ -4,15 +4,23 @@
       xmlns:p="http://primefaces.org/ui">
 
     <h:head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
         <h:outputStylesheet library="css" name="stylesheet.css"/>
+        <h:outputStylesheet library="css" name="tesserae.css"/>
+
+        <!-- Google API -->
+        <meta name="google-signin-client_id" content="768735146389-pe4c9tskojme870uqhmnoqp4fhptj4s2.apps.googleusercontent.com" />
+
         <title>Gamestudio</title>
 
-        <link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css"></link>
+        <link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css" />
         <script src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+        <script src="resources/js/GoogleAccessBetter.js"></script>
+        <script src="https://apis.google.com/js/platform.js?onload=startGSingIn" async="async" defer="defer"></script>
 
         <script type="text/javascript">
             //<![CDATA[
+
             $(document).ready(function() {
                 /*
                 $.ajax({
@@ -42,7 +50,7 @@
                         { data: "game" },
                         { data: "chosenOn" }
                     ],
-                    ajax: {url : "webapi/favoritegame/player/Steve", dataSrc : ''}
+                    ajax: {url : "webapi/favoritegame/player/"+"Steve"/*$('label#userName').getAttribute('value')*/, dataSrc : ''}
                 });
 
                 //Text areas will scale dynamically
@@ -55,7 +63,7 @@
                     cmds.focus();
                     cmds.setAttribute("value","");
                     return "";
-                };
+                }
             } );
 
             //]]>
@@ -63,6 +71,17 @@
     </h:head>
 
     <h:body>
+        <aside id="googleSignIn">
+            <div id="SignInButton"></div>
+            <div id="SignedIn">
+                Ste prihlásený ako <h:outputLabel id="userName" value="#{user.realName}"/>. <button onclick="signOut()">Odhlásiť sa</button>
+            </div>
+        </aside>
+
+        <h2>Informácia o prihlásenom používateľovi</h2>
+        <div id="userStatus"></div>
+
+        <!-- Tesserae -->
         <h1>Tesserae</h1>
 
         <h:form id="tesseraeform">
@@ -84,6 +103,7 @@
             </div>
         </h:form>
 
+        <!-- Minesweeper -->
         <h1>Minesweeper</h1>
 
         <h:form id="form">
@@ -93,6 +113,7 @@
                 <p:ajax event="change" update="form" />
             </p:selectBooleanButton>
             Score: <h:outputLabel value="#{minefield.score}"/>
+
             <p:calendar mode="inline"/>
         </h:form>
 
@@ -103,7 +124,18 @@
         <!--ol id="scoreList"/-->
         <br/><br/>
 
-        <h2>Favorite games of Steve</h2>
+        <h2>Favorite games of <a id="favoriteGamesOf" /></h2>
+
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+                //todo added in the main script part
+                //$('a#favoriteGamesOf').html($('label#userName').html());
+            });
+
+            //document.write($('label#userName').attr("value"))
+
+        </script>
 
         <table id="favoriteGameTable"/>
 

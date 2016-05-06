@@ -36,6 +36,8 @@ import sk.tuke.gamestudio.service.favorites.FavoriteGameDatabaseService;
 import sk.tuke.gamestudio.service.favorites.FavoriteGameWebServiceClient;
 import sk.tuke.gamestudio.service.favorites.Oracle11gDatabaseServiceImpl;
 
+import javax.xml.ws.WebServiceException;
+
 /**
  * Game tester, launcher and representer.
  * <p/>
@@ -78,10 +80,17 @@ public class Tesserae
 
 	public static void main(String[] args)
 	{
-		FavoriteGameDatabaseService service;
+		FavoriteGameDatabaseService service = null;
 
-		//Online database EJB service should not crash
-		service = new FavoriteGameWebServiceClient();
+		//Online database connects within the constructor
+		try
+		{
+			service = new FavoriteGameWebServiceClient();
+		}
+		catch (WebServiceException e)
+		{
+			System.out.println("Database service could not connect, game will run without this feature.");
+		}
 
 		//REST implementation
 		//service = new FavoriteGameRestServiceClient();

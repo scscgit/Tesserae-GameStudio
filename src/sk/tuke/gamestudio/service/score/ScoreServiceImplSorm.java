@@ -2,7 +2,6 @@ package sk.tuke.gamestudio.service.score;
 
 import sk.tuke.gamestudio.entity.Score;
 import sk.tuke.sorm.ISORM;
-import sk.tuke.sorm.SORM;
 
 import java.util.List;
 
@@ -24,6 +23,7 @@ public class ScoreServiceImplSorm implements ScoreService {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<Score> getBestScoresForGame(String game) throws ScoreException {
         try {
             return (List<Score>)sorm.select(Score.class, "game = '" + game + "'");
