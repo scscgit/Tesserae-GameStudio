@@ -33,6 +33,7 @@ import sk.tuke.gamestudio.game.tesserae.core.field.builder.SimpleFieldBuilder;
 import sk.tuke.gamestudio.game.tesserae.cui.ConsoleUI;
 import sk.tuke.gamestudio.service.favorites.FavoriteException;
 import sk.tuke.gamestudio.service.favorites.FavoriteGameDatabaseService;
+import sk.tuke.gamestudio.service.favorites.FavoriteGameWebServiceClient;
 import sk.tuke.gamestudio.service.favorites.Oracle11gDatabaseServiceImpl;
 
 /**
@@ -54,7 +55,7 @@ public class Tesserae
 		//this.consoleUI.runField(this.consoleUI.generateField(Settings.SIMPLE_GAME));
 	}
 
-	public static void main(String[] args)
+	private FavoriteGameDatabaseService oracleLocalDatabaseServiceOrPrintError()
 	{
 		FavoriteGameDatabaseService service = null;
 		//Preventively creates a database table if there is none yet
@@ -72,6 +73,13 @@ public class Tesserae
 		{
 			System.out.println("There was problem linking the database library, game will run without this feature.");
 		}
+		return service;
+	}
+
+	public static void main(String[] args)
+	{
+		//Online database EJB service should not crash
+		FavoriteGameDatabaseService service = new FavoriteGameWebServiceClient();
 
 		//Empty settings waiting for player to fully configure the Field
 		//FieldBuilder builder = new SimpleFieldBuilder();

@@ -41,9 +41,9 @@ import java.util.List;
  */
 public class Oracle11gDatabaseServiceImplTest extends TestCase
 {
-	private FavoriteGameDatabaseService service = null;
+	private Oracle11gDatabaseServiceImpl service = null;
 
-	private FavoriteGameDatabaseService newService()
+	private Oracle11gDatabaseServiceImpl newService()
 	{
 		this.service = new Oracle11gDatabaseServiceImpl();
 		return this.service;

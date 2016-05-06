@@ -2,8 +2,8 @@ package sk.tuke.gamestudio.game.mines.jsf;
 
 import sk.tuke.gamestudio.entity.Score;
 import sk.tuke.gamestudio.game.mines.core.*;
-import sk.tuke.gamestudio.service.ScoreException;
-import sk.tuke.gamestudio.service.ScoreService;
+import sk.tuke.gamestudio.service.score.ScoreException;
+import sk.tuke.gamestudio.service.score.ScoreService;
 
 import javax.ejb.EJB;
 import javax.faces.component.FacesComponent;

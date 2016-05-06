@@ -6,6 +6,8 @@ import sk.tuke.gamestudio.game.mines.core.Field;
 import sk.tuke.gamestudio.game.mines.core.GameState;
 import sk.tuke.gamestudio.game.mines.core.Tile;
 import sk.tuke.gamestudio.service.*;
+import sk.tuke.gamestudio.service.score.ScoreRestServiceClient;
+import sk.tuke.gamestudio.service.score.ScoreService;
 
 import java.util.Date;
 import java.util.List;

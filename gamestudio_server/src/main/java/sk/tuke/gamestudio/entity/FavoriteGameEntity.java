@@ -117,6 +117,11 @@ public class FavoriteGameEntity implements Serializable, Comparable<FavoriteGame
 	{
 		return new Time(getChosenOnTimestamp().getTime());
 	}
+	@Deprecated
+	public void setChosenOnSqlDate(Date ChosenOn)
+	{
+		this.chosenOn = chosenOn;
+	}
 
 	public Timestamp getChosenOnTimestamp()
 	{
@@ -126,7 +131,7 @@ public class FavoriteGameEntity implements Serializable, Comparable<FavoriteGame
 	{
 		return this.chosenOn;
 	}
-	public void setChosenOn(Date ChosenOn)
+	public void setChosenOn(java.util.Date ChosenOn)
 	{
 		this.chosenOn = chosenOn;
 	}

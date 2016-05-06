@@ -35,7 +35,13 @@ import java.io.Serializable;
  */
 public class Game implements Serializable
 {
-	private String name;
+	//Workaround for EJB: the name is public
+	public String name;
+
+	//Konstruktor pre entity
+	public Game()
+	{
+	}
 
 	public Game(String name)
 	{

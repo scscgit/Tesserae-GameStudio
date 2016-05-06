@@ -9,13 +9,13 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 public class ScoreWebServiceClient implements ScoreService {
-    private sk.tuke.gamestudio.webservice.ScoreWebService scoreService
-            = new sk.tuke.gamestudio.webservice.ScoreService().getScoreServicePort();
+    private sk.tuke.gamestudio.webservice.score.ScoreWebService scoreService
+            = new sk.tuke.gamestudio.webservice.score.ScoreService().getScoreServicePort();
 
     @Override
     public void addScore(Score score) throws ScoreException {
         try {
-            sk.tuke.gamestudio.webservice.Score scoreWeb = new sk.tuke.gamestudio.webservice.Score();
+            sk.tuke.gamestudio.webservice.score.Score scoreWeb = new sk.tuke.gamestudio.webservice.score.Score();
             scoreWeb.setPlayer(score.getPlayer());
             scoreWeb.setGame(score.getGame());
             scoreWeb.setPoints(score.getPoints());
@@ -33,7 +33,7 @@ public class ScoreWebServiceClient implements ScoreService {
         List<Score> scores = new ArrayList<>();
 
         try {
-            for(sk.tuke.gamestudio.webservice.Score scoreWeb : scoreService.getBestScoresForGame(game)) {
+            for(sk.tuke.gamestudio.webservice.score.Score scoreWeb : scoreService.getBestScoresForGame(game)) {
                 Score score = new Score();
                 score.setIdent(scoreWeb.getIdent());
                 score.setPlayer(scoreWeb.getPlayer());

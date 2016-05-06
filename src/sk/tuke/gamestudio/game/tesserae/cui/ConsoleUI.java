@@ -37,7 +37,6 @@ import sk.tuke.gamestudio.game.tesserae.cui.interpreter.InterpreterException;
 import sk.tuke.gamestudio.service.favorites.FavoriteException;
 import sk.tuke.gamestudio.service.favorites.FavoriteGameDatabaseService;
 import sk.tuke.gamestudio.entity.FavoriteGameEntity;
-import sk.tuke.gamestudio.service.favorites.Oracle11gDatabaseServiceImpl;
 import sk.tuke.gamestudio.support.Utility;
 
 import java.util.LinkedList;
@@ -212,22 +211,15 @@ public class ConsoleUI implements FieldManager
 	{
 		try
 		{
-			FavoriteGameDatabaseService favoriteGameService = new Oracle11gDatabaseServiceImpl();
+			FavoriteGameDatabaseService favoriteGameService = getFavoriteService();
 			favoriteGameService.addFavorite(System.getProperty("user.name"), currentGame);
 		}
 		catch (FavoriteException e)
 		{
-			switch (e.getErrorCode())
-			{
-				case 0: //TODO
-					System.out.println(
-						"TODO: the ConsoleUI.markGameAsFavorite got error code " + e.getErrorCode() + "\nError is: " +
-						e.getMessage());
-				default:
-					System.out.println("Sorry, the database went down meanwhile.\n" +
-					                   "Try to make the game your favorite again next time.");
-					break;
-			}
+			System.out.println("Sorry, there was a problem with the database:\n"+
+			                   e.getMessage()+
+			                   "\nTry to make the game your favorite again next time.");
+			//switch (e.getErrorCode())
 		}
 	}
 

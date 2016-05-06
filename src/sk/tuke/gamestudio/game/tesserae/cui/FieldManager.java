@@ -31,7 +31,7 @@ import sk.tuke.gamestudio.game.tesserae.core.field.Field;
 import java.util.LinkedList;
 
 /**
- * Gives a class responsibility over managing an instance of Field within the gameplay lifecycle.
+ * Gives a class responsibility over managing an instance of a Field within the gameplay lifecycle.
  * <p/>
  * Created by Steve on 3.3.2016.
  */

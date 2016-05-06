@@ -26,10 +26,14 @@
 
 package sk.tuke.gamestudio.support;
 
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Random;
 
 /**
@@ -118,4 +122,14 @@ public class Utility
 		return "\033[44;1m" + text + "\033[0m";
 	}
 
+	public static XMLGregorianCalendar dateToXmlGregorianCalendar(Date date) throws DatatypeConfigurationException
+	{
+		GregorianCalendar calendar = new GregorianCalendar();
+		calendar.setTime(date);
+		return DatatypeFactory.newInstance().newXMLGregorianCalendar(calendar);
+	}
+	public static long XMLGregorianCalendarToTime(XMLGregorianCalendar xmlGregorianCalendar)
+	{
+		return xmlGregorianCalendar.toGregorianCalendar().getTime().getTime();
+	}
 }
