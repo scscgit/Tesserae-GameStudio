@@ -7,10 +7,14 @@ gamestudio_server/target
 ### Intellij ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm
 
-*.iml
+# *.iml
 
 ## Directory-based project format:
-.idea/
+.idea/*
+
+# Libraries will be included
+!.idea/libraries/
+
 # if you remove the above rule, at least ignore the following:
 
 # User-specific stuff:
