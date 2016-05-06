@@ -63,7 +63,7 @@
         <aside id="googleSignIn">
             <div id="SignInButton"></div>
             <div id="SignedIn">
-                <c:if test="#{user.loggedIn}">
+                <c:if test="#{userController.logged}">
                     Ste prihlásený ako <h:outputLabel id="userName" value="#{user.realName}"/>.
                     <button onclick="signOut()">Odhlásiť sa</button>
                 </c:if>
@@ -74,13 +74,13 @@
             <ul id="menu">
                 <!-- Navigácia medzi hlavnými časťami stránky -->
                 <li class="current"><a href="games.xhtml">Zoznam hier</a></li>
-                <c:if test="#{user.loggedIn}">
+                <c:if test="#{userController.logged}">
                     <li><a href="favorites.xhtml">Obľúbené hry</a></li>
                 </c:if>
                 <li><a href="statistics.xhtml">Štatistiky</a></li>
 
                 <!-- Prihlasovanie -->
-                <c:if test="#{not user.loggedIn}">
+                <c:if test="#{not userController.logged}">
                     <li><a href="login.xhtml">Prihlásenie</a></li>
                 </c:if>
 

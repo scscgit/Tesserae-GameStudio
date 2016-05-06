@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:param name="gameName" value="Tesserae" />
+
+<h:head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <h:outputStylesheet library="css" name="stylesheet.css"/>
+    <title>Gamestudio</title>
+
+    <ui:insert name="header">
+    </ui:insert>
+</h:head>
+
+<h:body>
+    <div>
+        <h1>Welcome to gamestudio</h1>
+        <h2>Game: #{gameName}</h2>
+
+        <div id="content">
+            <ui:insert name="content">
+                [Template content will be inserted here]
+            </ui:insert>
+        </div>
+
+        <br/>
+        <div id="footer">
+            <hr/>
+            <h:panelGroup rendered="#{!userController.logged}">
+                <a href="login.xhtml">Login or register</a> <br/>
+            </h:panelGroup>
+            <h:panelGroup rendered="#{userController.logged}">
+                Welcome #{loggedUser.name}!
+                <h:form>
+                    <h:commandLink value="Logout" action="#{userController.logout}"/>
+                </h:form>
+            </h:panelGroup>
+        </div>
+    </div>
+
+</h:body>
+</html>

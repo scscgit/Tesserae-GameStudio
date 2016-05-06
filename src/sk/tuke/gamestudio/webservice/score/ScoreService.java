@@ -17,20 +17,21 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "ScoreService", targetNamespace = "http://score.webservice.gamestudio.tuke.sk/", wsdlLocation = "http://localhost:8080/gamestudio_server/ScoreService?WSDL")
+@WebServiceClient(name = "ScoreService", targetNamespace = "http://webservice.gamestudio.tuke.sk/", wsdlLocation = "http://kpi4he:8080/gamestudio_server/ScoreService?wsdl")
 public class ScoreService
     extends Service
 {
 
     private final static URL SCORESERVICE_WSDL_LOCATION;
     private final static WebServiceException SCORESERVICE_EXCEPTION;
-    private final static QName SCORESERVICE_QNAME = new QName("http://score.webservice.gamestudio.tuke.sk/", "ScoreService");
+    private final static QName SCORESERVICE_QNAME = new QName("http://webservice.gamestudio.tuke.sk/", "ScoreService");
 
     static {
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("http://localhost:8080/gamestudio_server/ScoreService?WSDL");
+            url = new URL("http://kpi4he:8080/gamestudio_server/ScoreService?wsdl");
+            //url = new URL("http://localhost:8080/gamestudio_server/ScoreService?WSDL");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }
@@ -69,7 +70,7 @@ public class ScoreService
      */
     @WebEndpoint(name = "ScoreServicePort")
     public ScoreWebService getScoreServicePort() {
-        return super.getPort(new QName("http://score.webservice.gamestudio.tuke.sk/", "ScoreServicePort"), ScoreWebService.class);
+        return super.getPort(new QName("http://webservice.gamestudio.tuke.sk/", "ScoreServicePort"), ScoreWebService.class);
     }
 
     /**
@@ -81,7 +82,7 @@ public class ScoreService
      */
     @WebEndpoint(name = "ScoreServicePort")
     public ScoreWebService getScoreServicePort(WebServiceFeature... features) {
-        return super.getPort(new QName("http://score.webservice.gamestudio.tuke.sk/", "ScoreServicePort"), ScoreWebService.class, features);
+        return super.getPort(new QName("http://webservice.gamestudio.tuke.sk/", "ScoreServicePort"), ScoreWebService.class, features);
     }
 
     private static URL __getWsdlLocation() {
