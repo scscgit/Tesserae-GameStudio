@@ -1,0 +1,143 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:g="http://www.tuke.sk/games"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet library="css" name="stylesheet.css"/>
+        <h:outputStylesheet library="css" name="tesserae.css"/>
+
+        <!-- Google API -->
+        <meta name="google-signin-client_id" content="768735146389-pe4c9tskojme870uqhmnoqp4fhptj4s2.apps.googleusercontent.com" />
+
+        <title>Gamestudio</title>
+
+        <link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css" />
+        <script src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+        <script src="resources/js/GoogleAccessBetter.js"></script>
+        <script src="https://apis.google.com/js/platform.js?onload=startGSingIn" async="async" defer="defer"></script>
+
+        <script type="text/javascript">
+            //<![CDATA[
+
+            $(document).ready(function() {
+                /*
+                $.ajax({
+                    url: "webapi/score/mines",
+                }).done(function(json) {
+                    for(var i = 0; i < json.length; i++) {
+                        var score = json[i];
+                        $("#scoreList").append($("<li>" + score.player + " " + score.points + " " + score.playedOn + "</li>"));
+                    }
+                });
+                */
+            });
+
+            $(document).ready(function() {
+                $('#scoreTable').DataTable({
+                    columns: [
+                        { data: "player" },
+                        { data: "points" },
+                        { data: "playedOn" }
+                    ],
+                    ajax: {url : "webapi/score/mines", dataSrc : ''}
+                });
+
+                $('#favoriteGameTable').DataTable({
+                    columns: [
+                        { data: "player" },
+                        { data: "game" },
+                        { data: "chosenOn" }
+                    ],
+                    ajax: {url : "webapi/favoritegame/player/"+"Steve"/*$('label#userName').getAttribute('value')*/, dataSrc : ''}
+                });
+
+                //Text areas will scale dynamically
+                autosize($('#fieldTextArea'));
+                autosize($('#fieldResultArea'));
+
+                //Autofocus for the input command area
+                window.onload = function() {
+                    var cmds = document.getElementById("tesseraeform:fieldCommandArea");
+                    cmds.focus();
+                    cmds.setAttribute("value","");
+                    return "";
+                }
+            } );
+
+            //]]>
+        </script>
+    </h:head>
+
+    <h:body>
+        <aside id="googleSignIn">
+            <div id="SignInButton"></div>
+            <div id="SignedIn">
+                Ste prihlásený ako <h:outputLabel id="userName" value="#{user.realName}"/>. <button onclick="signOut()">Odhlásiť sa</button>
+            </div>
+        </aside>
+
+        <h2>Informácia o prihlásenom používateľovi</h2>
+        <div id="userStatus"></div>
+
+        <!-- Tesserae -->
+        <h1>Tesserae</h1>
+
+        <h:form id="tesseraeform">
+            <g:tesserae value="#{tesseraemanager}"/>
+
+            <!-- Message for Player -->
+            <textarea id="fieldResultArea" style="width:100%; text-align:center; border:none" readonly="readonly"><h:outputText value="#{tesseraemanager.lastMessage}"/></textarea>
+
+            <!-- Message from Player -->
+            <h:inputText value="#{tesseraemanager.inputMessage}"
+                         id="fieldCommandArea"
+
+                         onkeypress="
+                         if (event.keyCode == 13)
+                         document.getElementById('tesseraeform:fieldCommandButton').click();"
+                         style="width:100%; text-align:center;"/>
+            <div align="center">
+                <p:commandButton id="fieldCommandButton" value="Send!" action="#{tesseraemanager.interpretCommand}"/>
+            </div>
+        </h:form>
+
+        <!-- Minesweeper -->
+        <h1>Minesweeper</h1>
+
+        <h:form id="form">
+            <g:mines value="#{minefield}"/>
+            <p:commandButton value="New game" action="#{minefield.generate}" update="form" />
+            <p:selectBooleanButton onLabel="Mark" offLabel="Open" value="#{minefield.marking}">
+                <p:ajax event="change" update="form" />
+            </p:selectBooleanButton>
+            Score: <h:outputLabel value="#{minefield.score}"/>
+
+            <p:calendar mode="inline"/>
+        </h:form>
+
+        <h2>Hall of fame</h2>
+
+        <table id="scoreTable"/>
+
+        <!--ol id="scoreList"/-->
+        <br/><br/>
+
+        <h2>Favorite games of <a id="favoriteGamesOf" /></h2>
+
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+                //todo added in the main script part
+                //$('a#favoriteGamesOf').html($('label#userName').html());
+            });
+
+            //document.write($('label#userName').attr("value"))
+
+        </script>
+
+        <table id="favoriteGameTable"/>
+
+    </h:body>
+</html>

@@ -73,6 +73,10 @@ public class FieldInstanceManager implements Serializable, FieldManager
 	{
 		this.interpreter = interpreter;
 	}
+	public boolean isInterpreterAvailable()
+	{
+		return this.interpreter != null;
+	}
 
 	public String getLastMessage()
 	{
@@ -110,13 +114,12 @@ public class FieldInstanceManager implements Serializable, FieldManager
 		}
 	}
 
-	//Interprets a command from the user, returning the result in a user-friendly format
+	//Interprets a command from the user, returning the result in a very user-friendly format
 	public void interpretCommand()
 	{
 		try
 		{
 			String result = this.interpreter.interpret(getInputMessage());
-			setInputMessage("");
 			setLastMessage("Result> " + (result.isEmpty() ? "OK" : result));
 		}
 		catch (InterpreterException e)
@@ -126,6 +129,10 @@ public class FieldInstanceManager implements Serializable, FieldManager
 		catch (Exception e)
 		{
 			setLastMessage("Fatal Error% " + e.toString() + ":\n" + e.getMessage());
+		}
+		finally
+		{
+			setInputMessage("");
 		}
 	}
 

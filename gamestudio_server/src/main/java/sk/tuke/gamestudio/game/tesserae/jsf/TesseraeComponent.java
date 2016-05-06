@@ -1,5 +1,6 @@
 package sk.tuke.gamestudio.game.tesserae.jsf;
 
+import org.primefaces.component.dnd.Draggable;
 import sk.tuke.gamestudio.game.tesserae.core.field.Field;
 import sk.tuke.gamestudio.game.tesserae.core.field.Settings;
 import sk.tuke.gamestudio.game.tesserae.core.field.builder.SimpleFieldBuilder;
@@ -15,6 +16,8 @@ import javax.inject.Inject;
 import java.io.IOException;
 
 /**
+ * Tesserae has many faces.
+ * <p>
  * Created by Steve on 18.04.2016.
  */
 @FacesComponent ("Tesserae")
@@ -26,6 +29,17 @@ public class TesseraeComponent extends UICommand
 	@Inject
 	FieldInstanceManager manager;
 
+	private boolean textOnly;
+
+	public boolean isTextOnly()
+	{
+		return textOnly;
+	}
+	public void setTextOnly(boolean textOnly)
+	{
+		this.textOnly = textOnly;
+	}
+
 	@Override
 	public void encodeAll(FacesContext context) throws IOException
 	{
@@ -33,6 +47,7 @@ public class TesseraeComponent extends UICommand
 		//super.encodeAll(context);
 
 		ResponseWriter writer = context.getResponseWriter();
+		setTextOnly((boolean) getAttributes().get("textOnly"));
 
 		//Debug in case of problems
 		if (favoriteService == null)
@@ -46,30 +61,43 @@ public class TesseraeComponent extends UICommand
 
 		//The builder for the interpreter is chosen during the creation of an instance of UI
 		//manager = (FieldInstanceManager) getValue();
-		manager.setInterpreter
-			(
-				new FieldInterpreter(manager, new SimpleFieldBuilder(Settings.SIMPLE_GAME), this.favoriteService)
-			);
+		if (!manager.isInterpreterAvailable())
+		{
+			manager.setInterpreter
+				(
+					new FieldInterpreter(manager, new SimpleFieldBuilder(Settings.SIMPLE_GAME), this.favoriteService)
+				);
+		}
 
-		//writer.startElement("outputLabel", this);
-		writer.startElement("textarea", this);
-		writer.writeAttribute("id", "fieldTextArea", null);
-		writer.writeAttribute("style", "width:100%; text-align:center;", null);
-		writer.writeAttribute("readonly", "readonly", null);
+		Field field = null;
 		if (manager != null)
 		{
-			Field field = manager.getManagedField();
+			field = manager.getManagedField();
+		}
+
+		//TextOnly mode draws a text-only version of the Field using textarea
+		if (textOnly)
+		{
+			writer.startElement("textarea", this);
+			writer.writeAttribute("id", "fieldTextArea", null);
+			writer.writeAttribute("style", "width:100%; text-align:center;", null);
+			writer.writeAttribute("readonly", "readonly", null);
 			if (field != null)
 			{
-				writeTesseraeField(field, writer);
-				//writer.writeText(field.toString(manager.getFieldColor()), null);
+				writer.writeText(field.toString(manager.getFieldColor()), null);
 			}
 			else
 			{
+				//Write a happy face
 				writer.write(":-)");
 			}
+			writer.endElement("textarea");
 		}
-		writer.endElement("textarea");
+		//Otherwise draws a normal version of the Field
+		else
+		{
+			writeTesseraeField(field, writer);
+		}
 
 		/*
 		StringTokenizer tokenizer = new StringTokenizer(field.toString(), "\n");
@@ -85,9 +113,19 @@ public class TesseraeComponent extends UICommand
 	}
 
 	//Draws the Tesserae Field using the HTML and/or Faces components
-	private void writeTesseraeField(Field field, ResponseWriter writer)
+	private void writeTesseraeField(Field field, ResponseWriter writer) throws IOException
 	{
+		if (field == null)
+		{
 
+		}
+		else
+		{
+			Draggable draggable = new Draggable();
+			writer.startElement("dragger", draggable);
+			writer.write("test");
+			writer.endElement("dragger");
+		}
 	}
 
 	//No longer used: the service reference flow was expected to be in an opposite direction

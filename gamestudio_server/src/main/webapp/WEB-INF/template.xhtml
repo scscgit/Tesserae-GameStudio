@@ -1,7 +1,5 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:h="http://xmlns.jcp.org/jsf/html"
-	  xmlns:g="http://www.tuke.sk/games"
-	  xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
@@ -11,21 +9,23 @@
     <!-- Metas -->
 
     <!-- Site description -->
-	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
     <!--meta http-equiv="x-ua-compatible" content="IE=9" /-->
-    <meta name="description" content="gamestudio" />
-    <meta name="keywords" content="gamestudio games play free tuke kpi" />
+    <meta name="description" content="gamestudio"/>
+    <meta name="keywords" content="gamestudio games play free tuke kpi"/>
     <!-- Google API -->
-    <meta name="google-signin-client_id" content="768735146389-pe4c9tskojme870uqhmnoqp4fhptj4s2.apps.googleusercontent.com" />
+    <meta name="google-signin-client_id"
+          content="768735146389-pe4c9tskojme870uqhmnoqp4fhptj4s2.apps.googleusercontent.com"/>
 
     <!-- CSS -->
 
     <!-- Gamestudio -->
-    <link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css" />
+    <link rel="stylesheet" type="text/css"
+          href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css"/>
     <h:outputStylesheet library="css" name="stylesheet.css"/>
     <h:outputStylesheet library="css" name="tesserae.css"/>
     <!-- Blue Skies template -->
-    <link rel="stylesheet" type="text/css" href="resources/css/blueskies.css" />
+    <link rel="stylesheet" type="text/css" href="resources/css/blueskies.css"/>
 
     <!-- JS imports -->
 
@@ -43,151 +43,157 @@
 </h:head>
 
 <h:body>
-  <div id="main">
-    <div id="header">
-	  <div id="banner">
-	    <div id="welcome">
-	      <h1>Gamestudio</h1>
-	    </div><!--close welcome-->
-	    <div id="welcome_slogan">
-            <ui:insert name="welcome_slogan">
-	            <h1>Katedra počítačov a informatiky TUKE</h1>
+    <div id="main">
+        <div id="header">
+            <div id="banner">
+                <div id="welcome">
+                    <h1>Gamestudio</h1>
+                </div>
+                <div id="welcome_slogan">
+                    <ui:insert name="welcome_slogan">
+                        <h1>Katedra počítačov a informatiky TUKE</h1>
+                    </ui:insert>
+                </div>
+            </div>
+        </div><!--close header-->
+
+        <!-- Prihlasovanie Google -->
+        <h2>Informácia o prihlásenom používateľovi</h2>
+        <div id="userStatus"></div>
+        <aside id="googleSignIn">
+            <div id="SignInButton"></div>
+            <div id="SignedIn">
+                <c:if test="#{user.loggedIn}">
+                    Ste prihlásený ako <h:outputLabel id="userName" value="#{user.realName}"/>.
+                    <button onclick="signOut()">Odhlásiť sa</button>
+                </c:if>
+            </div>
+        </aside>
+
+        <div id="menubar">
+            <ul id="menu">
+                <!-- Navigácia medzi hlavnými časťami stránky -->
+                <li class="current"><a href="games.xhtml">Zoznam hier</a></li>
+                <c:if test="#{user.loggedIn}">
+                    <li><a href="favorites.xhtml">Obľúbené hry</a></li>
+                </c:if>
+                <li><a href="statistics.xhtml">Štatistiky</a></li>
+
+                <!-- Prihlasovanie -->
+                <c:if test="#{not user.loggedIn}">
+                    <li><a href="login.xhtml">Prihlásenie</a></li>
+                </c:if>
+
+                <!-- TODO Jazyk -->
+            </ul>
+        </div><!--close menubar-->
+
+        <!--
+        <div class="sidebar_container">
+          <div class="sidebar">
+            <div class="sidebar_item">
+
+         <div class="slideshow">
+          <ul class="slideshow">
+            <li class="show"><img width="680" height="250" src="images/home_1.jpg" alt="&quot;Enter your caption here&quot;" /></li>
+            <li><img width="680" height="250" src="images/home_2.jpg" alt="&quot;Enter your caption here&quot;" /></li>
+          </ul>
+        </div>
+
+        <div id="content">
+          <div class="content_item">
+
+            <div class="content_image">
+              <img src="images/content_image1.jpg" alt="image1"/>
+            </div>
+            <br style="clear:both"/>
+
+            <div class="content_container">
+
+              <div class="button_small">
+                <a href="#">Read more</a>
+              </div>
+
+      <div id="content_bottom">
+        <div class="content_bottom_container_box">
+
+          <div class="readmore">
+            <a href="#">Read more</a>
+          </div>
+        </div>
+        <br style="clear:both"/>
+      </div>
+      -->
+
+        <div id="site_content">
+            <div class="sidebar_container">
+                <ui:insert name="sidebar">
+                    <div class="sidebar">
+                        <div class="sidebar_item">
+                            <ui:insert name="left_sidebar">
+                                <h2>Gamestudio</h2>
+                                <p>Vitajte na našej stránke. Dúfame, že sa vám tu bude páčiť. Veľa šťastia v získavaní skóre!</p>
+                            </ui:insert>
+                        </div>
+                    </div>
+
+                    <div class="sidebar">
+                        <div class="sidebar_item">
+                            <h2>Aktualizácie</h2>
+                            <h3>Máj 2016</h3>
+                            <p>Bola vytvorená XHTML stránka pomocou JSF za použitia šablóny Blue Skies. V rámci Gamestudia sú na hranie k dispozícii hry Tesserae a Minesweeper.</p>
+                        </div>
+                    </div>
+
+                    <div class="sidebar">
+                        <div class="sidebar_item">
+                            <h3>Apríl 2016</h3>
+                            <p>Hra Tesserae je funkčná cez konzolové rozhranie.</p>
+                        </div>
+                    </div>
+
+                    <div class="sidebar">
+                        <div class="sidebar_item">
+                            <h2>Kontakt</h2>
+                            <p>Email:</p>
+                            <p><a href="mailto:gamemaster@gamestudio.tuke.sk">gamemaster@gamestudio.tuke.sk</a></p>
+                            <p>Web KPI:</p>
+                            <p><a href="https://kpi.fei.tuke.sk/sk/content/kontakt">kpi.fei.tuke.sk</a></p>
+                        </div>
+                    </div>
+                </ui:insert>
+            </div><!--close sidebar_container-->
+
+            <ui:insert name="slideshow">
+                <!--div class="slideshow">
+                  <ul class="slideshow">
+                    <li class="show"><img width="680" height="250" src="images/slideshow1.jpg" alt="Enter your caption here" /></li>
+                    <li><img width="680" height="250" src="images/slideshow2.jpg" alt="Enter your caption here" /></li>
+                  </ul>
+                </div-->
             </ui:insert>
-	    </div>
-	  </div>
-    </div><!--close header-->
 
-      <!-- Prihlasovanie Google -->
-      <h2>Informácia o prihlásenom používateľovi</h2>
-      <div id="userStatus"></div>
-      <aside id="googleSignIn">
-          <div id="SignInButton"></div>
-          <div id="SignedIn">
-              <c:if test="#{user.loggedIn}">
-              Ste prihlásený ako <h:outputLabel id="userName" value="#{user.realName}"/>. <button onclick="signOut()">Odhlásiť sa</button>
-              </c:if>
-          </div>
-      </aside>
+            <div id="content">
+                <div class="content_item">
+                    <ui:insert name="content">
+                        <h2>Vitajte v našom hernom štúdiu.</h2>
+                        <h1>Vyberte si, prosím, kategóriu v menu.</h1>
+                    </ui:insert>
+                </div>
+            </div>
+        </div><!--close site_content-->
 
-	<div id="menubar">
-      <ul id="menu">
-          <!-- Navigácia -->
-        <li class="current"><a href="games.xhtml">Zoznam hier</a></li>
-          <c:if test="#{user.loggedIn}">
-            <li><a href="favorites.xhtml">Obľúbené hry</a></li>
-          </c:if>
-        <li><a href="statistics.xhtml">Štatistiky</a></li>
-
-          <!-- Prihlasovanie -->
-          <c:if test="#{not user.loggedIn}">
-              <li><a href="login.xhtml">Prihlásenie</a></li>
-          </c:if>
-
-          <!-- TODO Jazyk -->
-      </ul>
-    </div><!--close menubar-->
-
-      <!--
-	  <div class="sidebar_container">
-		<div class="sidebar">
-          <div class="sidebar_item">
-
-       <div class="slideshow">
-	    <ul class="slideshow">
-          <li class="show"><img width="680" height="250" src="images/home_1.jpg" alt="&quot;Enter your caption here&quot;" /></li>
-          <li><img width="680" height="250" src="images/home_2.jpg" alt="&quot;Enter your caption here&quot;" /></li>
-        </ul>
-      </div>
-
-      <div id="content">
-        <div class="content_item">
-
-		  <div class="content_image">
-		    <img src="images/content_image1.jpg" alt="image1"/>
-	      </div>
-		  <br style="clear:both"/>
-
-		  <div class="content_container">
-
-		    <div class="button_small">
-		      <a href="#">Read more</a>
-		    </div>
-
-	<div id="content_bottom">
-	  <div class="content_bottom_container_box">
-
-		<div class="readmore">
-		  <a href="#">Read more</a>
-		</div>
-      </div>
-      <br style="clear:both"/>
-    </div>
-    -->
-
-	<div id="site_content">
-	  <div class="sidebar_container">
-		<div class="sidebar">
-          <div class="sidebar_item">
-              <ui:insert name="left_sidebar">
-            <h2>Gamestudio</h2>
-            <p>Vitajte na našej stránke. Dúfame, že sa vám tu bude páčiť. Veľa šťastia v získavaní skóre!</p>
-              </ui:insert>
-          </div>
-        </div>
-
-		<div class="sidebar">
-          <div class="sidebar_item">
-            <h2>Aktualizácie</h2>
-            <h3>Máj 2016</h3>
-            <p>Bola vytvorená XHTML stránka pomocou JSF za použitia šablóny Blue Skies. V rámci Gamestudia sú na hranie k dispozícii hry Tesserae a Minesweeper.</p>
-		  </div>
-        </div>
-
-		<div class="sidebar">
-          <div class="sidebar_item">
-            <h3>Apríl 2016</h3>
-            <p>Hra Tesserae je funkčná cez konzolové rozhranie.</p>
-		  </div>
-        </div>
-
-        <div class="sidebar">
-          <div class="sidebar_item">
-            <h2>Kontakt</h2>
-            <p>Email:</p><p><a href="mailto:gamemaster@gamestudio.tuke.sk">gamemaster@gamestudio.tuke.sk</a></p>
-              <p>Web KPI:</p><p><a href="https://kpi.fei.tuke.sk/sk/content/kontakt">kpi.fei.tuke.sk</a></p>
-          </div>
-        </div>
-       </div>
-
-        <ui:insert name="slideshow">
-	  <!--div class="slideshow">
-	    <ul class="slideshow">
-          <li class="show"><img width="680" height="250" src="images/slideshow1.jpg" alt="Enter your caption here" /></li>
-          <li><img width="680" height="250" src="images/slideshow2.jpg" alt="Enter your caption here" /></li>
-        </ul>
-      </div-->
+        <ui:insert name="content_bottom">
         </ui:insert>
 
-	  <div id="content">
-        <div class="content_item">
+    </div><!--close main-->
 
-            <ui:insert name="content">
-                <h2>Welcome.</h2>
-            </ui:insert>
-		</div>
-      </div>
-	</div>
+    <div id="footer">
+        <ui:insert name="footer">
+            <a href="http://validator.w3.org/check?uri=referer">Valid XHTML</a> | website template by <a
+                href="http://www.araynordesign.co.uk">ARaynorDesign</a>
+        </ui:insert>
+    </div>
 
-      <ui:insert name="content_bottom">
-      </ui:insert>
- 
-  </div><!--close main-->
-  
-  <div id="footer">
-      <ui:insert name="footer">
-	  <a href="http://validator.w3.org/check?uri=referer">Valid XHTML</a> | website template by <a href="http://www.araynordesign.co.uk">ARaynorDesign</a>
-      </ui:insert>
-  </div>
-  
 </h:body>
 </html>
