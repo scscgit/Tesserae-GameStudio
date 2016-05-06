@@ -77,7 +77,9 @@ public class FavoriteGameWebServiceClient implements FavoriteGameDatabaseService
 			{
 				FavoriteGameEntity favoriteGameEntity = new FavoriteGameEntity();
 				favoriteGameEntity.setId(favoriteEntityWeb.getId());
-				favoriteGameEntity.setGame(new Game(favoriteEntityWeb.getGame().toString()));
+				//getGame() needs to be accessed by getName(), not by toString(), because it is different class
+				//(yep, I lost one hour of my life trying to debug it)
+				favoriteGameEntity.setGame(new Game(favoriteEntityWeb.getGame().getName()));
 				favoriteGameEntity.setPlayer(favoriteEntityWeb.getPlayer());
 				favoriteGameEntity
 					.setChosenOn(new Date(Utility.XMLGregorianCalendarToTime(favoriteEntityWeb.getChosenOn())));

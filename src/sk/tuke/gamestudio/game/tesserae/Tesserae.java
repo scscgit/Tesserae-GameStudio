@@ -55,7 +55,7 @@ public class Tesserae
 		//this.consoleUI.runField(this.consoleUI.generateField(Settings.SIMPLE_GAME));
 	}
 
-	private FavoriteGameDatabaseService oracleLocalDatabaseServiceOrPrintError()
+	private FavoriteGameDatabaseService getOracleLocalDatabaseServiceOrPrintError()
 	{
 		FavoriteGameDatabaseService service = null;
 		//Preventively creates a database table if there is none yet

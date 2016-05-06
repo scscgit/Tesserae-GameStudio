@@ -31,6 +31,7 @@ public class FavoriteGameServiceJPA implements FavoriteGameDatabaseService
 	@Override
 	public void removeFavorite(String player, Game game) throws FavoriteException
 	{
+		System.out.println(game);
 		entityManager
 			.createNamedQuery("FavoriteGameEntity.removeEntity")
 			.setParameter("player", player)

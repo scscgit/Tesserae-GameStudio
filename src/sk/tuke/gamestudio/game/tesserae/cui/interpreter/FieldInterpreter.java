@@ -555,10 +555,12 @@ public class FieldInterpreter extends AbstractInterpreter
 		//Checks for duplicates
 		for (FavoriteGameEntity favorite : favorites)
 		{
-			if (favorite.getGame().equals(getGame()))
+			if (favorite.getGame().equals(game))
 			{
+				if(favorite.getChosenOn()==null)
+					throw new InterpreterException(favorite.getId()+"wow, a null date... this is a serious problem y'know");
 				throw new InterpreterException(
-					"We understand you really like this game, but seriously, \nyou have already marked this game as your favorite on " +
+					"We understand you really like this game, but seriously,\nyou have already marked this game as your favorite on " +
 					Utility.formatDate(favorite.getChosenOn()) + ".");
 			}
 		}

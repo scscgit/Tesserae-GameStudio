@@ -35,12 +35,21 @@ import java.io.Serializable;
  */
 public class Game implements Serializable
 {
-	//Workaround for EJB: the name is public
-	public String name;
+	private String name;
 
 	//Konstruktor pre entity
 	public Game()
 	{
+	}
+
+	//Workaround for EJB: the name is public for getting and setting
+	public String getName()
+	{
+		return name;
+	}
+	public void setName(String name)
+	{
+		this.name = name;
 	}
 
 	public Game(String name)

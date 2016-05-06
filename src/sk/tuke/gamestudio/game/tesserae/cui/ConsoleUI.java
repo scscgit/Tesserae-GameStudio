@@ -130,7 +130,7 @@ public class ConsoleUI implements FieldManager
 			if (favoriteGames != null)
 			{
 				Game currentGame = Tesserae.getGame();
-				if (!isGameAlreadyFavorited(currentGame, favoriteGames))
+				if (!isGameAlreadyFavorite(currentGame, favoriteGames))
 				{
 					System.out.println("Did you like this game? Make it your favorite by saying \"yes please\"!");
 					String command = getScanner().nextLine().toLowerCase();
@@ -164,10 +164,11 @@ public class ConsoleUI implements FieldManager
 		}
 	}
 
-	private boolean isGameAlreadyFavorited(Game currentGame, List<FavoriteGameEntity> favoriteGames)
+	private boolean isGameAlreadyFavorite(Game currentGame, List<FavoriteGameEntity> favoriteGames)
 	{
 		for (FavoriteGameEntity favoriteGame : favoriteGames)
 		{
+			System.out.println("comparing "+currentGame+" "+favoriteGame.getGame()+"\n"); //todo debug
 			if (favoriteGame.getGame().equals(currentGame))
 			{
 				return true;
@@ -188,7 +189,7 @@ public class ConsoleUI implements FieldManager
 		catch (FavoriteException e)
 		{
 			System.out.println("I would ask you to make this game one of your favorites,\n" +
-			                   "but the database just doesn't work :(");
+			                   "but the database just doesn't work :(\n" + e.getMessage());
 		}
 		return favoriteGames;
 	}
@@ -212,7 +213,7 @@ public class ConsoleUI implements FieldManager
 		try
 		{
 			FavoriteGameDatabaseService favoriteGameService = getFavoriteService();
-			favoriteGameService.addFavorite(System.getProperty("user.name"), currentGame);
+			favoriteGameService.addFavorite(getPlayer(), currentGame);
 		}
 		catch (FavoriteException e)
 		{
