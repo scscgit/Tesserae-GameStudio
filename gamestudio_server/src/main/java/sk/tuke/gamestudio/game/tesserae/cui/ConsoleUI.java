@@ -168,7 +168,7 @@ public class ConsoleUI implements FieldManager
 	{
 		for (FavoriteGameEntity favoriteGame : favoriteGames)
 		{
-			if (favoriteGame.getGame().equals(currentGame))
+			if (favoriteGame.getGame().equals(currentGame.getName()))
 			{
 				return true;
 			}

@@ -30,6 +30,8 @@ import sk.tuke.gamestudio.game.Game;
 import sk.tuke.gamestudio.support.Utility;
 
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Time;
@@ -45,21 +47,22 @@ public class FavoriteGameEntity implements Serializable, Comparable<FavoriteGame
 	@Id
 	private Integer id;
 	private String player;
-	private Game game;
+	private String game;
+	@Temporal(TemporalType.DATE)
 	private java.util.Date chosenOn;
 
 	public FavoriteGameEntity()
 	{
 	}
 
-	public FavoriteGameEntity(String player, Game game, java.util.Date chosenOn)
+	public FavoriteGameEntity(String player, String game, java.util.Date chosenOn)
 	{
 		this.player = player;
 		this.game = game;
 		this.chosenOn = chosenOn;
 	}
 
-	public FavoriteGameEntity(Integer id, String player, Game game, java.util.Date chosenOn)
+	public FavoriteGameEntity(Integer id, String player, String game, java.util.Date chosenOn)
 	{
 		this.id = id;
 		this.player = player;
@@ -83,11 +86,11 @@ public class FavoriteGameEntity implements Serializable, Comparable<FavoriteGame
 	{
 		this.player = player;
 	}
-	public Game getGame()
+	public String getGame()
 	{
 		return game;
 	}
-	public void setGame(Game game)
+	public void setGame(String game)
 	{
 		this.game = game;
 	}
@@ -110,7 +113,7 @@ public class FavoriteGameEntity implements Serializable, Comparable<FavoriteGame
 	{
 		return this.chosenOn;
 	}
-	public void setChosenOn(Date chosenOn)
+	public void setChosenOn(java.util.Date chosenOn)
 	{
 		this.chosenOn = chosenOn;
 	}
@@ -131,7 +134,7 @@ public class FavoriteGameEntity implements Serializable, Comparable<FavoriteGame
 		return "Player "
 		       + getPlayer()
 		       + " has game "
-		       + getGame().toString()
+		       + getGame()
 		       + " added as favorite since "
 		       + Utility.formatDate(getChosenOn())
 		       + ".";

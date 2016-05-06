@@ -25,6 +25,7 @@ public class FavoriteGameRestService
 	@Path ("/player/{player}")
 	// The Java method will produce content identified by this MIME Media type
 	@Produces ("application/json")
+	//@Produces ("text/xml")
 	public List<FavoriteGameEntity> getFavoriteGamesOfPlayer(@PathParam ("player") String player)
 		throws DatabaseException
 	{
@@ -41,6 +42,7 @@ public class FavoriteGameRestService
 
 	@POST
 	@Consumes ("application/json")
+	//@Consumes ("text/xml")
 	public Response addFavoriteGame(FavoriteGameEntity favoriteGame) throws DatabaseException
 	{
 		try

@@ -85,7 +85,7 @@ public class Oracle11gDatabaseServiceImpl extends AbstractDatabaseService implem
 		{
 			PreparedStatement ps = getConnection().prepareStatement("INSERT INTO " + INSERT_STMT);
 			StatementAttribute.set(ps, 1, favorite.getPlayer());
-			StatementAttribute.set(ps, 2, favorite.getGame().toString());
+			StatementAttribute.set(ps, 2, favorite.getGame());
 			StatementAttribute.set(ps, 3, favorite.getChosenOnTimestamp());
 			ps.executeUpdate();
 		}

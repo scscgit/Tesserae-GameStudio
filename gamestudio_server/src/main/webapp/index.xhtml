@@ -38,7 +38,10 @@
                 autosize($('#fieldResultArea'));
 
                 window.onload = function() {
-                    document.getElementById("#fieldCommandArea").focus();
+                    var cmds = document.getElementById("tesseraeform:fieldCommandArea");
+                    cmds.focus();
+                    cmds.setAttribute("value","");
+                    return "";
                 };
             } );
 

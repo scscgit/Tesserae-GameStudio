@@ -79,7 +79,7 @@ public class Oracle11gDatabaseServiceImpl extends AbstractDatabaseService implem
 	//Adds a new Favorite record of a game for a player implicitly with the current date
 	public void addFavorite(String player, Game game) throws FavoriteException
 	{
-		addFavorite(new FavoriteGameEntity(player, game, Utility.getCurrentSqlTimestamp()));
+		addFavorite(new FavoriteGameEntity(player, game.getName(), Utility.getCurrentSqlTimestamp()));
 	}
 
 	public void addFavorite(FavoriteGameEntity favorite) throws FavoriteException
@@ -88,7 +88,7 @@ public class Oracle11gDatabaseServiceImpl extends AbstractDatabaseService implem
 		{
 			PreparedStatement ps = getConnection().prepareStatement("INSERT INTO " + INSERT_STMT);
 			StatementAttribute.set(ps, 1, favorite.getPlayer());
-			StatementAttribute.set(ps, 2, favorite.getGame().toString());
+			StatementAttribute.set(ps, 2, favorite.getGame());
 			StatementAttribute.set(ps, 3, favorite.getChosenOnTimestamp());
 			ps.executeUpdate();
 		}
@@ -140,7 +140,7 @@ public class Oracle11gDatabaseServiceImpl extends AbstractDatabaseService implem
 						new FavoriteGameEntity
 							(
 								rs.getString(1),
-								new Game(rs.getString(2)),
+								rs.getString(2),
 								rs.getTimestamp(3)
 							)
 					);

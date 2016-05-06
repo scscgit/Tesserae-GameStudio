@@ -11,6 +11,7 @@ import java.util.List;
 /**
  * Created by jaros_000 on 31.3.2016.
  */
+@Deprecated
 public class SORM implements ISORM
 {
     private String url = "jdbc:postgresql://localhost/gamestudio";

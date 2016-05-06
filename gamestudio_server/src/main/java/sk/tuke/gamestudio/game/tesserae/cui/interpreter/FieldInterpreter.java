@@ -366,7 +366,7 @@ public class FieldInterpreter extends AbstractInterpreter
 			StringBuilder timelineString = new StringBuilder();
 			for (Field field : getManager().getTimeline())
 			{
-				timelineString.append("Move " + i++ + ":\n");
+				timelineString.append("Move ").append(i++).append(":\n");
 				if (field == null)
 				{
 					throw new InterpreterException("There is a general problem with the timeline.");
@@ -540,7 +540,7 @@ public class FieldInterpreter extends AbstractInterpreter
 			message.append(getManager().getPlayer()).append(", this is the list of your favorite games:").append("\n");
 			for (FavoriteGameEntity game : favorites)
 			{
-				message.append("Game ").append(game.getGame().toString()).append(
+				message.append("Game ").append(game.getGame()).append(
 					", favorite since ").append(Utility.formatDate(game.getChosenOn()));
 			}
 			return message.toString();
@@ -556,7 +556,7 @@ public class FieldInterpreter extends AbstractInterpreter
 		//Checks for duplicates
 		for (FavoriteGameEntity favorite : favorites)
 		{
-			if (favorite.getGame().equals(game))
+			if (favorite.getGame().equals(game.getName()))
 			{
 				if (favorite.getChosenOn() == null)
 				{
@@ -595,7 +595,7 @@ public class FieldInterpreter extends AbstractInterpreter
 		boolean gameNotFound = false;
 		for (FavoriteGameEntity favorite : favorites)
 		{
-			if (favorite.getGame().equals(game))
+			if (favorite.getGame().equals(game.getName()))
 			{
 				gameNotFound = true;
 			}

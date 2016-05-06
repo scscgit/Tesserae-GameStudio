@@ -26,7 +26,9 @@ public class ScoreServiceImplFileTest {
 
     @After
     public void tearDown() throws Exception {
-
+        File file = new File(System.getProperty("user.home") + "/tiles.score");
+        if(file.exists())
+            file.delete();
     }
 
     @Test

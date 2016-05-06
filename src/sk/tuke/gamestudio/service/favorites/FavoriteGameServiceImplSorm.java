@@ -5,6 +5,7 @@ import sk.tuke.gamestudio.game.Game;
 import sk.tuke.gamestudio.support.Utility;
 import sk.tuke.sorm.ISORM;
 import sk.tuke.sorm.SORM;
+import sk.tuke.sorm.SORM2;
 
 import java.util.List;
 
@@ -21,10 +22,11 @@ public class FavoriteGameServiceImplSorm implements FavoriteGameDatabaseService
 		this.sorm = sorm;
 	}
 
-	//SORM1 constructor
+	//SORM2 constructor
+	@Deprecated
 	public FavoriteGameServiceImplSorm(String url, String login, String password)
 	{
-		this.sorm = new SORM(url, login, password);
+		this.sorm = new SORM2(url, login, password);
 	}
 
 	@Override
@@ -32,11 +34,11 @@ public class FavoriteGameServiceImplSorm implements FavoriteGameDatabaseService
 	{
 		try
 		{
-			sorm.insert(new FavoriteGameEntity(player, game, Utility.getCurrentSqlTimestamp()));
+			sorm.insert(new FavoriteGameEntity(player, game.toString(), Utility.getCurrentSqlTimestamp()));
 		}
 		catch (Exception e)
 		{
-			throw new FavoriteException("Error adding a favorite game", e);
+			throw new FavoriteException("Error adding a favorite game: " + e.getMessage(), e);
 		}
 	}
 	@Override
@@ -48,7 +50,7 @@ public class FavoriteGameServiceImplSorm implements FavoriteGameDatabaseService
 		}
 		catch (Exception e)
 		{
-			throw new FavoriteException("Error adding a favorite game", e);
+			throw new FavoriteException("Error adding a favorite game: " + e.getMessage(), e);
 		}
 	}
 	@Override
@@ -59,16 +61,17 @@ public class FavoriteGameServiceImplSorm implements FavoriteGameDatabaseService
 		{
 			for (FavoriteGameEntity entity : list)
 			{
-				if (entity.getGame().equals(game))
+				if (entity.getGame().equals(game.getName()))
 				{
 					try
 					{
-						sorm.delete(new FavoriteGameEntity(player, game, entity.getChosenOn()));
+						sorm.delete(new FavoriteGameEntity(player, game.getName(), entity.getChosenOn()));
 					}
 					catch (Exception e)
 					{
 						throw new FavoriteException(
-							"Error removing favorite game '" + game + "' entry of player '" + player + "'", e);
+							"Error removing favorite game '" + game + "' entry of player '" + player + "': " +
+							e.getMessage(), e);
 					}
 				}
 			}
@@ -87,7 +90,7 @@ public class FavoriteGameServiceImplSorm implements FavoriteGameDatabaseService
 		}
 		catch (Exception e)
 		{
-			throw new FavoriteException("Error loading favorite games", e);
+			throw new FavoriteException("Error loading favorite games: " + e.getMessage(), e);
 		}
 	}
 }

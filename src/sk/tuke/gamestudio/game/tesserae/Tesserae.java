@@ -79,8 +79,8 @@ public class Tesserae
 		FavoriteGameDatabaseService service;
 
 		//Online database EJB service should not crash
-		service = new FavoriteGameWebServiceClient();
-		//service = new FavoriteGameRestServiceClient();
+		//service = new FavoriteGameWebServiceClient();
+		service = new FavoriteGameRestServiceClient();
 
 		//String url = "jdbc:oracle:oci:@localhost:1521:xe";
 		//String login = "gamestudio";

@@ -39,7 +39,7 @@ public class FavoriteGameWebServiceClientTest
 		int oldSize = list.size();
 
 		Date date = Utility.getCurrentSqlTimestamp();
-		FavoriteGameEntity entity = new FavoriteGameEntity("test", new Game("game1"), date);
+		FavoriteGameEntity entity = new FavoriteGameEntity("test", "game1", date);
 		service.addFavorite(entity);
 
 		//asserting the size increased
@@ -50,7 +50,7 @@ public class FavoriteGameWebServiceClientTest
 		FavoriteGameEntity receivedEntity = list.get(list.size() - 1);
 
 		//comparing the entity
-		assertEquals("game1", receivedEntity.getGame().toString());
+		assertEquals("game1", receivedEntity.getGame());
 		assertEquals("test", receivedEntity.getPlayer());
 		assertEquals(new Timestamp(date.getTime()), new Timestamp(receivedEntity.getChosenOn().getTime()));
 	}
@@ -70,7 +70,7 @@ public class FavoriteGameWebServiceClientTest
 		FavoriteGameEntity receivedEntity = list.get(list.size() - 1);
 
 		//comparing the entity
-		assertEquals("game1", receivedEntity.getGame().toString());
+		assertEquals("game1", receivedEntity.getGame());
 		assertEquals("test", receivedEntity.getPlayer());
 	}
 	@Test

@@ -10,9 +10,11 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,7 +28,7 @@ public class FavoriteGameRestServiceClient implements FavoriteGameDatabaseServic
 	@Override
 	public void addFavorite(String player, Game game) throws FavoriteException
 	{
-		addFavorite(new FavoriteGameEntity(player, game, Utility.getCurrentSqlTimestamp()));
+		addFavorite(new FavoriteGameEntity(player, game.toString(), Utility.getCurrentSqlTimestamp()));
 	}
 	@Override
 	public void addFavorite(FavoriteGameEntity favorite) throws FavoriteException

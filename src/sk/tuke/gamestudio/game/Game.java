@@ -42,16 +42,21 @@ public class Game implements Serializable
 		this.name = name;
 	}
 
-	@Override
-	public String toString()
+	public String getName()
 	{
 		return name;
 	}
 
 	@Override
+	public String toString()
+	{
+		return getName();
+	}
+
+	@Override
 	public boolean equals(Object object)
 	{
-		if (object instanceof Game && ((Game) object).toString().equals(toString()))
+		if (object instanceof Game && ((Game) object).getName().equals(getName()))
 		{
 			return true;
 		}

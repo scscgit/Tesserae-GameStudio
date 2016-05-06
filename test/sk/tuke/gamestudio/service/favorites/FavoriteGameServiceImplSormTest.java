@@ -34,6 +34,7 @@ public class FavoriteGameServiceImplSormTest
 		catch (Exception e)
 		{
 		}
+
 		try
 		{
 			service2.removeFavorite("test", new Game("asdf"));
@@ -51,13 +52,13 @@ public class FavoriteGameServiceImplSormTest
 	@Test
 	public void addFavorite11() throws Exception
 	{
-		assertEquals(service1.getFavorites("test").size(), 0);
+		int oldSize = service1.getFavorites("test").size();
 
 		service1.addFavorite("test", new Game("asdf"));
-		assertEquals(service1.getFavorites("test").size(), 1);
+		assertEquals(service1.getFavorites("test").size(), oldSize+1);
 
 		service1.removeFavorite("test", new Game("asdf"));
-		assertEquals(service1.getFavorites("test").size(), 0);
+		assertEquals(service1.getFavorites("test").size(), oldSize);
 	}
 	@Test
 	public void addFavorite12() throws Exception
@@ -68,13 +69,13 @@ public class FavoriteGameServiceImplSormTest
 	@Test
 	public void addFavorite21() throws Exception
 	{
-		assertEquals(service2.getFavorites("test").size(), 0);
+		int oldSize = service2.getFavorites("test").size();
 
 		service2.addFavorite("test", new Game("asdf"));
-		assertEquals(service2.getFavorites("test").size(), 1);
+		assertEquals(service2.getFavorites("test").size(), oldSize+1);
 
 		service2.removeFavorite("test", new Game("asdf"));
-		assertEquals(service2.getFavorites("test").size(), 0);
+		assertEquals(service2.getFavorites("test").size(), oldSize);
 	}
 	@Test
 	public void removeFavorite() throws Exception

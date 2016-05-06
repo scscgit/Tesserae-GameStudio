@@ -37,7 +37,7 @@ public class FavoriteGameWebServiceClient implements FavoriteGameDatabaseService
 			sk.tuke.gamestudio.webservice.favorites.FavoriteGameEntity favoriteWeb =
 				new sk.tuke.gamestudio.webservice.favorites.FavoriteGameEntity();
 			favoriteWeb.setId(favorite.getId());
-			favoriteWeb.setGame(favorite.getGame().toString());
+			favoriteWeb.setGame(favorite.getGame());
 			favoriteWeb.setPlayer(favorite.getPlayer());
 			favoriteWeb.setChosenOn(Utility.dateToXmlGregorianCalendar(favorite.getChosenOn()));
 			favoriteGameService.addFavorite1(favoriteWeb);
@@ -70,7 +70,7 @@ public class FavoriteGameWebServiceClient implements FavoriteGameDatabaseService
 			{
 				FavoriteGameEntity favoriteGameEntity = new FavoriteGameEntity();
 				favoriteGameEntity.setId(favoriteEntityWeb.getId());
-				favoriteGameEntity.setGame(new Game(favoriteEntityWeb.getGame().toString()));
+				favoriteGameEntity.setGame(favoriteEntityWeb.getGame());
 				favoriteGameEntity.setPlayer(favoriteEntityWeb.getPlayer());
 				favoriteGameEntity
 					.setChosenOn(new Date(Utility.XMLGregorianCalendarToTime(favoriteEntityWeb.getChosenOn())));

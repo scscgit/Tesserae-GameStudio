@@ -74,7 +74,7 @@ public class Oracle11gDatabaseServiceImplTest extends TestCase
 
 		favorites = service.getFavorites("player1");
 		assertEquals(favorites.size(), 1);
-		assertEquals(favorites.get(0).getGame(), new Game("game1"));
+		assertEquals(favorites.get(0).getGame(), "game1");
 		assertEquals(favorites.get(0).getPlayer(), "player1");
 	}
 	public void testAddFavorite1() throws Exception
@@ -84,10 +84,10 @@ public class Oracle11gDatabaseServiceImplTest extends TestCase
 
 		favorites = service.getFavorites("player1");
 		assertEquals(favorites.size(), 0);
-		service.addFavorite(new FavoriteGameEntity("player1", new Game("game1"), new Timestamp(0)));
+		service.addFavorite(new FavoriteGameEntity("player1", "game1", new Timestamp(0)));
 		favorites = service.getFavorites("player1");
 		assertEquals(favorites.size(), 1);
-		assertEquals(favorites.get(0).getGame(), new Game("game1"));
+		assertEquals(favorites.get(0).getGame(), "game1");
 		assertEquals(favorites.get(0).getPlayer(), "player1");
 		assertEquals(favorites.get(0).getChosenOn(), new Timestamp(0));
 	}
@@ -95,11 +95,8 @@ public class Oracle11gDatabaseServiceImplTest extends TestCase
 	{
 		String player = "Asdf";
 
-		String game1String = "Gh";
-		Game game1 = new Game(game1String);
-
-		String game2String = "Ij";
-		Game game2 = new Game(game2String);
+		String game1 = "Gh";
+		String game2 = "Ij";
 
 		Timestamp time = Utility.getCurrentSqlTimestamp();
 		System.out.println(time);
@@ -127,11 +124,11 @@ public class Oracle11gDatabaseServiceImplTest extends TestCase
 			assertEquals(list.size(), 1);
 
 			//Adding using implicit date and direct objects
-			service.addFavorite(player, game2);
+			service.addFavorite(player, new Game(game2));
 			list = service.getFavorites(player);
 			assertEquals(list.size(), 2);
 
-			service.removeFavorite(player, new Game(game1String));
+			service.removeFavorite(player, new Game(game1));
 			list = service.getFavorites(player);
 
 			//After removal, second game wil be the first one and there will be only one
@@ -153,11 +150,11 @@ public class Oracle11gDatabaseServiceImplTest extends TestCase
 		newService();
 		try
 		{
-			service.addFavorite(new FavoriteGameEntity(player, new Game(game), time));
+			service.addFavorite(new FavoriteGameEntity(player, game, time));
 
 			List<FavoriteGameEntity> list = service.getFavorites(player);
 
-			assertTrue(list.get(0).getGame().equals(new Game(game)));
+			assertTrue(list.get(0).getGame().equals(game));
 			assertTrue(list.get(0).getPlayer().equals(player));
 			assertTrue(list.get(0).getChosenOn().equals(time));
 			assertEquals(list.size(), 1);
