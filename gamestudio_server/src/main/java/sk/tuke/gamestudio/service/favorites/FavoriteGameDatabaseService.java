@@ -27,7 +27,6 @@
 package sk.tuke.gamestudio.service.favorites;
 
 import sk.tuke.gamestudio.entity.FavoriteGameEntity;
-import sk.tuke.gamestudio.game.Game;
 
 import java.util.List;
 
@@ -38,9 +37,9 @@ import java.util.List;
  */
 public interface FavoriteGameDatabaseService
 {
-	void addFavorite(String player, Game game) throws FavoriteException;
+	void addFavorite(String player, String game) throws FavoriteException;
 	void addFavorite(FavoriteGameEntity favorite) throws FavoriteException;
-	void removeFavorite(String player, Game game) throws FavoriteException;
+	void removeFavorite(String player, String game) throws FavoriteException;
 
 	List<FavoriteGameEntity> getFavorites(String player) throws FavoriteException;
 

@@ -61,6 +61,7 @@ public class FieldHistoryRebuilder extends FieldBuilder
 			{
 				//Makes an (almost) exact copy of the Tile, that will live its own life
 				//(getType() returns mutable Set, so you must never copy it directly!)
+				//Safe copying is by using setType(), or just straight within the constructor
 				Tile tile = field.getTile(row, column);
 				if (tile == null)
 				{
@@ -73,6 +74,7 @@ public class FieldHistoryRebuilder extends FieldBuilder
 		this.history.addLast(tilesState);
 	}
 
+	//Returns an entire timeline of the game since it began
 	public LinkedList<Field> getTimeline()
 	{
 		LinkedList<Field> timeline = new LinkedList<Field>();

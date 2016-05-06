@@ -27,14 +27,11 @@
 package sk.tuke.gamestudio.service.favorites;
 
 import sk.tuke.gamestudio.entity.FavoriteGameEntity;
-import sk.tuke.gamestudio.game.Game;
 import sk.tuke.gamestudio.service.AbstractDatabaseService;
 import sk.tuke.gamestudio.service.DatabaseException;
 import sk.tuke.gamestudio.service.StatementAttribute;
 import sk.tuke.gamestudio.support.Utility;
 
-import javax.jws.WebMethod;
-import javax.jws.WebService;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -77,7 +74,7 @@ public class Oracle11gDatabaseServiceImpl extends AbstractDatabaseService implem
 	}
 
 	//Adds a new Favorite record of a game for a player implicitly with the current date
-	public void addFavorite(String player, Game game) throws FavoriteException
+	public void addFavorite(String player, String game) throws FavoriteException
 	{
 		addFavorite(new FavoriteGameEntity(player, game, Utility.getCurrentSqlTimestamp()));
 	}
@@ -104,13 +101,13 @@ public class Oracle11gDatabaseServiceImpl extends AbstractDatabaseService implem
 		}
 	}
 
-	public void removeFavorite(String player, Game game) throws FavoriteException
+	public void removeFavorite(String player, String game) throws FavoriteException
 	{
 		try
 		{
 			PreparedStatement ps = getConnection().prepareStatement("DELETE FROM " + DELETE_STMT);
 			StatementAttribute.set(ps, 1, player);
-			StatementAttribute.set(ps, 2, game.toString());
+			StatementAttribute.set(ps, 2, game);
 			ps.executeUpdate();
 		}
 		catch (SQLException e)
@@ -140,7 +137,7 @@ public class Oracle11gDatabaseServiceImpl extends AbstractDatabaseService implem
 						new FavoriteGameEntity
 							(
 								rs.getString(1),
-								new Game(rs.getString(2)),
+								rs.getString(2),
 								rs.getTimestamp(3)
 							)
 					);

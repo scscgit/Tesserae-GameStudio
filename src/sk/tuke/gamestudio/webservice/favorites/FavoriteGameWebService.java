@@ -42,7 +42,44 @@ public interface FavoriteGameWebService {
         @WebParam(name = "arg0", targetNamespace = "")
         String arg0,
         @WebParam(name = "arg1", targetNamespace = "")
-        Game arg1)
+        String arg1)
+        throws FavoriteException_Exception
+    ;
+
+    /**
+     * 
+     * @param arg1
+     * @param arg0
+     * @throws FavoriteException_Exception
+     */
+    @WebMethod
+    @RequestWrapper(localName = "addFavorite2", targetNamespace = "http://favorites.webservice.gamestudio.tuke.sk/", className = "sk.tuke.gamestudio.webservice.favorites.AddFavorite2")
+    @ResponseWrapper(localName = "addFavorite2Response", targetNamespace = "http://favorites.webservice.gamestudio.tuke.sk/", className = "sk.tuke.gamestudio.webservice.favorites.AddFavorite2Response")
+    @Action(input = "http://favorites.webservice.gamestudio.tuke.sk/FavoriteGameWebService/addFavorite2Request", output = "http://favorites.webservice.gamestudio.tuke.sk/FavoriteGameWebService/addFavorite2Response", fault = {
+        @FaultAction(className = FavoriteException_Exception.class, value = "http://favorites.webservice.gamestudio.tuke.sk/FavoriteGameWebService/addFavorite2/Fault/FavoriteException")
+    })
+    public void addFavorite2(
+        @WebParam(name = "arg0", targetNamespace = "")
+        String arg0,
+        @WebParam(name = "arg1", targetNamespace = "")
+        String arg1)
+        throws FavoriteException_Exception
+    ;
+
+    /**
+     * 
+     * @param arg0
+     * @throws FavoriteException_Exception
+     */
+    @WebMethod
+    @RequestWrapper(localName = "addFavorite1", targetNamespace = "http://favorites.webservice.gamestudio.tuke.sk/", className = "sk.tuke.gamestudio.webservice.favorites.AddFavorite1")
+    @ResponseWrapper(localName = "addFavorite1Response", targetNamespace = "http://favorites.webservice.gamestudio.tuke.sk/", className = "sk.tuke.gamestudio.webservice.favorites.AddFavorite1Response")
+    @Action(input = "http://favorites.webservice.gamestudio.tuke.sk/FavoriteGameWebService/addFavorite1Request", output = "http://favorites.webservice.gamestudio.tuke.sk/FavoriteGameWebService/addFavorite1Response", fault = {
+        @FaultAction(className = FavoriteException_Exception.class, value = "http://favorites.webservice.gamestudio.tuke.sk/FavoriteGameWebService/addFavorite1/Fault/FavoriteException")
+    })
+    public void addFavorite1(
+        @WebParam(name = "arg0", targetNamespace = "")
+        FavoriteGameEntity arg0)
         throws FavoriteException_Exception
     ;
 
@@ -63,43 +100,6 @@ public interface FavoriteGameWebService {
     public List<FavoriteGameEntity> getFavorites(
         @WebParam(name = "arg0", targetNamespace = "")
         String arg0)
-        throws FavoriteException_Exception
-    ;
-
-    /**
-     * 
-     * @param arg1
-     * @param arg0
-     * @throws FavoriteException_Exception
-     */
-    @WebMethod
-    @RequestWrapper(localName = "addFavorite2", targetNamespace = "http://favorites.webservice.gamestudio.tuke.sk/", className = "sk.tuke.gamestudio.webservice.favorites.AddFavorite2")
-    @ResponseWrapper(localName = "addFavorite2Response", targetNamespace = "http://favorites.webservice.gamestudio.tuke.sk/", className = "sk.tuke.gamestudio.webservice.favorites.AddFavorite2Response")
-    @Action(input = "http://favorites.webservice.gamestudio.tuke.sk/FavoriteGameWebService/addFavorite2Request", output = "http://favorites.webservice.gamestudio.tuke.sk/FavoriteGameWebService/addFavorite2Response", fault = {
-        @FaultAction(className = FavoriteException_Exception.class, value = "http://favorites.webservice.gamestudio.tuke.sk/FavoriteGameWebService/addFavorite2/Fault/FavoriteException")
-    })
-    public void addFavorite2(
-        @WebParam(name = "arg0", targetNamespace = "")
-        String arg0,
-        @WebParam(name = "arg1", targetNamespace = "")
-        Game arg1)
-        throws FavoriteException_Exception
-    ;
-
-    /**
-     * 
-     * @param arg0
-     * @throws FavoriteException_Exception
-     */
-    @WebMethod
-    @RequestWrapper(localName = "addFavorite1", targetNamespace = "http://favorites.webservice.gamestudio.tuke.sk/", className = "sk.tuke.gamestudio.webservice.favorites.AddFavorite1")
-    @ResponseWrapper(localName = "addFavorite1Response", targetNamespace = "http://favorites.webservice.gamestudio.tuke.sk/", className = "sk.tuke.gamestudio.webservice.favorites.AddFavorite1Response")
-    @Action(input = "http://favorites.webservice.gamestudio.tuke.sk/FavoriteGameWebService/addFavorite1Request", output = "http://favorites.webservice.gamestudio.tuke.sk/FavoriteGameWebService/addFavorite1Response", fault = {
-        @FaultAction(className = FavoriteException_Exception.class, value = "http://favorites.webservice.gamestudio.tuke.sk/FavoriteGameWebService/addFavorite1/Fault/FavoriteException")
-    })
-    public void addFavorite1(
-        @WebParam(name = "arg0", targetNamespace = "")
-        FavoriteGameEntity arg0)
         throws FavoriteException_Exception
     ;
 

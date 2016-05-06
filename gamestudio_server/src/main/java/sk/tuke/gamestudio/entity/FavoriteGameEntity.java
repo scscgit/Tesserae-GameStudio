@@ -26,7 +26,6 @@
 
 package sk.tuke.gamestudio.entity;
 
-import sk.tuke.gamestudio.game.Game;
 import sk.tuke.gamestudio.support.Utility;
 
 import javax.persistence.*;
@@ -37,6 +36,8 @@ import java.sql.Timestamp;
 
 /**
  * A single entity representing a relation of a user to a game.
+ * <p>
+ * Version for Server, stores Game as a String.
  * <p/>
  * Created by Steve on 14.03.2016.
  */
@@ -60,7 +61,7 @@ public class FavoriteGameEntity implements Serializable, Comparable<FavoriteGame
 	@GeneratedValue
 	private Integer id;
 	private String player;
-	private Game game;
+	private String game;
 	@Temporal (TemporalType.TIMESTAMP)
 	private java.util.Date chosenOn;
 
@@ -68,14 +69,14 @@ public class FavoriteGameEntity implements Serializable, Comparable<FavoriteGame
 	{
 	}
 
-	public FavoriteGameEntity(String player, Game game, java.util.Date chosenOn)
+	public FavoriteGameEntity(String player, String game, java.util.Date chosenOn)
 	{
 		this.player = player;
 		this.game = game;
 		this.chosenOn = chosenOn;
 	}
 
-	public FavoriteGameEntity(Integer id, String player, Game game, java.util.Date chosenOn)
+	public FavoriteGameEntity(Integer id, String player, String game, java.util.Date chosenOn)
 	{
 		this.id = id;
 		this.player = player;
@@ -95,22 +96,22 @@ public class FavoriteGameEntity implements Serializable, Comparable<FavoriteGame
 	{
 		return player;
 	}
-	public void setPlayer(String user)
+	public void setPlayer(String player)
 	{
 		this.player = player;
 	}
-	public Game getGame()
+	public String getGame()
 	{
 		return game;
 	}
-	public void setGame(Game game)
+	public void setGame(String game)
 	{
 		this.game = game;
 	}
 	@Deprecated
 	public Date getChosenOnDate()
 	{
-		return new Date(chosenOn.getTime());
+		return new Date(this.chosenOn.getTime());
 	}
 	@Deprecated
 	public Time getChosenOnTime()
@@ -118,20 +119,20 @@ public class FavoriteGameEntity implements Serializable, Comparable<FavoriteGame
 		return new Time(getChosenOnTimestamp().getTime());
 	}
 	@Deprecated
-	public void setChosenOnSqlDate(Date ChosenOn)
+	public void setChosenOnSqlDate(Date chosenOn)
 	{
 		this.chosenOn = chosenOn;
 	}
 
 	public Timestamp getChosenOnTimestamp()
 	{
-		return new Timestamp(chosenOn.getTime());
+		return new Timestamp(this.chosenOn.getTime());
 	}
 	public java.util.Date getChosenOn()
 	{
 		return this.chosenOn;
 	}
-	public void setChosenOn(java.util.Date ChosenOn)
+	public void setChosenOn(java.util.Date chosenOn)
 	{
 		this.chosenOn = chosenOn;
 	}
@@ -152,7 +153,7 @@ public class FavoriteGameEntity implements Serializable, Comparable<FavoriteGame
 		return "Player "
 		       + getPlayer()
 		       + " has game "
-		       + getGame().toString()
+		       + getGame()
 		       + " added as favorite since "
 		       + Utility.formatDate(getChosenOn())
 		       + ".";

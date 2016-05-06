@@ -1,7 +1,6 @@
 package sk.tuke.gamestudio.webservice.favorites;
 
 import sk.tuke.gamestudio.entity.FavoriteGameEntity;
-import sk.tuke.gamestudio.game.Game;
 import sk.tuke.gamestudio.service.favorites.FavoriteException;
 import sk.tuke.gamestudio.service.favorites.FavoriteGameDatabaseService;
 
@@ -24,7 +23,7 @@ public class FavoriteGameWebService
 	@EJB
 	private FavoriteGameDatabaseService favoriteGameDatabaseService;
 
-	public void addFavorite2(String player, Game game) throws FavoriteException
+	public void addFavorite2(String player, String game) throws FavoriteException
 	{
 		favoriteGameDatabaseService.addFavorite(player, game);
 	}
@@ -32,7 +31,7 @@ public class FavoriteGameWebService
 	{
 		favoriteGameDatabaseService.addFavorite(favorite);
 	}
-	public void removeFavorite(String player, Game game) throws FavoriteException
+	public void removeFavorite(String player, String game) throws FavoriteException
 	{
 		favoriteGameDatabaseService.removeFavorite(player, game);
 	}

@@ -79,7 +79,7 @@ public class FavoriteGameEntity implements Serializable, Comparable<FavoriteGame
 	{
 		return player;
 	}
-	public void setPlayer(String user)
+	public void setPlayer(String player)
 	{
 		this.player = player;
 	}
@@ -110,7 +110,7 @@ public class FavoriteGameEntity implements Serializable, Comparable<FavoriteGame
 	{
 		return this.chosenOn;
 	}
-	public void setChosenOn(Date ChosenOn)
+	public void setChosenOn(Date chosenOn)
 	{
 		this.chosenOn = chosenOn;
 	}

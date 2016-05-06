@@ -1,7 +1,6 @@
 package sk.tuke.gamestudio.service.favorites;
 
 import sk.tuke.gamestudio.entity.FavoriteGameEntity;
-import sk.tuke.gamestudio.game.Game;
 import sk.tuke.gamestudio.support.Utility;
 
 import javax.ejb.Stateless;
@@ -19,7 +18,7 @@ public class FavoriteGameServiceJPA implements FavoriteGameDatabaseService
 	private EntityManager entityManager;
 
 	@Override
-	public void addFavorite(String player, Game game) throws FavoriteException
+	public void addFavorite(String player, String game) throws FavoriteException
 	{
 		addFavorite(new FavoriteGameEntity(player, game, Utility.getCurrentSqlTimestamp()));
 	}
@@ -29,9 +28,8 @@ public class FavoriteGameServiceJPA implements FavoriteGameDatabaseService
 		entityManager.persist(favorite);
 	}
 	@Override
-	public void removeFavorite(String player, Game game) throws FavoriteException
+	public void removeFavorite(String player, String game) throws FavoriteException
 	{
-		System.out.println(game);
 		entityManager
 			.createNamedQuery("FavoriteGameEntity.removeEntity")
 			.setParameter("player", player)

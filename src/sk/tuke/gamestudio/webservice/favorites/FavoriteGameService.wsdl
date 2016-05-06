@@ -13,12 +13,6 @@
 <message name="FavoriteException">
 <part name="fault" element="tns:FavoriteException"/>
 </message>
-<message name="getFavorites">
-<part name="parameters" element="tns:getFavorites"/>
-</message>
-<message name="getFavoritesResponse">
-<part name="parameters" element="tns:getFavoritesResponse"/>
-</message>
 <message name="addFavorite2">
 <part name="parameters" element="tns:addFavorite2"/>
 </message>
@@ -31,16 +25,17 @@
 <message name="addFavorite1Response">
 <part name="parameters" element="tns:addFavorite1Response"/>
 </message>
+<message name="getFavorites">
+<part name="parameters" element="tns:getFavorites"/>
+</message>
+<message name="getFavoritesResponse">
+<part name="parameters" element="tns:getFavoritesResponse"/>
+</message>
 <portType name="FavoriteGameWebService">
 <operation name="removeFavorite">
 <input wsam:Action="http://favorites.webservice.gamestudio.tuke.sk/FavoriteGameWebService/removeFavoriteRequest" message="tns:removeFavorite"/>
 <output wsam:Action="http://favorites.webservice.gamestudio.tuke.sk/FavoriteGameWebService/removeFavoriteResponse" message="tns:removeFavoriteResponse"/>
 <fault message="tns:FavoriteException" name="FavoriteException" wsam:Action="http://favorites.webservice.gamestudio.tuke.sk/FavoriteGameWebService/removeFavorite/Fault/FavoriteException"/>
-</operation>
-<operation name="getFavorites">
-<input wsam:Action="http://favorites.webservice.gamestudio.tuke.sk/FavoriteGameWebService/getFavoritesRequest" message="tns:getFavorites"/>
-<output wsam:Action="http://favorites.webservice.gamestudio.tuke.sk/FavoriteGameWebService/getFavoritesResponse" message="tns:getFavoritesResponse"/>
-<fault message="tns:FavoriteException" name="FavoriteException" wsam:Action="http://favorites.webservice.gamestudio.tuke.sk/FavoriteGameWebService/getFavorites/Fault/FavoriteException"/>
 </operation>
 <operation name="addFavorite2">
 <input wsam:Action="http://favorites.webservice.gamestudio.tuke.sk/FavoriteGameWebService/addFavorite2Request" message="tns:addFavorite2"/>
@@ -51,6 +46,11 @@
 <input wsam:Action="http://favorites.webservice.gamestudio.tuke.sk/FavoriteGameWebService/addFavorite1Request" message="tns:addFavorite1"/>
 <output wsam:Action="http://favorites.webservice.gamestudio.tuke.sk/FavoriteGameWebService/addFavorite1Response" message="tns:addFavorite1Response"/>
 <fault message="tns:FavoriteException" name="FavoriteException" wsam:Action="http://favorites.webservice.gamestudio.tuke.sk/FavoriteGameWebService/addFavorite1/Fault/FavoriteException"/>
+</operation>
+<operation name="getFavorites">
+<input wsam:Action="http://favorites.webservice.gamestudio.tuke.sk/FavoriteGameWebService/getFavoritesRequest" message="tns:getFavorites"/>
+<output wsam:Action="http://favorites.webservice.gamestudio.tuke.sk/FavoriteGameWebService/getFavoritesResponse" message="tns:getFavoritesResponse"/>
+<fault message="tns:FavoriteException" name="FavoriteException" wsam:Action="http://favorites.webservice.gamestudio.tuke.sk/FavoriteGameWebService/getFavorites/Fault/FavoriteException"/>
 </operation>
 </portType>
 <binding name="FavoriteGameServicePortBinding" type="tns:FavoriteGameWebService">
@@ -67,18 +67,6 @@
 <soap:fault name="FavoriteException" use="literal"/>
 </fault>
 </operation>
-<operation name="getFavorites">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-<fault name="FavoriteException">
-<soap:fault name="FavoriteException" use="literal"/>
-</fault>
-</operation>
 <operation name="addFavorite2">
 <soap:operation soapAction=""/>
 <input>
@@ -92,6 +80,18 @@
 </fault>
 </operation>
 <operation name="addFavorite1">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+<fault name="FavoriteException">
+<soap:fault name="FavoriteException" use="literal"/>
+</fault>
+</operation>
+<operation name="getFavorites">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

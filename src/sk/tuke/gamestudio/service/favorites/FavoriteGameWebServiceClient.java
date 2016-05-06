@@ -22,9 +22,7 @@ public class FavoriteGameWebServiceClient implements FavoriteGameDatabaseService
 	{
 		try
 		{
-			sk.tuke.gamestudio.webservice.favorites.Game gameWeb = new sk.tuke.gamestudio.webservice.favorites.Game();
-			gameWeb.setName(game.toString());
-			favoriteGameService.addFavorite2(player, gameWeb);
+			favoriteGameService.addFavorite2(player, game.toString());
 		}
 		catch (Exception e)
 		{
@@ -39,10 +37,7 @@ public class FavoriteGameWebServiceClient implements FavoriteGameDatabaseService
 			sk.tuke.gamestudio.webservice.favorites.FavoriteGameEntity favoriteWeb =
 				new sk.tuke.gamestudio.webservice.favorites.FavoriteGameEntity();
 			favoriteWeb.setId(favorite.getId());
-			sk.tuke.gamestudio.webservice.favorites.Game gameWeb =
-				new sk.tuke.gamestudio.webservice.favorites.Game();
-			gameWeb.setName(favorite.getGame().toString());
-			favoriteWeb.setGame(gameWeb);
+			favoriteWeb.setGame(favorite.getGame().toString());
 			favoriteWeb.setPlayer(favorite.getPlayer());
 			favoriteWeb.setChosenOn(Utility.dateToXmlGregorianCalendar(favorite.getChosenOn()));
 			favoriteGameService.addFavorite1(favoriteWeb);
@@ -57,9 +52,7 @@ public class FavoriteGameWebServiceClient implements FavoriteGameDatabaseService
 	{
 		try
 		{
-			sk.tuke.gamestudio.webservice.favorites.Game gameWeb = new sk.tuke.gamestudio.webservice.favorites.Game();
-			gameWeb.setName(game.toString());
-			favoriteGameService.removeFavorite(player, gameWeb);
+			favoriteGameService.removeFavorite(player, game.toString());
 		}
 		catch (Exception e)
 		{
@@ -77,9 +70,7 @@ public class FavoriteGameWebServiceClient implements FavoriteGameDatabaseService
 			{
 				FavoriteGameEntity favoriteGameEntity = new FavoriteGameEntity();
 				favoriteGameEntity.setId(favoriteEntityWeb.getId());
-				//getGame() needs to be accessed by getName(), not by toString(), because it is different class
-				//(yep, I lost one hour of my life trying to debug it)
-				favoriteGameEntity.setGame(new Game(favoriteEntityWeb.getGame().getName()));
+				favoriteGameEntity.setGame(new Game(favoriteEntityWeb.getGame().toString()));
 				favoriteGameEntity.setPlayer(favoriteEntityWeb.getPlayer());
 				favoriteGameEntity
 					.setChosenOn(new Date(Utility.XMLGregorianCalendarToTime(favoriteEntityWeb.getChosenOn())));

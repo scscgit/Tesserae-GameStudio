@@ -19,7 +19,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="chosenOn" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
- *         &lt;element name="game" type="{http://favorites.webservice.gamestudio.tuke.sk/}game" minOccurs="0"/>
+ *         &lt;element name="game" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
  *         &lt;element name="player" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
@@ -41,7 +41,7 @@ public class FavoriteGameEntity {
 
     @XmlSchemaType(name = "dateTime")
     protected XMLGregorianCalendar chosenOn;
-    protected Game game;
+    protected String game;
     protected Integer id;
     protected String player;
 
@@ -74,10 +74,10 @@ public class FavoriteGameEntity {
      * 
      * @return
      *     possible object is
-     *     {@link Game }
+     *     {@link String }
      *     
      */
-    public Game getGame() {
+    public String getGame() {
         return game;
     }
 
@@ -86,10 +86,10 @@ public class FavoriteGameEntity {
      * 
      * @param value
      *     allowed object is
-     *     {@link Game }
+     *     {@link String }
      *     
      */
-    public void setGame(Game value) {
+    public void setGame(String value) {
         this.game = value;
     }
 

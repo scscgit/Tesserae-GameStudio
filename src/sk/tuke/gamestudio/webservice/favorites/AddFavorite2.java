@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="arg0" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="arg1" type="{http://favorites.webservice.gamestudio.tuke.sk/}game" minOccurs="0"/>
+ *         &lt;element name="arg1" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlType;
 public class AddFavorite2 {
 
     protected String arg0;
-    protected Game arg1;
+    protected String arg1;
 
     /**
      * Gets the value of the arg0 property.
@@ -65,10 +65,10 @@ public class AddFavorite2 {
      * 
      * @return
      *     possible object is
-     *     {@link Game }
+     *     {@link String }
      *     
      */
-    public Game getArg1() {
+    public String getArg1() {
         return arg1;
     }
 
@@ -77,10 +77,10 @@ public class AddFavorite2 {
      * 
      * @param value
      *     allowed object is
-     *     {@link Game }
+     *     {@link String }
      *     
      */
-    public void setArg1(Game value) {
+    public void setArg1(String value) {
         this.arg1 = value;
     }
 

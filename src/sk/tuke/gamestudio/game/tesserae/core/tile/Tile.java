@@ -29,6 +29,7 @@ package sk.tuke.gamestudio.game.tesserae.core.tile;
 import sk.tuke.gamestudio.game.tesserae.cui.ColorMode;
 import sk.tuke.gamestudio.support.Utility;
 
+import java.util.EnumSet;
 import java.util.Set;
 
 /**
@@ -51,6 +52,7 @@ public class Tile
 		setType(type);
 	}
 
+	//Warning, beware: the type is MUTABLE!
 	public Set<Type> getType()
 	{
 		return this.type;
@@ -75,10 +77,10 @@ public class Tile
 		return getType().size() == 3;
 	}
 
-	//Transformation of a tile into a new tile
+	//Transformation of a Tile into a new Tile, by immutably copying the state
 	public void setType(Set<Type> type)
 	{
-		this.type = type;
+		this.type = EnumSet.copyOf(type);
 	}
 
 	//Other tile jumps over this tile. This method gets called during lifecycle of the original tile.
@@ -101,7 +103,7 @@ public class Tile
 	//Other tile jumps on this tile. This method gets called during lifecycle of the original tile.
 	public void jumpedOnBy(Tile tile)
 	{
-		//This will be probably enough, but ofc. todo check it later
+		//This will be probably enough
 		getType().addAll(tile.getType());
 	}
 

@@ -168,7 +168,6 @@ public class ConsoleUI implements FieldManager
 	{
 		for (FavoriteGameEntity favoriteGame : favoriteGames)
 		{
-			System.out.println("comparing "+currentGame+" "+favoriteGame.getGame()+"\n"); //todo debug
 			if (favoriteGame.getGame().equals(currentGame))
 			{
 				return true;
@@ -254,7 +253,7 @@ public class ConsoleUI implements FieldManager
 		this.history.saveState(field);
 	}
 
-	//Console UI does not even let player choose his own name, it is assumed implicitly
+	//Console UI does not even let the player choose his own name, it is assumed implicitly
 	@Override
 	public String getPlayer()
 	{

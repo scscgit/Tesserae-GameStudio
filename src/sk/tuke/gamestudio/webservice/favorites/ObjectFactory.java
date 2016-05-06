@@ -114,14 +114,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Game }
-     * 
-     */
-    public Game createGame() {
-        return new Game();
-    }
-
-    /**
      * Create an instance of {@link FavoriteGameEntity }
      * 
      */
