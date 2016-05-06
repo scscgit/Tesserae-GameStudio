@@ -47,6 +47,7 @@
 
                     //Text areas will scale dynamically
                     autosize($('#fieldResultArea'));
+                    autosize($('#fieldTextArea'));
 
                     //Autofocus for the input command area
                     window.onload = function () {
@@ -68,9 +69,10 @@
         <!-- Tesserae -->
         <h1>Tesserae</h1>
 
-        <g:tesserae value="#{tesseraemanager}"/>
-
         <h:form id="tesseraeform" style="margin: 30px 0 30px 0;">
+
+            <g:tesserae textOnly="true" value="#{tesseraemanager}">
+            </g:tesserae>
 
             <!-- Message from the Player -->
             <!--onkeypress="if(event.keyCode == 13)document.getElementById('tesseraeform:fieldCommandButton').click();"-->
@@ -87,7 +89,10 @@
                                  value="interpret command!"
                                  action="#{tesseraemanager.interpretCommand}"
                                  update="@form"
-                />
+
+                >
+                </p:commandButton>
+
                 <p:commandButton id="helpButton"
                                  value="HELP"
                                  action="#{tesseraemanager.interpretHelp}"

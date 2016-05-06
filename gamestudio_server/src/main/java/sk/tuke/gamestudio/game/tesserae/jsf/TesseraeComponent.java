@@ -1,6 +1,9 @@
 package sk.tuke.gamestudio.game.tesserae.jsf;
 
 import org.primefaces.component.dnd.Draggable;
+import org.primefaces.context.PrimeFacesContext;
+import org.primefaces.context.PrimeFacesContextFactory;
+import org.primefaces.context.RequestContext;
 import sk.tuke.gamestudio.game.tesserae.core.field.Field;
 import sk.tuke.gamestudio.game.tesserae.core.field.Settings;
 import sk.tuke.gamestudio.game.tesserae.core.field.builder.SimpleFieldBuilder;
@@ -48,6 +51,10 @@ public class TesseraeComponent extends UICommand
 
 		ResponseWriter writer = context.getResponseWriter();
 		setTextOnly((boolean) getAttributes().get("textOnly"));
+
+		PrimeFacesContext.getCurrentInstance().getResponseWriter().startElement("p:commandButton", null);
+		PrimeFacesContext.getCurrentInstance().getResponseWriter().writeAttribute("value", "hello", "test");
+		PrimeFacesContext.getCurrentInstance().getResponseWriter().endElement("p:commandButton");
 
 		//Debug in case of problems
 		if (favoriteService == null)
@@ -110,6 +117,11 @@ public class TesseraeComponent extends UICommand
 			java.util.logging.Logger.getLogger(getClass().getName()).severe(row);
 		}
 		*/
+
+
+
+
+		RequestContext.getCurrentInstance().execute("autosize($('#fieldTextArea'));");
 	}
 
 	//Draws the Tesserae Field using the HTML and/or Faces components

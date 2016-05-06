@@ -100,6 +100,13 @@
             <url>https://maven.java.net/content/repositories/releases/</url>
             <layout>default</layout>
         </repository>
+
+        <!--PrimeFaces Themes repository-->
+        <repository>
+            <id>prime-repo</id>
+            <name>Prime Repo</name>
+            <url>http://repository.primefaces.org</url>
+        </repository>
     </repositories>
     
     <build>
@@ -239,6 +246,14 @@
             <artifactId>junit</artifactId>
             <version>4.12</version>
             <scope>test</scope>
+        </dependency>
+
+        <!-- PrimeFaces Themes -->
+        <!-- http://www.mkyong.com/jsf2/primefaces/changing-theme-in-primefaces/ -->
+        <dependency>
+            <groupId>org.primefaces.themes</groupId>
+            <artifactId>start</artifactId>
+            <version>1.0.10</version>
         </dependency>
     </dependencies>
 	

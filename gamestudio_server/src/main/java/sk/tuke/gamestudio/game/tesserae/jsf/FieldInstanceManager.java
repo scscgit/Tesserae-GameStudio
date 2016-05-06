@@ -1,5 +1,6 @@
 package sk.tuke.gamestudio.game.tesserae.jsf;
 
+import org.primefaces.context.RequestContext;
 import sk.tuke.gamestudio.game.Game;
 import sk.tuke.gamestudio.game.tesserae.core.field.Field;
 import sk.tuke.gamestudio.game.tesserae.core.field.builder.history.FieldHistoryRebuilder;
@@ -84,7 +85,9 @@ public class FieldInstanceManager implements Serializable, FieldManager
 	}
 	protected void setLastMessage(String lastMessage)
 	{
+		//RequestContext context = RequestContext.getCurrentInstance();
 		this.lastMessage = lastMessage;
+		//context.update("fieldResultArea");
 	}
 
 	private void handleEndGameState()
