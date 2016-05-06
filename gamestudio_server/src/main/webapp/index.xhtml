@@ -33,6 +33,13 @@
                     ],
                     ajax: {url : "webapi/score/mines", dataSrc : ''}
                 });
+
+                autosize($('#fieldTextArea'));
+                autosize($('#fieldResultArea'));
+
+                window.onload = function() {
+                    document.getElementById("#fieldCommandArea").focus();
+                };
             } );
 
             //]]>
@@ -40,6 +47,29 @@
     </h:head>
 
     <h:body>
+        <h1>Tesserae</h1>
+
+        <h:form id="tesseraeform">
+            <g:tesserae value="#{tesseraemanager}"/>
+
+            <!-- Message for Player -->
+            <textarea id="fieldResultArea" style="width:100%; text-align:center; border:none" readonly="readonly">
+                <h:outputText value="#{tesseraemanager.lastMessage}"/>
+            </textarea>
+
+            <!-- Message from Player -->
+            <h:inputText value="#{tesseraemanager.inputMessage}"
+                         id="fieldCommandArea"
+
+                         onkeypress="
+                         if (event.keyCode == 13)
+                         document.getElementById('tesseraeform:fieldCommandButton').click();"
+                         style="width:100%; text-align:center;"/>
+            <div align="center">
+                <p:commandButton id="fieldCommandButton" value="Send!" action="#{tesseraemanager.interpretCommand}"/>
+            </div>
+        </h:form>
+
         <h1>Minesweeper</h1>
 
         <h:form id="form">

@@ -11,4 +11,11 @@
             <component-type>Mines</component-type>
         </component>
     </tag>
+
+    <tag>
+        <tag-name>tesserae</tag-name>
+        <component>
+            <component-type>Tesserae</component-type>
+        </component>
+    </tag>
 </facelet-taglib>
