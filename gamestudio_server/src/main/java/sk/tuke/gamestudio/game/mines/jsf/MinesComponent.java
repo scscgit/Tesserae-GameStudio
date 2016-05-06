@@ -2,16 +2,12 @@ package sk.tuke.gamestudio.game.mines.jsf;
 
 import sk.tuke.gamestudio.service.GameServices;
 import sk.tuke.gamestudio.game.mines.core.*;
-import sk.tuke.gamestudio.service.score.ScoreException;
-import sk.tuke.gamestudio.service.score.ScoreService;
 
-import javax.ejb.EJB;
 import javax.faces.component.FacesComponent;
 import javax.faces.component.UICommand;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import java.io.IOException;
-import java.util.Date;
 
 @FacesComponent("Mines")
 public class MinesComponent extends UICommand {
@@ -28,19 +24,31 @@ public class MinesComponent extends UICommand {
 
     private void processParamsAndHandleAction(FacesContext context) {
         Field field = (Field) getValue();
-        if(field == null){throw new RuntimeException("Field is null");}
+        if(field == null)
+        {
+	        throw new RuntimeException("Field is null");
+        }
 
         if (field.getState() == GameState.PLAYING) {
-            try {
+            try
+            {
                 String row = (String) context.getExternalContext().getRequestParameterMap().get("row");
                 String column = (String) context.getExternalContext().getRequestParameterMap().get("column");
                 field.action(Integer.parseInt(row), Integer.parseInt(column));
-                if (field.getState() == GameState.SOLVED) {
+                if (field.getState() == GameState.SOLVED)
+                {
                     GameServices gameServices = getGameServices();
-                    if (gameServices != null) {
+                    if (gameServices != null)
+                    {
                         gameServices.saveScore(GAME, field.getScore());
                     }
+	                else
+                    {
+	                    throw new RuntimeException("GameServices is null");
+                    }
                 }
+            } catch (NumberFormatException e) {
+                return;
             } catch (Exception e) {
                 e.printStackTrace();
             }

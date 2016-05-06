@@ -1,43 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	template="/WEB-INF/templates/page_poruban.xhtml">
+<ui:composition template="/WEB-INF/templates/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+>
 
-	<ui:define name="content">
-		Log in!
-		<h:form>
-			<h:panelGrid columns="3">
-				Login:
-				<h:inputText id="nameLogin" value="#{user.username}" />
-				<h:message for="nameLogin" errorClass="invalid" />
-				
-				Password:
-				<h:inputSecret id="passLogin" value="#{user.password}" />
-				<h:message for="passLogin" errorClass="invalid" />
+    <ui:define name="style">
+        <h:outputStylesheet library="css" name="login.css"/>
+    </ui:define>
 
-			</h:panelGrid>
+    <ui:define name="content">
+        <table class="googleSignIn" border="0">
+            <tr>
+                <td>
+                    <p class="centerText">Okamžité prihlásenie:</p>
+                    <div id="SignInButton"></div>
+                </td>
+            </tr>
+        </table>
 
-			<h:commandButton action="#{userController.login}" value="Login" />
-		</h:form>
+        <table class="loginOrRegisterTable">
+            <tr>
+                <td class="loginOrRegisterTable">
+                    <p class="centerText">Už ste sa u nás registrovali?<br/>Prihláste sa!</p>
+                    <h:form>
+                        <h:panelGrid columns="3"
+                                     columnClasses="loginOrRegisterCol1, loginOrRegisterCol2, loginOrRegisterCol3"
+                                     styleClass="loginOrRegisterPanelGrid">
+                            Prezývka:
+                            <h:inputText id="nameLogin"
+                                         styleClass="loginOrRegisterLabel"
+                                         value="#{user.username}"/>
+                            <h:message for="nameLogin" errorClass="invalid"/>
 
-        Or register
+                            Heslo:
+                            <h:inputSecret id="passLogin"
+                                           styleClass="loginOrRegisterLabel"
+                                           value="#{user.password}"/>
+                            <h:message for="passLogin" errorClass="invalid"/>
+                        </h:panelGrid>
 
-        <h:form>
-            <h:panelGrid columns="3">
-                Login:
-                <h:inputText id="nameRegister" value="#{user.username}" />
-                <h:message for="nameRegister" errorClass="invalid" />
+                        <br/>
+                        <h:commandButton action="#{userController.login}"
+                                         styleClass="loginOrRegisterButton"
+                                         value="Prihlásiť sa"/>
+                    </h:form>
+                </td>
 
-                Password:
-                <h:inputSecret id="passRegister" value="#{user.password}" />
-                <h:message for="passRegister" errorClass="invalid" />
+                <td class="loginOrRegisterTable">
+                    <p class="centerText">Registrujte sa,<br/>ak ste tu prvý krát.</p>
 
-            </h:panelGrid>
+                    <h:form>
+                        <h:panelGrid columns="3"
+                                     columnClasses="loginOrRegisterCol1, loginOrRegisterCol2, loginOrRegisterCol3"
+                                     styleClass="loginOrRegisterPanelGrid">
+                            Prezývka:
+                            <h:inputText id="nameRegister"
+                                         styleClass="loginOrRegisterLabel"
+                                         value="#{user.username}"/>
+                            <h:message for="nameRegister" errorClass="invalid"/>
 
-            <h:commandButton action="#{userController.register}" value="Register" />
-        </h:form>
-		<br />
-	</ui:define>
+                            Heslo:
+                            <h:inputSecret id="passRegister"
+                                           styleClass="loginOrRegisterLabel"
+                                           value="#{user.password}"/>
+                            <h:message for="passRegister" errorClass="invalid"/>
+                        </h:panelGrid>
+
+                        <br/>
+                        <h:commandButton action="#{userController.register}"
+                                         styleClass="loginOrRegisterButton"
+                                         value="Registrovať"/>
+                    </h:form>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Google account info -->
+        <div id="userStatus"></div>
+        <div id="SignedIn">
+            <button onclick="signOut()">Odhlásiť sa</button>
+        </div>
+    </ui:define>
+
 </ui:composition>

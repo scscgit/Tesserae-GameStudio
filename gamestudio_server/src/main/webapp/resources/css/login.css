@@ -1,0 +1,55 @@
+.center{
+    margin: auto;
+}
+
+.centerText {
+    text-align: center;
+}
+
+.googleSignIn {
+    margin: 0 auto 10px auto;
+    font-size: 20px;
+}
+
+table.loginOrRegisterTable {
+    width: inherit;
+}
+
+td.loginOrRegisterTable {
+    border-style: ridge;
+    padding: 10px;
+}
+
+.loginOrRegisterPanelGrid {
+    width: 100%;
+    text-align: right;
+    height: 100%;
+}
+
+.loginOrRegisterButton {
+    width: 100%;
+}
+
+.loginOrRegisterLabel {
+    size: 15px;
+}
+
+.invalid {
+    color: red;
+    size: 10px;
+}
+
+.loginOrRegisterCol1 {
+    color: white;
+    padding-right: 10px;
+}
+
+.loginOrRegisterCol2 {
+}
+
+.loginOrRegisterCol3 {
+    font-size: 12px;
+    padding-left: 5px;
+    padding-bottom: 5px;
+}
+

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ui:composition template="/WEB-INF/templates/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:g="http://www.tuke.sk/games"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:param name="gameName" value="Minesweeper"/>
+
+    <ui:define name="style">
+        <h:outputStylesheet library="css" name="mines.css"/>
+    </ui:define>
+
+    <ui:define name="javascript">
+        <script type="text/javascript">
+            //<![CDATA[
+            try {
+                //Scripts launched on page load
+                $(document).ready(function () {
+                    /*
+                     $.ajax({
+                     url: "webapi/score/mines",
+                     }).done(function(json) {
+                     for(var i = 0; i < json.length; i++) {
+                     var score = json[i];
+                     $("#scoreList").append($("<li>" + score.player + " " + score.points + " " + score.playedOn + "</li>"));
+                     }
+                     });
+                     */
+
+                    $('#scoreTable').DataTable({
+                        columns: [
+                            {data: "player"},
+                            {data: "points"},
+                            {data: "playedOn"}
+                        ],
+                        ajax: {url: "webapi/score/mines", dataSrc: ''}
+                    });
+                });
+            } catch (e) {
+                //Actual life-hack, catch stack overflow
+                window.location.replace("http://stackoverflow.com/search?q=[js] + " + e.message);
+            }
+            //]]>
+        </script>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form" styleClass="gameForm">
+            <div class="centerTable">
+                <table>
+                    <tr>
+                        <td>
+                            <div class="centerField">
+                                <g:mines value="#{minefield}"/>
+                            </div>
+                            <p:commandButton value="New game" action="#{minefield.generate}" update="form"/>
+                            <p:selectBooleanButton onLabel="Mark" offLabel="Open" value="#{minefield.marking}">
+                                <p:ajax event="change" update="form"/>
+                            </p:selectBooleanButton>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="score">
+                Score: <h:outputLabel value="#{minefield.score}"/>
+            </div>
+
+            <br/>
+
+            <p:calendar mode="popup" styleClass="centerCalendar"/>
+        </h:form>
+
+        <div class="hallOfFame">
+            <h2>Hall of Fame</h2>
+            <table id="scoreTable"/>
+        </div>
+    </ui:define>
+
+</ui:composition>

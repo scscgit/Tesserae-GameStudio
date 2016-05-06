@@ -1,0 +1,30 @@
+.centerTable > table {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.centerField > table {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+}
+
+.score {
+    font-size: 22px;
+    color: white;
+}
+
+.centerCalendar {
+    margin-left: auto;
+    margin-right: 0;
+}
+
+.gameForm {
+    margin: 20px 0 20px 0;
+}
+
+.hallOfFame {
+    color: white;
+}

@@ -1,0 +1,39 @@
+/**
+ * Gamestudio
+ */
+
+a:link {
+    color: #43A9FF;
+}
+
+a:visited {
+    color: turquoise;
+}
+
+/**
+ * Farby
+ */
+
+#redText {
+    color: red;
+}
+
+#redColor {
+    color: red;
+}
+
+/*
+ * Google Sign In
+ */
+
+#googleSignIn {
+    float: right;
+}
+
+.skryty {
+    display: none;
+}
+
+.zobraz {
+    display: block;
+}
