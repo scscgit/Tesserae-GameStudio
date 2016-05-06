@@ -26,6 +26,7 @@
 
 package sk.tuke.gamestudio.game.tesserae.cui;
 
+import sk.tuke.gamestudio.entity.FavoriteGameEntity;
 import sk.tuke.gamestudio.game.Game;
 import sk.tuke.gamestudio.game.tesserae.Tesserae;
 import sk.tuke.gamestudio.game.tesserae.core.field.Field;
@@ -36,7 +37,6 @@ import sk.tuke.gamestudio.game.tesserae.cui.interpreter.FieldInterpreter;
 import sk.tuke.gamestudio.game.tesserae.cui.interpreter.InterpreterException;
 import sk.tuke.gamestudio.service.favorites.FavoriteException;
 import sk.tuke.gamestudio.service.favorites.FavoriteGameDatabaseService;
-import sk.tuke.gamestudio.entity.FavoriteGameEntity;
 import sk.tuke.gamestudio.support.Utility;
 
 import java.util.LinkedList;
@@ -216,8 +216,8 @@ public class ConsoleUI implements FieldManager
 		}
 		catch (FavoriteException e)
 		{
-			System.out.println("Sorry, there was a problem with the database:\n"+
-			                   e.getMessage()+
+			System.out.println("Sorry, there was a problem with the database:\n" +
+			                   e.getMessage() +
 			                   "\nTry to make the game your favorite again next time.");
 			//switch (e.getErrorCode())
 		}
@@ -284,18 +284,25 @@ public class ConsoleUI implements FieldManager
 	@Override
 	public void fieldUpdatedCallback()
 	{
-		System.out.println("Size of the timeline is " + this.history.getSizeOfTimeline()); //debug todo delete
 		this.history.saveState(this.field);
 	}
 	//Goes back in time
 	@Override
 	public void goBackInTime() throws FieldHistoryRebuilderNoHistoryException
 	{
+		if(this.history == null)
+		{
+			throw new FieldHistoryRebuilderNoHistoryException("There is no instance of the history.");
+		}
 		this.field = this.history.getField();
 	}
 	@Override
-	public LinkedList<Field> getTimeline()
+	public LinkedList<Field> getTimeline() throws FieldHistoryRebuilderNoHistoryException
 	{
+		if(this.history == null)
+		{
+			throw new FieldHistoryRebuilderNoHistoryException("There is no instance of the history.");
+		}
 		return this.history.getTimeline();
 	}
 }

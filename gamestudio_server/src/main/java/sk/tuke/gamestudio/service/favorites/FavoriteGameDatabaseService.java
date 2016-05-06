@@ -31,7 +31,7 @@ import sk.tuke.gamestudio.entity.FavoriteGameEntity;
 import java.util.List;
 
 /**
- * Interface for a favourite game service.
+ * Interface for a favo(u)rite game service.
  * <p/>
  * Created by Steve on 14.03.2016.
  */

@@ -56,10 +56,6 @@ public class Game implements Serializable
 	@Override
 	public boolean equals(Object object)
 	{
-		if (object instanceof Game && ((Game) object).getName().equals(getName()))
-		{
-			return true;
-		}
-		return false;
+		return object instanceof Game && ((Game) object).getName().equals(getName());
 	}
 }

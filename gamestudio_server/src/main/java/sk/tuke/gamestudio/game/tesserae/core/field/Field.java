@@ -28,15 +28,12 @@ package sk.tuke.gamestudio.game.tesserae.core.field;
 
 import sk.tuke.gamestudio.game.tesserae.core.TesseraeRuntimeException;
 import sk.tuke.gamestudio.game.tesserae.core.field.builder.FieldBuilder;
-import sk.tuke.gamestudio.game.tesserae.core.field.builder.SimpleFieldBuilder;
 import sk.tuke.gamestudio.game.tesserae.core.tile.Tile;
 import sk.tuke.gamestudio.game.tesserae.core.tile.strategy.*;
 import sk.tuke.gamestudio.game.tesserae.cui.ColorMode;
 import sk.tuke.gamestudio.game.tesserae.cui.FieldManager;
 import sk.tuke.gamestudio.support.Utility;
 
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Named;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;

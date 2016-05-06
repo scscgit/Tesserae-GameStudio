@@ -28,6 +28,7 @@ public class SORM2 implements ISORM
 		this.password = password;
 	}
 
+	//Default postgresql constructor
 	public SORM2()
 	{
 	}
@@ -102,6 +103,7 @@ public class SORM2 implements ISORM
 		return sb.toString();
 	}
 
+	//Central point of decision whether a field can be considered an ID. Original version did not work.
 	private static boolean isId(Field field)
 	{
 		return field.isAnnotationPresent(Id.class) || field.isAnnotationPresent(javax.persistence.Id.class);
@@ -117,7 +119,6 @@ public class SORM2 implements ISORM
 		try (Connection connection = DriverManager.getConnection(url, login, password);
 		     PreparedStatement ps = connection.prepareStatement(query))
 		{
-
 			int index = 1;
 			for (Field field : clazz.getDeclaredFields())
 			{
@@ -151,16 +152,16 @@ public class SORM2 implements ISORM
 	{
 		List<?> select = select(clazz);
 		BigDecimal entityIndex = new BigDecimal(0);
-		//Iterate over all entities to find the largest ID
+		//Iterates over all entities to find the largest ID
 		for (Object o : select)
 		{
-			//Find ID field
+			//Finds ID field
 			for (Field field : o.getClass().getDeclaredFields())
 			{
 				field.setAccessible(true);
 				if (isId(field))
 				{
-					//Find max index
+					//Finds max index
 					//There was problem with Integer vs int when getInt() was used
 					int currentIndex = (int) field.get(o);
 
@@ -261,7 +262,6 @@ public class SORM2 implements ISORM
 		try (Connection connection = DriverManager.getConnection(url, login, password);
 		     PreparedStatement ps = connection.prepareStatement(query))
 		{
-
 			try (ResultSet rs = ps.executeQuery())
 			{
 				while (rs.next())
@@ -281,7 +281,8 @@ public class SORM2 implements ISORM
 						else if (field.isAnnotationPresent(Temporal.class))
 						{
 							//timestampValue() is used to get both time AND date before conversion to Date format
-							field.set(object, new java.util.Date(((oracle.sql.TIMESTAMP) value).timestampValue().getTime()));
+							field.set(object,
+							          new java.util.Date(((oracle.sql.TIMESTAMP) value).timestampValue().getTime()));
 						}
 						else if (Number.class.isAssignableFrom(field.getType()) ||
 						         int.class.isAssignableFrom(field.getType()))

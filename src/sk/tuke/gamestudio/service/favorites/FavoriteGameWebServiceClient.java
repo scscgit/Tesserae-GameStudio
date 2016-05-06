@@ -22,7 +22,7 @@ public class FavoriteGameWebServiceClient implements FavoriteGameDatabaseService
 	{
 		try
 		{
-			favoriteGameService.addFavorite2(player, game.toString());
+			favoriteGameService.addFavorite2(player, game.getName());
 		}
 		catch (Exception e)
 		{
@@ -52,7 +52,7 @@ public class FavoriteGameWebServiceClient implements FavoriteGameDatabaseService
 	{
 		try
 		{
-			favoriteGameService.removeFavorite(player, game.toString());
+			favoriteGameService.removeFavorite(player, game.getName());
 		}
 		catch (Exception e)
 		{

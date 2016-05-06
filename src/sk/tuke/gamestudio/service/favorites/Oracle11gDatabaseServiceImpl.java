@@ -33,8 +33,6 @@ import sk.tuke.gamestudio.service.DatabaseException;
 import sk.tuke.gamestudio.service.StatementAttribute;
 import sk.tuke.gamestudio.support.Utility;
 
-import javax.jws.WebMethod;
-import javax.jws.WebService;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -94,7 +92,7 @@ public class Oracle11gDatabaseServiceImpl extends AbstractDatabaseService implem
 		}
 		catch (SQLException e)
 		{
-			FavoriteException exception = new FavoriteException("Error adding a favorite game", e);
+			FavoriteException exception = new FavoriteException("Error adding a favorite game: " + e.getMessage(), e);
 			exception.setErrorCode(e.getErrorCode());
 			throw exception;
 		}
@@ -110,12 +108,13 @@ public class Oracle11gDatabaseServiceImpl extends AbstractDatabaseService implem
 		{
 			PreparedStatement ps = getConnection().prepareStatement("DELETE FROM " + DELETE_STMT);
 			StatementAttribute.set(ps, 1, player);
-			StatementAttribute.set(ps, 2, game.toString());
+			StatementAttribute.set(ps, 2, game.getName());
 			ps.executeUpdate();
 		}
 		catch (SQLException e)
 		{
-			throw new FavoriteException("Error removing favorite games", e).setErrorCode(e.getErrorCode());
+			throw new FavoriteException("Error removing favorite games: " + e.getMessage(), e)
+				.setErrorCode(e.getErrorCode());
 		}
 		finally
 		{
@@ -148,7 +147,7 @@ public class Oracle11gDatabaseServiceImpl extends AbstractDatabaseService implem
 		}
 		catch (SQLException e)
 		{
-			throw new FavoriteException("Error loading favorite games", e);
+			throw new FavoriteException("Error loading favorite games: " + e.getMessage(), e);
 		}
 
 		return favorites;
@@ -174,11 +173,13 @@ public class Oracle11gDatabaseServiceImpl extends AbstractDatabaseService implem
 		}
 		catch (SQLException e)
 		{
-			throw new FavoriteException("Problem connecting to a database", e).setErrorCode(e.getErrorCode());
+			throw new FavoriteException("Problem connecting to a database: " + e.getMessage(), e)
+				.setErrorCode(e.getErrorCode());
 		}
 		catch (DatabaseException e)
 		{
-			throw new FavoriteException("Problem creating a table", e).setErrorCode(e.getErrorCode());
+			throw new FavoriteException("Problem creating a table: " + e.getMessage(), e)
+				.setErrorCode(e.getErrorCode());
 		}
 		finally
 		{
@@ -210,11 +211,13 @@ public class Oracle11gDatabaseServiceImpl extends AbstractDatabaseService implem
 		}
 		catch (SQLException e)
 		{
-			throw new FavoriteException("Problem connecting to a database", e).setErrorCode(e.getErrorCode());
+			throw new FavoriteException("Problem connecting to a database: " + e.getMessage(), e)
+				.setErrorCode(e.getErrorCode());
 		}
 		catch (DatabaseException e)
 		{
-			throw new FavoriteException("Problem dropping a table", e).setErrorCode(e.getErrorCode());
+			throw new FavoriteException("Problem dropping a table: " + e.getMessage(), e)
+				.setErrorCode(e.getErrorCode());
 		}
 		finally
 		{

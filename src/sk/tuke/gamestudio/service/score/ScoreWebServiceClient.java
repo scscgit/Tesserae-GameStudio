@@ -24,7 +24,7 @@ public class ScoreWebServiceClient implements ScoreService {
             scoreWeb.setPlayedOn(DatatypeFactory.newInstance().newXMLGregorianCalendar(c));
             scoreService.addScore(scoreWeb);
         } catch (Exception e) {
-            throw new ScoreException("Error saving score", e);
+            throw new ScoreException("Error saving score: "+e.getMessage(), e);
         }
     }
 
@@ -45,7 +45,7 @@ public class ScoreWebServiceClient implements ScoreService {
 
             return scores;
         } catch (Exception e) {
-            throw new ScoreException("Error loading score", e);
+            throw new ScoreException("Error loading score: "+e.getMessage(), e);
         }
     }
 }

@@ -22,9 +22,8 @@ public class Field implements Serializable {
 
     private boolean marking;
 
-    public Field()
-    {
-        this(9, 9, 9);
+    public Field() {
+        this(9, 9, 2);
     }
 
     public Field(int rowCount, int columnCount, int mineCount) {

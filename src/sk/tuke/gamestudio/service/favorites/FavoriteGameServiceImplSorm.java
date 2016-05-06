@@ -4,7 +4,6 @@ import sk.tuke.gamestudio.entity.FavoriteGameEntity;
 import sk.tuke.gamestudio.game.Game;
 import sk.tuke.gamestudio.support.Utility;
 import sk.tuke.sorm.ISORM;
-import sk.tuke.sorm.SORM;
 import sk.tuke.sorm.SORM2;
 
 import java.util.List;
@@ -26,7 +25,7 @@ public class FavoriteGameServiceImplSorm implements FavoriteGameDatabaseService
 	@Deprecated
 	public FavoriteGameServiceImplSorm(String url, String login, String password)
 	{
-		this.sorm = new SORM2(url, login, password);
+		this(new SORM2(url, login, password));
 	}
 
 	@Override
@@ -34,7 +33,7 @@ public class FavoriteGameServiceImplSorm implements FavoriteGameDatabaseService
 	{
 		try
 		{
-			sorm.insert(new FavoriteGameEntity(player, game.toString(), Utility.getCurrentSqlTimestamp()));
+			sorm.insert(new FavoriteGameEntity(player, game.getName(), Utility.getCurrentSqlTimestamp()));
 		}
 		catch (Exception e)
 		{

@@ -26,6 +26,7 @@
 
 package sk.tuke.gamestudio.support;
 
+import javax.faces.context.FacesContext;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -131,5 +132,13 @@ public class Utility
 	public static long XMLGregorianCalendarToTime(XMLGregorianCalendar xmlGregorianCalendar)
 	{
 		return xmlGregorianCalendar.toGregorianCalendar().getTime().getTime();
+	}
+
+	//Implementation of search for Mr. Bean based on some stackoverflow thread, not tested successfully yet
+	@SuppressWarnings("unchecked")
+	public static <T> T findBean(String beanName)
+	{
+		FacesContext context = FacesContext.getCurrentInstance();
+		return (T) context.getApplication().evaluateExpressionGet(context, "#{" + beanName + "}", Object.class);
 	}
 }

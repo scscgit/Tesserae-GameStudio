@@ -29,10 +29,6 @@ package sk.tuke.gamestudio.entity;
 import sk.tuke.gamestudio.support.Utility;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlSchemaType;
-import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Time;
@@ -66,6 +62,7 @@ public class FavoriteGameEntity implements Serializable, Comparable<FavoriteGame
 	private Integer id;
 	private String player;
 	private String game;
+
 	@Temporal (TemporalType.TIMESTAMP)
 	private java.util.Date chosenOn;
 

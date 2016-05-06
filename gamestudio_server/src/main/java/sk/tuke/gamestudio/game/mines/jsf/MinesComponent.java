@@ -20,6 +20,7 @@ public class MinesComponent extends UICommand {
 
     private void processParamsAndHandleAction(FacesContext context) {
         Field field = (Field) getValue();
+        if(field == null){throw new RuntimeException("FIELD NULL");}
 
         if (field.getState() == GameState.PLAYING) {
             try {

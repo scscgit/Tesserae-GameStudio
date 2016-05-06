@@ -41,6 +41,7 @@ import sk.tuke.gamestudio.service.favorites.FavoriteException;
 import sk.tuke.gamestudio.service.favorites.FavoriteGameDatabaseService;
 import sk.tuke.gamestudio.support.Utility;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -55,7 +56,7 @@ import java.util.regex.Pattern;
  * <p/>
  * Created by Steve on 29.2.2016.
  */
-public class FieldInterpreter extends AbstractInterpreter
+public class FieldInterpreter extends AbstractInterpreter implements Serializable
 {
 	//Constants
 	private static final Pattern TILE_SELECT_ROW_REGEX = Pattern.compile("([0-9]+)");

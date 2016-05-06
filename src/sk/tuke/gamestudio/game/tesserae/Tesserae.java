@@ -31,23 +31,23 @@ import sk.tuke.gamestudio.game.tesserae.core.field.Settings;
 import sk.tuke.gamestudio.game.tesserae.core.field.builder.FieldBuilder;
 import sk.tuke.gamestudio.game.tesserae.core.field.builder.SimpleFieldBuilder;
 import sk.tuke.gamestudio.game.tesserae.cui.ConsoleUI;
-import sk.tuke.gamestudio.service.favorites.*;
-import sk.tuke.sorm.SORM;
+import sk.tuke.gamestudio.service.favorites.FavoriteException;
+import sk.tuke.gamestudio.service.favorites.FavoriteGameDatabaseService;
+import sk.tuke.gamestudio.service.favorites.FavoriteGameWebServiceClient;
+import sk.tuke.gamestudio.service.favorites.Oracle11gDatabaseServiceImpl;
 
 /**
- * Game tester and launcher.
+ * Game tester, launcher and representer.
  * <p/>
  * Created by Steve on 22.2.2016.
  */
 public class Tesserae
 {
-	//Fields
-	private ConsoleUI consoleUI;
+	//Singleton game representation
+	private static Game tesserae = new Game("Tesserae");
 
 	public Tesserae(ConsoleUI consoleUI)
 	{
-		this.consoleUI = consoleUI;
-
 		//Runs a simple game
 		consoleUI.runConsoleSession();
 		//this.consoleUI.runField(this.consoleUI.generateField(Settings.SIMPLE_GAME));
@@ -67,6 +67,8 @@ public class Tesserae
 		{
 			System.out.println("Database service could not connect, game will run without this feature.");
 		}
+		//I was compiling this game and there were some problems with JDBC driver, this made it safer.
+		//(Yes, compiling. That was not any typo.)
 		catch (UnsatisfiedLinkError e)
 		{
 			System.out.println("There was problem linking the database library, game will run without this feature.");
@@ -79,25 +81,28 @@ public class Tesserae
 		FavoriteGameDatabaseService service;
 
 		//Online database EJB service should not crash
-		//service = new FavoriteGameWebServiceClient();
-		service = new FavoriteGameRestServiceClient();
+		service = new FavoriteGameWebServiceClient();
 
-		//String url = "jdbc:oracle:oci:@localhost:1521:xe";
-		//String login = "gamestudio";
-		//String password = "gamestudio";
-		//service = new FavoriteGameServiceImplSorm(new SORM(url, login, password));
+		//REST implementation
+		//service = new FavoriteGameRestServiceClient();
+
+		//SORM reflection implementation
+		//service = new FavoriteGameServiceImplSorm(new SORM2(
+		//		"jdbc:oracle:oci:@localhost:1521:xe", "gamestudio", "gamestudio"));
+
+		FieldBuilder builder;
 
 		//Empty settings waiting for player to fully configure the Field
-		//FieldBuilder builder = new SimpleFieldBuilder();
+		//builder = new SimpleFieldBuilder();
 
 		//Default settings for a simple game
-		FieldBuilder builder = new SimpleFieldBuilder(Settings.SIMPLE_GAME);
+		builder = new SimpleFieldBuilder(Settings.SIMPLE_GAME);
 
-		Tesserae tesserae = new Tesserae(new ConsoleUI(builder, service));
+		new Tesserae(new ConsoleUI(builder, service));
 	}
 
 	public static Game getGame()
 	{
-		return new Game("Tesserae");
+		return Tesserae.tesserae;
 	}
 }

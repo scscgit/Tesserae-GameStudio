@@ -27,7 +27,7 @@
 package sk.tuke.gamestudio.game.tesserae.core.field.template;
 
 /**
- * Uses entire field.
+ * Uses the entire field.
  * <p/>
  * Created by Steve on 23.2.2016.
  */

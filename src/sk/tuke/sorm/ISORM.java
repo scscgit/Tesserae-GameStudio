@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * You can sorm any way you like.
- *
+ * <p>
  * Created by Steve on 18.04.2016.
  */
 public interface ISORM

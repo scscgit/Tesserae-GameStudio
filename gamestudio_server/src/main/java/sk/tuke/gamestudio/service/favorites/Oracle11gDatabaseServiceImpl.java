@@ -91,7 +91,7 @@ public class Oracle11gDatabaseServiceImpl extends AbstractDatabaseService implem
 		}
 		catch (SQLException e)
 		{
-			FavoriteException exception = new FavoriteException("Error adding a favorite game", e);
+			FavoriteException exception = new FavoriteException("Error adding a favorite game: " + e.getMessage(), e);
 			exception.setErrorCode(e.getErrorCode());
 			throw exception;
 		}
@@ -112,7 +112,8 @@ public class Oracle11gDatabaseServiceImpl extends AbstractDatabaseService implem
 		}
 		catch (SQLException e)
 		{
-			throw new FavoriteException("Error removing favorite games", e).setErrorCode(e.getErrorCode());
+			throw new FavoriteException("Error removing favorite games: " + e.getMessage(), e)
+				.setErrorCode(e.getErrorCode());
 		}
 		finally
 		{
@@ -145,7 +146,7 @@ public class Oracle11gDatabaseServiceImpl extends AbstractDatabaseService implem
 		}
 		catch (SQLException e)
 		{
-			throw new FavoriteException("Error loading favorite games", e);
+			throw new FavoriteException("Error loading favorite games: " + e.getMessage(), e);
 		}
 
 		return favorites;
@@ -171,11 +172,13 @@ public class Oracle11gDatabaseServiceImpl extends AbstractDatabaseService implem
 		}
 		catch (SQLException e)
 		{
-			throw new FavoriteException("Problem connecting to a database", e).setErrorCode(e.getErrorCode());
+			throw new FavoriteException("Problem connecting to a database: " + e.getMessage(), e)
+				.setErrorCode(e.getErrorCode());
 		}
 		catch (DatabaseException e)
 		{
-			throw new FavoriteException("Problem creating a table", e).setErrorCode(e.getErrorCode());
+			throw new FavoriteException("Problem creating a table: " + e.getMessage(), e)
+				.setErrorCode(e.getErrorCode());
 		}
 		finally
 		{
@@ -207,11 +210,13 @@ public class Oracle11gDatabaseServiceImpl extends AbstractDatabaseService implem
 		}
 		catch (SQLException e)
 		{
-			throw new FavoriteException("Problem connecting to a database", e).setErrorCode(e.getErrorCode());
+			throw new FavoriteException("Problem connecting to a database: " + e.getMessage(), e)
+				.setErrorCode(e.getErrorCode());
 		}
 		catch (DatabaseException e)
 		{
-			throw new FavoriteException("Problem dropping a table", e).setErrorCode(e.getErrorCode());
+			throw new FavoriteException("Problem dropping a table: " + e.getMessage(), e)
+				.setErrorCode(e.getErrorCode());
 		}
 		finally
 		{

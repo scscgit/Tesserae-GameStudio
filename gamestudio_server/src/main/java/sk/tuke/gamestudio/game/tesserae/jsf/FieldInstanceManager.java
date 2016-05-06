@@ -12,15 +12,19 @@ import sk.tuke.gamestudio.game.tesserae.cui.interpreter.FieldInterpreter;
 import sk.tuke.gamestudio.game.tesserae.cui.interpreter.InterpreterException;
 import sk.tuke.gamestudio.service.favorites.FavoriteException;
 import sk.tuke.gamestudio.service.favorites.FavoriteGameDatabaseService;
-import sk.tuke.gamestudio.service.favorites.FavoriteGameServiceJPA;
+import sk.tuke.gamestudio.support.Utility;
 
-import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.LinkedList;
 
 /**
+ * Field Manager for JavaServer Faces.
+ * Manages a new Field for every single user (Session).
+ * Is a central point of storage of all the objects that the Field needs, including an interpreter of commands.
+ * <p>
  * Created by Steve on 18.04.2016.
  */
 @Named ("tesseraemanager")
@@ -34,9 +38,13 @@ public class FieldInstanceManager implements Serializable, FieldManager
 	private Field field;
 	//Current field color
 	private ColorMode fieldColor = ColorMode.BLACK;
+
+	//Component for which this class is working
+	private TesseraeComponent component;
+
 	//Database service
-	//@EJB
 	private FavoriteGameDatabaseService service;
+
 	//History
 	private FieldHistoryRebuilder history;
 
@@ -46,22 +54,32 @@ public class FieldInstanceManager implements Serializable, FieldManager
 	//EJB constructor
 	public FieldInstanceManager()
 	{
-		setLastMessage("Welcome to the Tesserae. If you need <help>, just ask for it.");
-
-		this.service = new FavoriteGameServiceJPA();
+		/*
+		this.component = (TesseraeComponent) Utility.findBean("tesserae");
+		if (this.component == null)
+		{
+			throw new RuntimeException("Fatal Error: Component could not be loaded into the FieldInstanceManager.");
+		}
+		this.service = this.component.getFavoriteService();
 		if (service == null)
 		{
-			throw new RuntimeException("DEBUG: NO SERVICE");
+			throw new RuntimeException("Fatal Error: Service could not be loaded from the Component.");
 		}
+		*/
 
-		//The builder for interpreter is chosen during creation of an instance of UI
+		setLastMessage("Welcome to the Tesserae. If you need <help>, just ask for it :)");
+
+		//this.service = new FavoriteGameServiceJPA();
+		//this.service = new Oracle11gDatabaseServiceImpl();
+
+		//The builder for the interpreter is chosen during the creation of an instance of UI
 		this.interpreter = new FieldInterpreter(this, new SimpleFieldBuilder(Settings.SIMPLE_GAME), this.service);
 		this.field = null;
 	}
 
 	public String getLastMessage()
 	{
-		return this.lastMessage;
+		return this.lastMessage.trim();
 	}
 	protected void setLastMessage(String lastMessage)
 	{
@@ -107,6 +125,10 @@ public class FieldInstanceManager implements Serializable, FieldManager
 		catch (InterpreterException e)
 		{
 			setLastMessage("Error# " + e.getMessage());
+		}
+		catch (Exception e)
+		{
+			setLastMessage("Fatal Error% " + e.toString() + ":\n" + e.getMessage());
 		}
 	}
 
@@ -163,11 +185,19 @@ public class FieldInstanceManager implements Serializable, FieldManager
 	@Override
 	public void goBackInTime() throws FieldHistoryRebuilderNoHistoryException
 	{
+		if(this.history == null)
+		{
+			throw new FieldHistoryRebuilderNoHistoryException("There is no instance of the history.");
+		}
 		this.field = this.history.getField();
 	}
 	@Override
-	public LinkedList<Field> getTimeline()
+	public LinkedList<Field> getTimeline() throws FieldHistoryRebuilderNoHistoryException
 	{
+		if(this.history == null)
+		{
+			throw new FieldHistoryRebuilderNoHistoryException("There is no instance of the history.");
+		}
 		return this.history.getTimeline();
 	}
 

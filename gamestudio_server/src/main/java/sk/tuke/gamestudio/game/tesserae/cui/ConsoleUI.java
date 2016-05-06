@@ -216,8 +216,8 @@ public class ConsoleUI implements FieldManager
 		}
 		catch (FavoriteException e)
 		{
-			System.out.println("Sorry, there was a problem with the database:\n"+
-			                   e.getMessage()+
+			System.out.println("Sorry, there was a problem with the database:\n" +
+			                   e.getMessage() +
 			                   "\nTry to make the game your favorite again next time.");
 			//switch (e.getErrorCode())
 		}

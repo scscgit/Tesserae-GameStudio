@@ -26,7 +26,6 @@
 
 package sk.tuke.gamestudio.entity;
 
-import sk.tuke.gamestudio.game.Game;
 import sk.tuke.gamestudio.support.Utility;
 
 import javax.persistence.Id;
@@ -48,7 +47,8 @@ public class FavoriteGameEntity implements Serializable, Comparable<FavoriteGame
 	private Integer id;
 	private String player;
 	private String game;
-	@Temporal(TemporalType.DATE)
+
+	@Temporal (TemporalType.DATE)
 	private java.util.Date chosenOn;
 
 	public FavoriteGameEntity()

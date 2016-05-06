@@ -32,7 +32,10 @@ import sk.tuke.gamestudio.game.Game;
 import java.util.List;
 
 /**
- * Interface for a favourite game service.
+ * Interface for a favo(u)rite game service.
+ * <p>
+ * Client side - uses Game objects instead of Strings for an encapsulation to allow for safe working with Games
+ * (programmers can be limited to just certain singleton representations of Games uniquely distributed to each game).
  * <p/>
  * Created by Steve on 14.03.2016.
  */
