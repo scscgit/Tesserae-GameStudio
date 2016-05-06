@@ -1,6 +1,7 @@
-package controller;
+package sk.tuke.gamestudio.controller;
 
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Model;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -8,6 +9,7 @@ import javax.inject.Named;
 
 @Named
 @RequestScoped
+//@Model
 public class UserController {
 	@Inject
 	private User user;
@@ -23,7 +25,7 @@ public class UserController {
 			FacesContext.getCurrentInstance().addMessage(
                     null,
                     new FacesMessage(FacesMessage.SEVERITY_WARN,
-                            "Incorrect Username and Passowrd",
+                            "Incorrect Username and Password",
                             "Please enter correct username and Password"));
 			return "login.xhtml";
 		}
@@ -42,5 +44,9 @@ public class UserController {
 
 	public LoggedUser getLoggedUser() {
 		return loggedUser;
+	}
+
+	public boolean isLogged() {
+		return loggedUser.getName() != null;
 	}
 }

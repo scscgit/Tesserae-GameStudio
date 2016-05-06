@@ -2,7 +2,8 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
 
 <h:head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -27,8 +28,15 @@
         <br/>
         <div id="footer">
             <hr/>
-            Login <a href="login.xhtml">Login</a> <br/>
-            Created by jp, Welcome #{loggedUser.name}
+            <h:panelGroup rendered="#{!userController.logged}">
+                <a href="login.xhtml">Login or register</a> <br/>
+            </h:panelGroup>
+            <h:panelGroup rendered="#{userController.logged}">
+                Welcome #{loggedUser.name}!
+                <h:form>
+                    <h:commandLink value="Logout" action="#{userController.logout}"/>
+                </h:form>
+            </h:panelGroup>
         </div>
     </div>
 

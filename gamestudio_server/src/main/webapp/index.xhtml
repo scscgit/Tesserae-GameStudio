@@ -36,19 +36,18 @@
                     ajax: {url: "webapi/score/mines", dataSrc: ''}
                 });
             });
-
             //]]>
         </script>
     </ui:define>
 
     <ui:define name="content">
         <h:form id="form">
-            <g:mines value="#{minefield}" userController="#{userController}"/>
+            <g:mines value="#{minefield}" gameServices="#{gameServices}"/>
             <p:commandButton value="New game" action="#{minefield.generate}" update="form"/>
-            <p:commandButton value="Logout" action="#{userController.logout}" update="form"/>
             <p:selectBooleanButton onLabel="Mark" offLabel="Open" value="#{minefield.marking}">
                 <p:ajax event="change" update="form"/>
             </p:selectBooleanButton>
+            <br/>
             Score: <h:outputLabel value="#{minefield.score}"/>
         </h:form>
 

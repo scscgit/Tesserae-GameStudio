@@ -1,32 +1,25 @@
 package sk.tuke.gamestudio.game.mines.jsf;
 
-import controller.User;
-import controller.UserController;
-import sk.tuke.gamestudio.entity.Score;
+import sk.tuke.gamestudio.service.GameServices;
 import sk.tuke.gamestudio.game.mines.core.*;
-import sk.tuke.gamestudio.service.ScoreException;
-import sk.tuke.gamestudio.service.ScoreService;
 
-import javax.ejb.EJB;
 import javax.faces.component.FacesComponent;
 import javax.faces.component.UICommand;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-import javax.inject.Inject;
 import java.io.IOException;
-import java.util.Date;
 
 @FacesComponent("Mines")
 public class MinesComponent extends UICommand {
-    @EJB
-    private ScoreService scoreService;
 
-    public UserController getUserController() {
-        return (UserController) getStateHelper().eval("userController");
+    private static final String GAME = "mines";
+
+    public GameServices getGameServices() {
+        return (GameServices) getStateHelper().eval("gameServices");
     }
 
-    public void setUserController(UserController userController) {
-        getStateHelper().put("userController", userController);
+    public void setGameServices(GameServices gameServices) {
+        getStateHelper().put("gameServices", gameServices);
     }
 
     private void processParamsAndHandleAction(FacesContext context) {
@@ -38,9 +31,9 @@ public class MinesComponent extends UICommand {
                 String column = (String) context.getExternalContext().getRequestParameterMap().get("column");
                 field.action(Integer.parseInt(row), Integer.parseInt(column));
                 if (field.getState() == GameState.SOLVED) {
-                    UserController userController = getUserController();
-                    if(userController != null && userController.getLoggedUser().isLogged()) {
-                        scoreService.addScore(new Score(userController.getLoggedUser().getName(), "mines", field.getScore(), new Date()));
+                    GameServices gameServices = getGameServices();
+                    if (gameServices != null) {
+                        gameServices.saveScore(GAME, field.getScore());
                     }
                 }
             } catch (Exception e) {
@@ -63,9 +56,9 @@ public class MinesComponent extends UICommand {
                 Tile tile = field.getTile(row, column);
                 writer.startElement("td", this);
 
-                if(tile.getState()!= TileState.OPEN) {
+                if (tile.getState() != TileState.OPEN) {
                     writer.startElement("a", this);
-                    writer.writeAttribute("href", String.format("?row=%d&column=%d", row, column), null);
+                    writer.writeAttribute("href", getURL(context, String.format("?row=%d&column=%d", row, column)), null);
                 }
 
                 String image = "";
@@ -89,7 +82,7 @@ public class MinesComponent extends UICommand {
                 writer.startElement("img", this);
                 writer.writeAttribute("src", String.format("resources/images/mines/%s.png", image), null);
                 writer.endElement("img");
-                if(tile.getState()!= TileState.OPEN) {
+                if (tile.getState() != TileState.OPEN) {
                     writer.endElement("a");
                 }
                 writer.endElement("td");
@@ -97,6 +90,10 @@ public class MinesComponent extends UICommand {
             writer.endElement("tr");
         }
         writer.endElement("table");
+    }
+
+    private String getURL(FacesContext context, String value) {
+        return context.getExternalContext().getApplicationContextPath() + context.getViewRoot().getViewId() + value;
     }
 
     @Override

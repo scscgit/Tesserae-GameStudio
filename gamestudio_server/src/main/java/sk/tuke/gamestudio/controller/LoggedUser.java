@@ -1,4 +1,4 @@
-package controller;
+package sk.tuke.gamestudio.controller;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;

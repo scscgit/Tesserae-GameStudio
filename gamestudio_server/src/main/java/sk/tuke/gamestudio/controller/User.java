@@ -1,19 +1,13 @@
-package controller;
-
-import java.io.Serializable;
+package sk.tuke.gamestudio.controller;
 
 import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.Model;
 import javax.inject.Named;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-@Named
-@RequestScoped
+//@Named
+//@RequestScoped
+@Model
 public class User {
     @Size(min = 5, max = 10)
     private String username;
