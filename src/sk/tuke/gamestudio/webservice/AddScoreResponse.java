@@ -1,4 +1,3 @@
-
 package sk.tuke.gamestudio.webservice;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -9,9 +8,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for addScoreResponse complex type.
- * 
+ * <p>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
  * <pre>
  * &lt;complexType name="addScoreResponse">
  *   &lt;complexContent>
@@ -23,32 +22,31 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "addScoreResponse", propOrder = {
-    "_return"
+@XmlAccessorType (XmlAccessType.FIELD)
+@XmlType (name = "addScoreResponse", propOrder = {
+	"_return"
 })
-public class AddScoreResponse {
+public class AddScoreResponse
+{
 
-    @XmlElement(name = "return")
-    protected boolean _return;
+	@XmlElement (name = "return")
+	protected boolean _return;
 
-    /**
-     * Gets the value of the return property.
-     * 
-     */
-    public boolean isReturn() {
-        return _return;
-    }
+	/**
+	 * Gets the value of the return property.
+	 */
+	public boolean isReturn()
+	{
+		return _return;
+	}
 
-    /**
-     * Sets the value of the return property.
-     * 
-     */
-    public void setReturn(boolean value) {
-        this._return = value;
-    }
+	/**
+	 * Sets the value of the return property.
+	 */
+	public void setReturn(boolean value)
+	{
+		this._return = value;
+	}
 
 }

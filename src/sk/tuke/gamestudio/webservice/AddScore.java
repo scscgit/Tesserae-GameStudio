@@ -1,4 +1,3 @@
-
 package sk.tuke.gamestudio.webservice;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -8,9 +7,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for addScore complex type.
- * 
+ * <p>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
  * <pre>
  * &lt;complexType name="addScore">
  *   &lt;complexContent>
@@ -22,39 +21,37 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "addScore", propOrder = {
-    "arg0"
+@XmlAccessorType (XmlAccessType.FIELD)
+@XmlType (name = "addScore", propOrder = {
+	"arg0"
 })
-public class AddScore {
+public class AddScore
+{
 
-    protected Score arg0;
+	protected Score arg0;
 
-    /**
-     * Gets the value of the arg0 property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Score }
-     *     
-     */
-    public Score getArg0() {
-        return arg0;
-    }
+	/**
+	 * Gets the value of the arg0 property.
+	 *
+	 * @return possible object is
+	 * {@link Score }
+	 */
+	public Score getArg0()
+	{
+		return arg0;
+	}
 
-    /**
-     * Sets the value of the arg0 property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Score }
-     *     
-     */
-    public void setArg0(Score value) {
-        this.arg0 = value;
-    }
+	/**
+	 * Sets the value of the arg0 property.
+	 *
+	 * @param value
+	 * 	allowed object is
+	 * 	{@link Score }
+	 */
+	public void setArg0(Score value)
+	{
+		this.arg0 = value;
+	}
 
 }

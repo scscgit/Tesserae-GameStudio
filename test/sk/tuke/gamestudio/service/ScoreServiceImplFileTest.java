@@ -4,6 +4,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import sk.tuke.gamestudio.entity.Score;
+import sk.tuke.gamestudio.service.score.ScoreService;
+import sk.tuke.gamestudio.service.score.ScoreServiceImplFile;
 
 import java.io.File;
 import java.util.Date;

@@ -1,5 +1,9 @@
 package sk.tuke.gamestudio.game.mines.core;
 
-public enum TileState {
-    OPEN, CLOSED, MARKED
+/**
+ * Created by jaros_000 on 18.2.2016.
+ */
+public enum TileState
+{
+	OPEN, CLOSED, MARKED
 }
