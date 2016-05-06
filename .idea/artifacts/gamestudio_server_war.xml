@@ -3,12 +3,6 @@
     <output-path>$PROJECT_DIR$/gamestudio_server/target</output-path>
     <root id="archive" name="gamestudio_server.war">
       <element id="artifact" artifact-name="gamestudio_server:war exploded" />
-      <element id="directory" name="WEB-INF">
-        <element id="directory" name="lib">
-          <element id="library" level="project" name="javax.mail-1.5.0" />
-          <element id="library" level="project" name="activation-1.1" />
-        </element>
-      </element>
     </root>
   </artifact>
 </component>

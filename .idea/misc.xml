@@ -10,6 +10,7 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/gamestudiojsf/pom.xml" />
+        <option value="$PROJECT_DIR$/gamestudio_server/pom.xml" />
       </list>
     </option>
   </component>

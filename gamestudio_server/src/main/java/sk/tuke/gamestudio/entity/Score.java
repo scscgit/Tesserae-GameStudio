@@ -5,97 +5,90 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@NamedQuery (name = "Score.getBestScoresForGame", query = "SELECT s FROM Score s WHERE s.game=:game")
-public class Score implements Serializable, Comparable<Score>
-{
-	@Id
-	@GeneratedValue
-	private Integer ident;
-	private String player;
-	private String game;
-	private int points;
+@NamedQuery(name = "Score.getBestScoresForGame",
+        query = "SELECT s FROM Score s WHERE s.game=:game ORDER BY s.points DESC")
+public class Score implements Serializable, Comparable<Score> {
+    @Id
+    @GeneratedValue
+    private Integer ident;
+    private String player;
+    private String game;
+    private int points;
 
-	@Temporal (TemporalType.DATE)
-	private Date playedOn;
+    @Temporal(TemporalType.DATE)
+    private Date playedOn;
 
-	public Score()
-	{
-	}
+    public Score() {
+    }
 
-	public Score(Integer ident, String player, String game, int points, Date playedOn)
-	{
-		this.ident = ident;
-		this.player = player;
-		this.game = game;
-		this.points = points;
-		this.playedOn = playedOn;
-	}
+    public Score(String player, String game, int points, Date playedOn) {
+        this.player = player;
+        this.game = game;
+        this.points = points;
+        this.playedOn = playedOn;
+    }
 
-	public Integer getIdent()
-	{
-		return ident;
-	}
+    public Score(Integer ident, String player, String game, int points, Date playedOn) {
+        this.ident = ident;
+        this.player = player;
+        this.game = game;
+        this.points = points;
+        this.playedOn = playedOn;
+    }
 
-	public void setIdent(Integer ident)
-	{
-		this.ident = ident;
-	}
+    public Integer getIdent() {
+        return ident;
+    }
 
-	public String getPlayer()
-	{
-		return player;
-	}
+    public void setIdent(Integer ident) {
+        this.ident = ident;
+    }
 
-	public void setPlayer(String player)
-	{
-		this.player = player;
-	}
+    public String getPlayer() {
+        return player;
+    }
 
-	public String getGame()
-	{
-		return game;
-	}
+    public void setPlayer(String player) {
+        this.player = player;
+    }
 
-	public void setGame(String game)
-	{
-		this.game = game;
-	}
+    public String getGame() {
+        return game;
+    }
 
-	public int getPoints()
-	{
-		return points;
-	}
+    public void setGame(String game) {
+        this.game = game;
+    }
 
-	public void setPoints(int points)
-	{
-		this.points = points;
-	}
+    public int getPoints() {
+        return points;
+    }
 
-	public Date getPlayedOn()
-	{
-		return playedOn;
-	}
+    public void setPoints(int points) {
+        this.points = points;
+    }
 
-	public void setPlayedOn(Date playedOn)
-	{
-		this.playedOn = playedOn;
-	}
+    public Date getPlayedOn() {
+        return playedOn;
+    }
 
-	@Override
-	public String toString()
-	{
-		return "Score{" +
-		       "ident=" + ident +
-		       ", player='" + player + '\'' +
-		       ", game='" + game + '\'' +
-		       ", points=" + points +
-		       ", playedOn=" + playedOn +
-		       '}';
-	}
+    public void setPlayedOn(Date playedOn) {
+        this.playedOn = playedOn;
+    }
 
-	@Override
-	public int compareTo(Score o)
-	{
-		return o.getPoints() - getPoints();
-	}
+    @Override
+    public String toString() {
+        return "Score{" +
+                "ident=" + ident +
+                ", player='" + player + '\'' +
+                ", game='" + game + '\'' +
+                ", points=" + points +
+                ", playedOn=" + playedOn +
+                '}';
+    }
+
+    @Override
+    public int compareTo(Score o) {
+        return o.getPoints() - getPoints();
+    }
 }
