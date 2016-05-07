@@ -17,9 +17,9 @@
     <ui:define name="content">
 
         <!-- Error message in case the user accidentally navigated to this page before logging in -->
-        <c:if test="not #{loggedUser.logged}">
+        <c:if test="#{not loggedUser.logged}">
             <p class="error">Aby ste videli svoje obľúbené hry,</p>
-            <p>musíte sa najprv prihlásiť!</p>
+            <p class="error">musíte sa najprv <a href="login.xhtml">prihlásiť</a>!</p>
         </c:if>
 
         <c:if test="#{loggedUser.logged}">

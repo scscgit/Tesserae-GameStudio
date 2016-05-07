@@ -1,3 +1,18 @@
+/**
+ * List of all games.
+ */
+
+/**
+ * Div under the datascroller div has to have its custom background style disabled.
+ */
+.dataScrollerOverride > div {
+    background: none !important;
+    border: none !important;
+}
+
+/**
+ * Every game from the datasource will have following styles.
+ */
 .games > a > p {
     text-align: center;
     font-size: 30px;

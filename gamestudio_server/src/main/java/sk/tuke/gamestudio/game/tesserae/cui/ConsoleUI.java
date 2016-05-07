@@ -124,7 +124,11 @@ public class ConsoleUI implements FieldManager
 			handleEndGameState();
 
 			//Favorites service integration, query for the current state of game favoriteness
-			List<FavoriteGameEntity> favoriteGames = loadFavoriteGames(getPlayer());
+			List<FavoriteGameEntity> favoriteGames = null;
+			if (getPlayer() != null)
+			{
+				favoriteGames = loadFavoriteGames(getPlayer());
+			}
 
 			//If the user did not like the game yet, let's annoy him by offering him that option
 			if (favoriteGames != null)
@@ -209,17 +213,24 @@ public class ConsoleUI implements FieldManager
 
 	private void markGameAsFavorite(Game currentGame)
 	{
-		try
+		if (getPlayer() != null)
 		{
-			FavoriteGameDatabaseService favoriteGameService = getFavoriteService();
-			favoriteGameService.addFavorite(getPlayer(), currentGame.toString());
+			try
+			{
+				FavoriteGameDatabaseService favoriteGameService = getFavoriteService();
+				favoriteGameService.addFavorite(getPlayer(), currentGame.toString());
+			}
+			catch (FavoriteException e)
+			{
+				System.out.println("Sorry, there was a problem with the database:\n" +
+				                   e.getMessage() +
+				                   "\nTry to make the game your favorite again next time.");
+				//switch (e.getErrorCode())
+			}
 		}
-		catch (FavoriteException e)
+		else
 		{
-			System.out.println("Sorry, there was a problem with the database:\n" +
-			                   e.getMessage() +
-			                   "\nTry to make the game your favorite again next time.");
-			//switch (e.getErrorCode())
+			System.out.println("there is no Player logged in");
 		}
 	}
 

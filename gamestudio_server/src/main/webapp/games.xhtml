@@ -4,6 +4,7 @@
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
 >
 
     <ui:define name="title">Zoznam hier</ui:define>
@@ -14,24 +15,23 @@
 
     <ui:define name="content">
         <h1>Zoznam všetkých hier nášho herného štúdia. Have fun!</h1>
+        <hr/>
 
-        <div class="games">
+        <!-- Dynamically "spawns" all games -->
+        <p:dataScroller value="#{game.allGames()}"
+                        var="curentGame"
+                        styleClass="dataScrollerOverride"
+        >
+
+            <div class="games">
+                <a href="#{game.getAddress(curentGame)}">
+                    <p>#{curentGame}</p>
+                    <img src="#{game.getImageOverview(curentGame)}"/>
+                </a>
+            </div>
             <hr/>
 
-            <a href="tesserae.xhtml">
-                <p>Tesserae</p>
-                <img src="resources/images/tesserae/overview.png"/>
-            </a>
-
-            <hr/>
-
-            <a href="mines.xhtml">
-                <p>Minesweeper</p>
-                <img src="resources/images/mines/overview.png"/>
-            </a>
-
-            <hr/>
-        </div>
+        </p:dataScroller>
     </ui:define>
 
 </ui:composition>

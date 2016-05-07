@@ -1,6 +1,7 @@
 package sk.tuke.gamestudio.game.tesserae.jsf;
 
 import org.primefaces.context.RequestContext;
+import sk.tuke.gamestudio.controller.LoggedUser;
 import sk.tuke.gamestudio.game.Game;
 import sk.tuke.gamestudio.game.tesserae.core.field.Field;
 import sk.tuke.gamestudio.game.tesserae.core.field.builder.history.FieldHistoryRebuilder;
@@ -13,6 +14,7 @@ import sk.tuke.gamestudio.service.favorites.FavoriteException;
 import sk.tuke.gamestudio.service.favorites.FavoriteGameDatabaseService;
 
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.LinkedList;
@@ -36,12 +38,16 @@ public class FieldInstanceManager implements Serializable, FieldManager
 	//Current field color
 	private ColorMode fieldColor = ColorMode.BLACK;
 
-	//Database service
-	private FavoriteGameDatabaseService service;
-
 	//History
 	private FieldHistoryRebuilder history;
 
+	//Current Theme
+	private Theme theme;
+
+	@Inject
+	LoggedUser loggedUser;
+
+	//Interpreter input and output
 	private String lastMessage;
 	private String inputMessage;
 
@@ -67,6 +73,7 @@ public class FieldInstanceManager implements Serializable, FieldManager
 		//this.service = new Oracle11gDatabaseServiceImpl();
 
 		this.field = null;
+		this.theme = null;
 	}
 
 	//Interpreter is loaded from the Component externally
@@ -99,21 +106,6 @@ public class FieldInstanceManager implements Serializable, FieldManager
 		else if (this.field.getState().equals(Field.GameState.LOST))
 		{
 			setLastMessage("GG, you've lost.");
-		}
-	}
-
-	private void markGameAsFavorite(Game currentGame)
-	{
-		try
-		{
-			this.service.addFavorite(getPlayer(), currentGame.toString());
-		}
-		catch (FavoriteException e)
-		{
-			setLastMessage("Sorry, there was a problem with the database:\n" +
-			               e.getMessage() +
-			               "\nTry to make the game your favorite again next time.");
-			//switch (e.getErrorCode())
 		}
 	}
 
@@ -164,16 +156,14 @@ public class FieldInstanceManager implements Serializable, FieldManager
 	@Override
 	public String getPlayer()
 	{
-		//todo
-		String property = System.getProperty("user.name");
-
-		//I am paranoid so I don't even trust system methods. I also don't want conflict with users called like "None".
-		if (property == null)
+		if(loggedUser.isLogged())
 		{
-			return "";
+			return loggedUser.getName();
 		}
-
-		return property;
+		else
+		{
+			return null;
+		}
 	}
 
 	//Management of the current color setting
@@ -221,5 +211,14 @@ public class FieldInstanceManager implements Serializable, FieldManager
 	public void setInputMessage(String inputMessage)
 	{
 		this.inputMessage = inputMessage;
+	}
+
+	public Theme getTheme()
+	{
+		return theme;
+	}
+	public void setTheme(Theme theme)
+	{
+		this.theme = theme;
 	}
 }

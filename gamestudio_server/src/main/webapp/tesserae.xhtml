@@ -6,6 +6,7 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:g="http://www.tuke.sk/games"
                 xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
 >
 
     <ui:param name="gameName" value="Tesserae"/>
@@ -27,18 +28,6 @@
                             {data: "playedOn"}
                         ],
                         ajax: {url: "webapi/score/mines", dataSrc: ''}
-                    });
-
-                    $('#favoriteGameTable').DataTable({
-                        columns: [
-                            {data: "player"},
-                            {data: "game"},
-                            {data: "chosenOn"}
-                        ],
-                        ajax: {
-                            url: "webapi/favoritegame/player/" + "Steve"/*$('label#userName').getAttribute('value')*/, //todo username
-                            dataSrc: ''
-                        }
                     });
 
                     //Text areas will scale dynamically
@@ -63,27 +52,29 @@
     <ui:define name="content">
         <h:form id="tesseraeform" styleClass="gameForm">
 
-            <g:tesserae textOnly="true" value="#{tesseraemanager}">
-            </g:tesserae>
+            <!-- Tesserae Field based on a current Theme -->
+            <!--<g:tesserae textOnly="#{tesseraemanager.theme.textOnly}"-->
+            <!--theme="#{tesseraemanager.theme}"-->
+            <!--value="#{tesseraemanager}"/>-->
+            <g:tesserae textOnly="#{tesseraemanager.theme.textOnly}"
+                        value="#{tesseraemanager}"/>
 
             <!-- Message from the Player -->
             <!--onkeypress="if(event.keyCode == 13)document.getElementById('tesseraeform:fieldCommandButton').click();"-->
             <h:inputText id="fieldCommandArea"
                          value="#{tesseraemanager.inputMessage}"
                          autocomplete="off"
-                         style="width:100%; text-align:center;"
+                         styleClass="fieldCommandArea"
             >
             </h:inputText>
 
             <!-- Send and help buttons -->
-            <div align="center" style="margin: 5px 0 5px 0;">
+            <div align="center" class="aroundButtons">
                 <p:commandButton id="fieldCommandButton"
                                  value="interpret command!"
                                  action="#{tesseraemanager.interpretCommand}"
                                  update="@form"
-
-                >
-                </p:commandButton>
+                />
 
                 <p:commandButton id="helpButton"
                                  value="HELP"
@@ -98,10 +89,22 @@
                              readonly="true"
                              rows="1"
                              autoResize="true"
-                             style="width:100%; text-align:center; border:none; background-color:paleturquoise; font-family:monospace; font-size:14px"
+                             styleClass="fieldMessageArea"
             />
 
         </h:form>
+
+        <!-- Theme chooser -->
+        <p style="font-size: 16px;">Theme chooser:</p>
+        <p:selectOneMenu value="#{tesseraemanager.theme}"
+                         immediate="true"
+                         onchange="document.location.reload();"
+        >
+            <f:selectItems value="#{theme.allThemes()}"
+                           var="theme"
+                           itemValue="#{theme}"
+            />
+        </p:selectOneMenu>
     </ui:define>
 
 </ui:composition>

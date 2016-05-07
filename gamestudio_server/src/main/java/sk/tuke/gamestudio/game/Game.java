@@ -26,9 +26,13 @@
 
 package sk.tuke.gamestudio.game;
 
+import sk.tuke.gamestudio.game.mines.Mines;
+import sk.tuke.gamestudio.game.tesserae.Tesserae;
+
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.*;
 
 /**
  * A game.
@@ -40,6 +44,14 @@ import java.io.Serializable;
 public class Game implements Serializable
 {
 	private String name;
+
+	private static List<Game> allGames = new LinkedList<>();
+
+	static
+	{
+		allGames.add(Tesserae.getGame());
+		allGames.add(Mines.getGame());
+	}
 
 	public Game()
 	{
@@ -75,5 +87,10 @@ public class Game implements Serializable
 	public static String getImageOverview(String game)
 	{
 		return "resources/images/" + game.toLowerCase() + "/overview.png";
+	}
+
+	public static Collection<Game> allGames()
+	{
+		return Collections.unmodifiableCollection(Game.allGames);
 	}
 }

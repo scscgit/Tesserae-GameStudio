@@ -172,11 +172,11 @@ public class FieldInterpreter extends AbstractInterpreter implements Serializabl
 		{
 			return executeFavorite();
 		}
-		else if (cmd.equals("display") || cmd.equals("color") || cmd.equals("show") || cmd.equals("text") ||
+		/*else if (cmd.equals("display") || cmd.equals("color") || cmd.equals("show") || cmd.equals("text") ||
 		         cmd.equals("visual") || cmd.equals("graphics") || cmd.equals("format"))
 		{
 			executeDisplay();
-		}
+		}*/
 		else
 		{
 			throw new InterpreterInvalidInstructionsException("Cannot understand command " + cmd + ".");
@@ -455,16 +455,22 @@ public class FieldInterpreter extends AbstractInterpreter implements Serializabl
 			"favorite show = lists all favorite games of a current user, YOU!\n" +
 			"favorite add = adds this game as your favorite game\n" +
 			"favorite remove = removes this game from your list of favorite games\n" +
-			"Display ->\n" +
-			"display color = field will be drawn using colors\n" +
-			"display text = field will be drawn with tile types as a colored text\n" +
-			"display black = field will be drawn only as a default console black text\n" +
+			//"Display ->\n" +
+			//"display color = field will be drawn using colors\n" +
+			//"display text = field will be drawn with tile types as a colored text\n" +
+			//"display black = field will be drawn only as a default console black text\n" +
 			"Help = shows this help message\n" +
 			"\n @Enjoy playing our game!@";
 	}
 
 	protected String executeFavorite() throws InterpreterException
 	{
+		if (getManager().getPlayer() == null)
+		{
+			throw new InterpreterInvalidInstructionsException(
+				"There is no Player logged in.\nPlease consider registering yourself in our Gamestudio.");
+		}
+
 		if (hasNext())
 		{
 			assertNext();

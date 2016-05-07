@@ -18,8 +18,16 @@
             <component-type>Tesserae</component-type>
         </component>
         <attribute>
-            <description><![CDATA[Displays the component only as a text, without any special complicated HTML code.]]></description>
+            <description>
+                <![CDATA[Displays the component only as a text, without any special complicated HTML code.]]>
+            </description>
             <name>textOnly</name>
+        </attribute>
+        <attribute>
+            <description>
+                <![CDATA[Theme used for displaying the component in case textOnly attribute was not used.]]>
+            </description>
+            <name>theme</name>
         </attribute>
     </tag>
 </facelet-taglib>

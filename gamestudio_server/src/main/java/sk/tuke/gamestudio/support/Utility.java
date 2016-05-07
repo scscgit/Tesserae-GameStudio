@@ -26,6 +26,8 @@
 
 package sk.tuke.gamestudio.support;
 
+import sk.tuke.gamestudio.entity.Score;
+
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -34,10 +36,7 @@ import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Global static helpers.
@@ -149,5 +148,23 @@ public class Utility
 	{
 		FacesContext context = FacesContext.getCurrentInstance();
 		return (T) context.getApplication().evaluateExpressionGet(context, "#{" + beanName + "}", Object.class);
+	}
+
+	//Sums all score values
+	public static long sumScores(List<Score> scores)
+	{
+		//Problem handling by a semantically neutral result that should be interpreted accordingly
+		//(though player may go to negative score too)
+		if (scores == null)
+		{
+			return -1;
+		}
+
+		long sum = 0;
+		for (Score score : scores)
+		{
+			sum += score.getPoints();
+		}
+		return sum;
 	}
 }

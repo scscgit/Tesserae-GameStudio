@@ -1,6 +1,5 @@
 package sk.tuke.gamestudio.controller;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import java.io.Serializable;

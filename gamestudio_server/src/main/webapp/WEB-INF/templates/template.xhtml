@@ -101,7 +101,8 @@
                     <li><a href="login.xhtml">Prihlásenie</a></li>
                 </c:if>
 
-                <!-- TODO Jazyk -->
+                <ui:insert name="additionalMenu">
+                </ui:insert>
             </ul>
         </div><!--close menubar-->
 
@@ -154,23 +155,23 @@
 
                                 <!-- Overwritable greetings and profile navigation -->
                                 <ui:insert name="user_logged_in_navigation">
-                                    <c:if test="not empty #{loggedUser.profileImage}">
+                                    <c:if test="#{not empty loggedUser.profileImage}">
                                         <img src="#{loggedUser.profileImage}" class="inheritWidth"/>
                                     </c:if>
-                                    <c:if test="not empty #{loggedUser.realName}">
+                                    <c:if test="#{not empty loggedUser.realName}">
                                         <p>Vitajte, <h:outputLabel id="userName" value="#{loggedUser.realName}"/>.</p>
                                     </c:if>
+                                    <p>Získal som dokopy #{utility.sumScores(gameServices.myAllScores)} skóre.</p>
                                 </ui:insert>
 
                                 <!-- Sign Out option -->
                                 <h:form>
-                                    <c:if test="not #{loggedUser.google}">
-                                        test
+                                    <c:if test="#{not loggedUser.google}">
                                         <h:commandLink value="Odhlásiť sa" action="#{loggedUser.logout}"/>
                                     </c:if>
 
                                     <!-- Google signout has a callback javascript function for a real logout -->
-                                    <!-- The button gets shown before getting hidden to load the button event script -->
+                                    <!-- The button gets loaded before getting hidden to load the button event script -->
                                     <c:if test="#{loggedUser.google}">
                                         <div id="SignInButton" class="skryty"></div>
                                         <button onclick="signOut()" style="margin-left: 28px">
@@ -247,6 +248,8 @@
                     <ui:insert name="content">
                         <h2>Vitajte v našom hernom štúdiu.</h2>
                         <h1>Vyberte si, prosím, kategóriu v menu.</h1>
+                        <br/>
+                        <img src="resources/images/space_invaders.png" style="width: inherit"/>
                     </ui:insert>
                 </div>
             </div>
