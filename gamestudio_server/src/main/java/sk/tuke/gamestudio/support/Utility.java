@@ -26,7 +26,9 @@
 
 package sk.tuke.gamestudio.support;
 
+import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Named;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -42,6 +44,8 @@ import java.util.Random;
  * <p/>
  * Created by Steve on 29.2.2016.
  */
+@Named
+@RequestScoped
 public class Utility
 {
 	private static Random random = null;

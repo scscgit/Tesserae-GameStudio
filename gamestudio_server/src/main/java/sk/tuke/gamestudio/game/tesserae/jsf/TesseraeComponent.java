@@ -1,8 +1,6 @@
 package sk.tuke.gamestudio.game.tesserae.jsf;
 
 import org.primefaces.component.dnd.Draggable;
-import org.primefaces.context.PrimeFacesContext;
-import org.primefaces.context.PrimeFacesContextFactory;
 import org.primefaces.context.RequestContext;
 import sk.tuke.gamestudio.game.tesserae.core.field.Field;
 import sk.tuke.gamestudio.game.tesserae.core.field.Settings;
@@ -49,21 +47,20 @@ public class TesseraeComponent extends UICommand
 		//After uncommenting this, a wild weird button with the getValue().toString() text appears
 		//super.encodeAll(context);
 
-		ResponseWriter writer = context.getResponseWriter();
+		//Updates the attribute from the tag
 		setTextOnly((boolean) getAttributes().get("textOnly"));
 
-		PrimeFacesContext.getCurrentInstance().getResponseWriter().startElement("p:commandButton", null);
-		PrimeFacesContext.getCurrentInstance().getResponseWriter().writeAttribute("value", "hello", "test");
-		PrimeFacesContext.getCurrentInstance().getResponseWriter().endElement("p:commandButton");
+		//HTML output response to the client
+		ResponseWriter writer = context.getResponseWriter();
 
 		//Debug in case of problems
 		if (favoriteService == null)
 		{
-			writer.write("favoriteService is null.\n");
+			writer.write("Warning: favoriteService is null.<br/>");
 		}
 		if (manager == null)
 		{
-			writer.write("manager is null.\n");
+			writer.write("Warning: manager is null.<br/>");
 		}
 
 		//The builder for the interpreter is chosen during the creation of an instance of UI
@@ -118,9 +115,7 @@ public class TesseraeComponent extends UICommand
 		}
 		*/
 
-
-
-
+		//Resizes the result to the current required size
 		RequestContext.getCurrentInstance().execute("autosize($('#fieldTextArea'));");
 	}
 

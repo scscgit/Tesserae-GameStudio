@@ -1,25 +1,43 @@
 package sk.tuke.gamestudio.controller;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
-
 import java.io.Serializable;
 
 @Named
 @SessionScoped
-public class LoggedUser implements Serializable {
-	
-	private String name;
-	
-	public String getName(){
-		return this.name;
+public class LoggedUser extends AbstractUser implements Serializable
+{
+	private boolean logged;
+
+	public LoggedUser()
+	{
+		logout();
 	}
-	
-	public String setName(String name){
-		return this.name = name;
+
+	public boolean isLogged()
+	{
+		return logged;
 	}
-	
-	public boolean isLogged(){
-		return name != null;
+	public void login()
+	{
+		this.logged = true;
+	}
+	public void logout()
+	{
+		this.logged = false;
+	}
+
+	public String getName()
+	{
+		if (isGoogle())
+		{
+			return getRealName();
+		}
+		else
+		{
+			return getUsername();
+		}
 	}
 }

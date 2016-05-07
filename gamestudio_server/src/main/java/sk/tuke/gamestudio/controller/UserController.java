@@ -1,10 +1,13 @@
 package sk.tuke.gamestudio.controller;
 
+import org.primefaces.context.RequestContext;
+
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.Map;
 
 @Named
 @RequestScoped
@@ -21,7 +24,10 @@ public class UserController
 	{
 		if ("heslo".equals(user.getPassword()))
 		{
-			loggedUser.setName(user.getUsername());
+			loggedUser.setGoogle(false);
+			loggedUser.setUsername(user.getUsername());
+			loggedUser.login();
+
 			return "index.xhtml";
 		}
 		else
@@ -31,29 +37,65 @@ public class UserController
 				new FacesMessage(FacesMessage.SEVERITY_WARN,
 				                 "Incorrect Username and Password",
 				                 "Please enter correct username and Password"));
-			return "login.xhtml";
+			return "favorites.xhtml";
 		}
 	}
 
 	public String register()
 	{
-		loggedUser.setName(user.getUsername());
+		loggedUser.set(user.getUsername());
+		loggedUser.login();
 		return "index.xhtml";
 	}
 
-	public String logout()
+	/*public void logout()
 	{
-		loggedUser.setName(null);
-		return "index.xhtml";
-	}
+		//Current context
+		//RequestContext context = RequestContext.getCurrentInstance();
+		//if(loggedUser.isGoogle())
+		//{
+		//	context.execute("signOut();");
+		//}
+
+		loggedUser.logout();
+
+		//context.execute("window.location.reload();");
+	}*/
 
 	public LoggedUser getLoggedUser()
 	{
 		return loggedUser;
 	}
 
-	public boolean isLogged()
+	/*public boolean isLogged()
 	{
-		return loggedUser.getName() != null;
+		return loggedUser.isLogged();
+	}*/
+
+	//Communication with the Google login system via callback using JavaScript
+	public void loginGoogle()
+	{
+		//Current context
+		RequestContext context = RequestContext.getCurrentInstance();
+
+		//Received parameters
+		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		String id = params.get("id");
+		String name = params.get("name");
+		//String givenName = params.get("givenName");
+		//String familyName = params.get("familyName");
+		String imageUrl = params.get("imageUrl");
+		String email = params.get("email");
+
+		//Logging in
+		loggedUser.set(id, name, imageUrl, email);
+		loggedUser.login();
+
+		//Navigates to the main page
+		context.execute("window.location.replace('.');");
+
+		//Notify the user about success of the action
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+			FacesMessage.SEVERITY_INFO, "Google account logged in", "Welcome, " + name + "."));
 	}
 }

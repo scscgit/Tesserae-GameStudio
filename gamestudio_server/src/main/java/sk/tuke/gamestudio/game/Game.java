@@ -26,6 +26,8 @@
 
 package sk.tuke.gamestudio.game;
 
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
 import java.io.Serializable;
 
 /**
@@ -33,9 +35,15 @@ import java.io.Serializable;
  * <p/>
  * Created by Steve on 14.03.2016.
  */
+@Named
+@RequestScoped
 public class Game implements Serializable
 {
 	private String name;
+
+	public Game()
+	{
+	}
 
 	public Game(String name)
 	{
@@ -57,5 +65,15 @@ public class Game implements Serializable
 	public boolean equals(Object object)
 	{
 		return object instanceof Game && ((Game) object).getName().equals(getName());
+	}
+
+	public static String getAddress(String game)
+	{
+		return game.toLowerCase() + ".xhtml";
+	}
+
+	public static String getImageOverview(String game)
+	{
+		return "resources/images/" + game.toLowerCase() + "/overview.png";
 	}
 }

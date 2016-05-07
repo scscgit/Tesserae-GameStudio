@@ -4,6 +4,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
 >
 
 <h:head>
@@ -68,11 +69,17 @@
         <div id="header">
             <div id="banner">
                 <div id="welcome">
-                    <a href="."><h1>Gamestudio</h1></a>
+                    <a href=".">
+                        <img src="resources/images/gamestudio.png"
+                             alt="Gamestudio"
+                             height="50px"/>
+                    </a>
                 </div>
                 <div id="welcome_slogan">
                     <ui:insert name="welcome_slogan">
-                        <h1>Katedra počítačov a informatiky TUKE</h1>
+                        <img src="resources/images/kpi/kpi-header.png"
+                             alt="Katedra počítačov a informatiky TUKE"
+                             height="50px"/>
                     </ui:insert>
                 </div>
             </div>
@@ -83,14 +90,14 @@
                 <!-- Navigácia medzi hlavnými časťami stránky -->
                 <li class="current"><a href="games.xhtml">Zoznam hier</a></li>
 
-                <c:if test="#{userController.logged}">
+                <c:if test="#{loggedUser.logged}">
                     <li><a href="favorites.xhtml">Moje obľúbené hry</a></li>
                 </c:if>
 
                 <li><a href="statistics.xhtml">Štatistiky</a></li>
 
                 <!-- Prihlasovanie -->
-                <c:if test="#{not userController.logged}">
+                <c:if test="#{not loggedUser.logged}">
                     <li><a href="login.xhtml">Prihlásenie</a></li>
                 </c:if>
 
@@ -141,24 +148,42 @@
                     <div class="sidebar">
                         <div class="sidebar_item">
 
-                            <!-- Information about logged user and the logout button -->
-                            <c:if test="#{userController.logged}">
+                            <!-- Information about the current logged in user and the logout button -->
+                            <c:if test="#{loggedUser.logged}">
                                 <h2>#{loggedUser.name}</h2>
+
+                                <!-- Overwritable greetings and profile navigation -->
                                 <ui:insert name="user_logged_in_navigation">
-                                    <c:if test="not empty #{user.profileImage}">
-                                        <img src="#{user.profileImage}" style="max-width: inherit"/>
+                                    <c:if test="not empty #{loggedUser.profileImage}">
+                                        <img src="#{loggedUser.profileImage}" class="inheritWidth"/>
                                     </c:if>
-                                    <c:if test="not empty #{user.realName}">
-                                        Vitajte, <h:outputLabel id="userName" value="#{user.realName}"/>.
-                                    </c:if>
-                                    <h:form>
-                                        <h:commandLink value="Odhlásiť sa" action="#{userController.logout}"/>
-                                    </h:form>
-
-                                    <c:if test="#{userController.logged}">
-
+                                    <c:if test="not empty #{loggedUser.realName}">
+                                        <p>Vitajte, <h:outputLabel id="userName" value="#{loggedUser.realName}"/>.</p>
                                     </c:if>
                                 </ui:insert>
+
+                                <!-- Sign Out option -->
+                                <h:form>
+                                    <c:if test="not #{loggedUser.google}">
+                                        test
+                                        <h:commandLink value="Odhlásiť sa" action="#{loggedUser.logout}"/>
+                                    </c:if>
+
+                                    <!-- Google signout has a callback javascript function for a real logout -->
+                                    <!-- The button gets shown before getting hidden to load the button event script -->
+                                    <c:if test="#{loggedUser.google}">
+                                        <div id="SignInButton" class="skryty"></div>
+                                        <button onclick="signOut()" style="margin-left: 28px">
+                                            Odhlásiť sa z Google účtu
+                                        </button>
+                                        <p:remoteCommand name="googleSignedOutEvent"
+                                                         update="@all"
+                                                         actionListener="#{loggedUser.logout}"/>
+                                    </c:if>
+                                </h:form>
+
+                                <!-- Google account info TODO DELETE -->
+                                <div id="userStatus"></div>
                             </c:if>
 
                             <!-- Information displayed when no user is logged in -->
@@ -193,7 +218,12 @@
                             <p>Email:</p>
                             <p><a href="mailto:gamemaster@gamestudio.tuke.sk">gamemaster@gamestudio.tuke.sk</a></p>
                             <p>Web KPI:</p>
-                            <p><a href="https://kpi.fei.tuke.sk/sk/content/kontakt">kpi.fei.tuke.sk</a></p>
+                            <a href="https://kpi.fei.tuke.sk/sk/content/kontakt">
+                                <img src="resources/images/kpi/logo-kpi-inverted-with-background-2.png"
+                                     width="215px"
+                                     alt="kpi.fei.tuke.sk"/>
+                                <p style="margin-left: 55px"><b>kpi.fei.tuke.sk</b></p>
+                            </a>
                         </div>
                     </div>
                 </ui:insert>

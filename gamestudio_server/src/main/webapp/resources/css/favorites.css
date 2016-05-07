@@ -1,0 +1,22 @@
+.game > p {
+    color: darkblue;
+    font-size: 22px;
+    text-align: center;
+    line-height: 1.2em;
+}
+
+.game > img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    min-width: 100px;
+    max-width: 450px;
+    max-height: 300px;
+    margin-bottom: 30px;
+}
+
+.error {
+    color: red;
+    font-size: 30px;
+    text-align: center;
+}

@@ -40,9 +40,15 @@ var updateSignIn = function () {
         document.getElementById("SignInButton").classList.add("skryty");
         //document.getElementById("SignedIn").classList.remove("skryty");
         document.getElementById("userName").innerHTML = auth2.currentUser.get().getBasicProfile().getName();
+
+        console.log('Google Signed In Event');
+        googleSignedInEvent();
     } else {
         document.getElementById("SignInButton").classList.remove("skryty");
         //document.getElementById("SignedIn").classList.add("skryty");
+
+        console.log('Google Signed Out Event');
+        googleSignedOutEvent();
     }
 
     var userInfoElm = document.getElementById("userStatus");
@@ -59,7 +65,7 @@ var updateSignIn = function () {
 function startGSingIn() {
     gapi.load('auth2', function () {
         gapi.signin2.render('SignInButton', {
-            'width': 240,
+            'width': 220,
             'height': 50,
             'longtitle': true,
             'theme': 'dark',
@@ -70,7 +76,7 @@ function startGSingIn() {
         //zavolat po inicializácii OAuth 2.0
         gapi.auth2.init().then(
             function () {
-                console.log('init');
+                console.log('OAuth 2.0 init');
                 auth2 = gapi.auth2.getAuthInstance();
                 auth2.currentUser.listen(userChanged);
                 auth2.isSignedIn.listen(updateSignIn);
@@ -80,10 +86,32 @@ function startGSingIn() {
     });
 }
 
-//Logging state
 function onSuccess(googleUser) {
-    console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
+    //Reading the user data
+    var profile = googleUser.getBasicProfile();
+    
+    //Filtering the reqired data
+    var id = profile.getId();
+    var name = profile.getName();
+    var givenName = profile.getGivenName();
+    var familyName = profile.getFamilyName();
+    var imageUrl = profile.getImageUrl();
+    var email = profile.getEmail();
+
+    //PrimeFaces RemoteCommand call
+    onSuccessGoogleController([{
+        id: id,
+        name: name,
+        givenName: givenName,
+        familyName: familyName,
+        imageUrl: imageUrl,
+        email: email
+    }]);
+
+    //Logging updated state
+    console.log('Logged in as: ' + name);
 }
 function onFailure(error) {
+    //Logging error
     console.log(error);
 }

@@ -4,6 +4,7 @@
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
 >
 
     <ui:define name="style">
@@ -14,8 +15,17 @@
         <table class="googleSignIn" border="0">
             <tr>
                 <td>
-                    <p class="centerText">Okamžité prihlásenie:</p>
-                    <div id="SignInButton"></div>
+                    <h:form>
+                        <p class="centerText">Okamžité prihlásenie:</p>
+                        <div id="SignInButton"></div>
+                        <!-- RemoteCommand for communication between Bean and JavaScript -->
+                        <!--googleLoggedInEvent-->
+                        <p:growl id="msgs" showDetail="true"/>
+
+                        <p:remoteCommand name="onSuccessGoogleController"
+                                         update="msgs @form"
+                                         actionListener="#{userController.loginGoogle}"/>
+                    </h:form>
                 </td>
             </tr>
         </table>
@@ -76,12 +86,6 @@
                 </td>
             </tr>
         </table>
-
-        <!-- Google account info -->
-        <div id="userStatus"></div>
-        <div id="SignedIn">
-            <button onclick="signOut()">Odhlásiť sa</button>
-        </div>
     </ui:define>
 
 </ui:composition>
