@@ -41,3 +41,15 @@ a:visited {
 .zobraz {
     display: block;
 }
+
+/*
+ * General position formatting
+ */
+
+.center {
+    margin: auto;
+}
+
+.centerText {
+    text-align: center;
+}

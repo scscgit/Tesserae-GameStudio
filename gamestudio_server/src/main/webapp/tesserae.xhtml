@@ -52,12 +52,10 @@
     <ui:define name="content">
         <h:form id="tesseraeform" styleClass="gameForm">
 
-            <!-- Tesserae Field based on a current Theme -->
-            <!--<g:tesserae textOnly="#{tesseraemanager.theme.textOnly}"-->
-            <!--theme="#{tesseraemanager.theme}"-->
-            <!--value="#{tesseraemanager}"/>-->
-            <g:tesserae textOnly="#{tesseraemanager.theme.textOnly}"
-                        value="#{tesseraemanager}"/>
+            <!-- Tesserae Field (based on a current Theme) -->
+            <div class="centerField">
+                <g:tesserae value="#{tesseraemanager}"/>
+            </div>
 
             <!-- Message from the Player -->
             <!--onkeypress="if(event.keyCode == 13)document.getElementById('tesseraeform:fieldCommandButton').click();"-->
@@ -95,16 +93,19 @@
         </h:form>
 
         <!-- Theme chooser -->
-        <p style="font-size: 16px;">Theme chooser:</p>
-        <p:selectOneMenu value="#{tesseraemanager.theme}"
-                         immediate="true"
-                         onchange="document.location.reload();"
-        >
-            <f:selectItems value="#{theme.allThemes()}"
-                           var="theme"
-                           itemValue="#{theme}"
-            />
-        </p:selectOneMenu>
+        <h:form>
+            <p style="font-size: 16px;">Grafický motív:</p>
+
+            <p:selectOneMenu value="#{themeChooser.themeByName}"
+                             onchange="submit()"
+            >
+                <f:selectItems value="#{themeChooser.allThemes}"
+                               var="Theme"
+                               itemValue="#{Theme.displayedName}"
+                               itemLabel="#{Theme.displayedName}"
+                />
+            </p:selectOneMenu>
+        </h:form>
     </ui:define>
 
 </ui:composition>

@@ -1,8 +1,6 @@
 package sk.tuke.gamestudio.game.tesserae.jsf;
 
-import org.primefaces.context.RequestContext;
 import sk.tuke.gamestudio.controller.LoggedUser;
-import sk.tuke.gamestudio.game.Game;
 import sk.tuke.gamestudio.game.tesserae.core.field.Field;
 import sk.tuke.gamestudio.game.tesserae.core.field.builder.history.FieldHistoryRebuilder;
 import sk.tuke.gamestudio.game.tesserae.core.field.builder.history.FieldHistoryRebuilderNoHistoryException;
@@ -10,8 +8,6 @@ import sk.tuke.gamestudio.game.tesserae.cui.ColorMode;
 import sk.tuke.gamestudio.game.tesserae.cui.FieldManager;
 import sk.tuke.gamestudio.game.tesserae.cui.interpreter.FieldInterpreter;
 import sk.tuke.gamestudio.game.tesserae.cui.interpreter.InterpreterException;
-import sk.tuke.gamestudio.service.favorites.FavoriteException;
-import sk.tuke.gamestudio.service.favorites.FavoriteGameDatabaseService;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -40,9 +36,6 @@ public class FieldInstanceManager implements Serializable, FieldManager
 
 	//History
 	private FieldHistoryRebuilder history;
-
-	//Current Theme
-	private Theme theme;
 
 	@Inject
 	LoggedUser loggedUser;
@@ -73,7 +66,6 @@ public class FieldInstanceManager implements Serializable, FieldManager
 		//this.service = new Oracle11gDatabaseServiceImpl();
 
 		this.field = null;
-		this.theme = null;
 	}
 
 	//Interpreter is loaded from the Component externally
@@ -95,18 +87,6 @@ public class FieldInstanceManager implements Serializable, FieldManager
 		//RequestContext context = RequestContext.getCurrentInstance();
 		this.lastMessage = lastMessage;
 		//context.update("fieldResultArea");
-	}
-
-	private void handleEndGameState()
-	{
-		if (this.field.getState().equals(Field.GameState.WON))
-		{
-			setLastMessage("Congratz, you've won!");
-		}
-		else if (this.field.getState().equals(Field.GameState.LOST))
-		{
-			setLastMessage("GG, you've lost.");
-		}
 	}
 
 	//Interprets a command from the user, returning the result in a very user-friendly format
@@ -156,7 +136,7 @@ public class FieldInstanceManager implements Serializable, FieldManager
 	@Override
 	public String getPlayer()
 	{
-		if(loggedUser.isLogged())
+		if (loggedUser.isLogged())
 		{
 			return loggedUser.getName();
 		}
@@ -211,14 +191,5 @@ public class FieldInstanceManager implements Serializable, FieldManager
 	public void setInputMessage(String inputMessage)
 	{
 		this.inputMessage = inputMessage;
-	}
-
-	public Theme getTheme()
-	{
-		return theme;
-	}
-	public void setTheme(Theme theme)
-	{
-		this.theme = theme;
 	}
 }

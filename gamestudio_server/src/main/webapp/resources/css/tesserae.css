@@ -8,6 +8,12 @@
     resize: none;
 }
 
+.centerField > table {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .fieldCommandArea {
     width: 100%;
     text-align: center;
@@ -28,4 +34,10 @@
 
 .gameForm {
     margin: 20px 0 20px 0;
+}
+
+.informationalText {
+    text-align: center;
+    font-size: 33px;
+    font-family: fantasy;
 }

@@ -31,17 +31,10 @@ public class TesseraeComponent extends UICommand
 	@Inject
 	FieldInstanceManager manager;
 
-	private boolean textOnly;
-	private Theme theme;
+	@Inject
+	private ThemeChooser themeChooser;
 
-	public boolean isTextOnly()
-	{
-		return textOnly;
-	}
-	public void setTextOnly(boolean textOnly)
-	{
-		this.textOnly = textOnly;
-	}
+	private Theme theme;
 
 	public Theme getTheme()
 	{
@@ -51,7 +44,8 @@ public class TesseraeComponent extends UICommand
 	{
 		if (theme == null)
 		{
-			this.theme = Theme.DEFAULT_THEME;
+			//Failsafe Theme
+			this.theme = ThemeChooser.DEFAULT_THEME;
 		}
 		else
 		{
@@ -72,15 +66,16 @@ public class TesseraeComponent extends UICommand
 			);
 	}
 
+	//Component drawing as an HTML reply to the client
 	@Override
 	public void encodeAll(FacesContext context) throws IOException
 	{
 		//After uncommenting this, a wild weird button with the getValue().toString() text appears
 		//super.encodeAll(context);
 
-		//Updates attributes from the tag
-		setTextOnly((boolean) getAttributes().get("textOnly"));
-		setTheme((Theme) getAttributes().get("theme"));
+		//Updates theme attribute from the tag and loads respective textOnly setting
+		//setTheme((Theme) getAttributes().get("theme"));
+		setTheme(this.themeChooser.getTheme());
 
 		//HTML output response to the client
 		ResponseWriter writer = context.getResponseWriter();
@@ -116,7 +111,7 @@ public class TesseraeComponent extends UICommand
 		}
 
 		//TextOnly mode draws a text-only version of the Field using textarea
-		if (textOnly)
+		if (getTheme().isTextOnly())
 		{
 			writeTesseraeFieldTextOnly(field, writer, context);
 		}
@@ -140,57 +135,6 @@ public class TesseraeComponent extends UICommand
 
 		//Resizes the result to the current required size
 		RequestContext.getCurrentInstance().execute("autosize($('#fieldTextArea'));");
-	}
-
-	//Draws the Tesserae Field using the HTML and/or Faces components
-	private void writeTesseraeField(Field field, ResponseWriter writer, FacesContext context) throws IOException
-	{
-		if (field == null)
-		{
-			writer.startElement("p", null);
-			writer.writeText("Start the game please :-)", null);
-			writer.endElement("p");
-		}
-		else if (field.getState().equals(Field.GameState.PAUSED))
-		{
-			writer.startElement("p", null);
-			writer.write("Game postponed for later :-)");
-			writer.endElement("p");
-		}
-		//If the field is in PLAYING state, draws its content
-		else if (field.getState().equals(Field.GameState.PLAYING))
-		{
-			writer.startElement("table", this);
-
-			for (int row = 0; row < field.getRows(); row++)
-			{
-				writer.startElement("tr", this);
-				for (int column = 0; column < field.getColumns(); column++)
-				{
-					Tile tile = field.getTile(row, column);
-					writer.startElement("td", this);
-
-					if (!tile.getType().isEmpty())
-					{
-						writer.startElement("a", this);
-						writer.writeAttribute("href", getURL(context, String.format("?row=%d&column=%d", row, column)),
-						                      null);
-					}
-
-					writer.startElement("img", this);
-					writer.writeAttribute("src", getTileImage(tile), null);
-					writer.endElement("img");
-					if (!tile.getType().isEmpty())
-					{
-						writer.endElement("a");
-					}
-					writer.endElement("td");
-				}
-				writer.endElement("tr");
-			}
-
-			writer.endElement("table");
-		}
 	}
 
 	//Returns an image representing a Tile
@@ -241,16 +185,93 @@ public class TesseraeComponent extends UICommand
 					throw new IllegalArgumentException("Wrong primary Tile type");
 				}
 				break;
+			case 0:
+				image = "0";
+				break;
 			default:
 				throw new IllegalArgumentException("Wrong Tile type size");
 		}
 
-		return String.format("resources/images/tesserae/%s/%s.png", getTheme(), image);
+		return String.format("resources/images/tesserae/themes/%s/%s.png", getTheme().getPathName(), image);
 	}
 
 	private String getURL(FacesContext context, String value)
 	{
 		return context.getExternalContext().getApplicationContextPath() + context.getViewRoot().getViewId() + value;
+	}
+
+	//Draws the Tesserae Field using the HTML and/or Faces components
+	private void writeTesseraeField(Field field, ResponseWriter writer, FacesContext context) throws IOException
+	{
+		if (field == null)
+		{
+			writer.startElement("p", this);
+			writer.writeText("Start the game please :-)", null);
+			writer.endElement("p");
+		}
+		else if (field.getState().equals(Field.GameState.PAUSED))
+		{
+			writer.startElement("p", this);
+			writer.write("Game postponed for later :-)");
+			writer.endElement("p");
+		}
+		//Draws its content when the Field is available during gameplay or after the end
+		else
+		{
+			//If the Field is already in the end state, displays a corresponding message
+			if (!isNotEndState(field))
+			{
+				writer.startElement("p", this);
+				writer.writeAttribute("class", "informationalText", null);
+				if (field.getState().equals(Field.GameState.WON))
+				{
+					writer.write("Congratz, you've won!");
+				}
+				else if (field.getState().equals(Field.GameState.LOST))
+				{
+					writer.write("GG, you've lost.");
+				}
+				writer.endElement("p");
+			}
+
+			writer.startElement("table", this);
+
+			for (int row = 0; row < field.getRows(); row++)
+			{
+				writer.startElement("tr", this);
+				for (int column = 0; column < field.getColumns(); column++)
+				{
+					Tile tile = field.getTile(row, column);
+					writer.startElement("td", this);
+
+					//Draws a Tile only if it exists
+					if (tile != null)
+					{
+						//Empty tile will not be a hyperlink
+						if (!tile.getType().isEmpty())
+						{
+							writer.startElement("a", this);
+							writer.writeAttribute("href",
+							                      getURL(context, String.format("?row=%d&column=%d", row, column)),
+							                      null);
+						}
+
+						writer.startElement("img", this);
+						writer.writeAttribute("src", getTileImage(tile), null);
+						writer.endElement("img");
+						if (!tile.getType().isEmpty())
+						{
+							writer.endElement("a");
+						}
+					}
+
+					writer.endElement("td");
+				}
+				writer.endElement("tr");
+			}
+
+			writer.endElement("table");
+		}
 	}
 
 	//Draws a text-only version of the Field using textarea
@@ -270,10 +291,23 @@ public class TesseraeComponent extends UICommand
 		{
 			writer.write("Game postponed for later :-)");
 		}
-		//If the field is in PLAYING state, draws its content
-		else if (field.getState().equals(Field.GameState.PLAYING))
+		//Draws its content when the Field is available during gameplay or after the end
+		else
 		{
-			writer.writeText(field.toString(manager.getFieldColor()), null);
+			//If the Field is already in the end state, displays a corresponding message
+			if (!isNotEndState(field))
+			{
+				if (field.getState().equals(Field.GameState.WON))
+				{
+					writer.write("Congratz, you've won!\n\n");
+				}
+				else if (field.getState().equals(Field.GameState.LOST))
+				{
+					writer.write("GG, you've lost.\n\n");
+				}
+			}
+
+			writer.write(field.toString(manager.getFieldColor()));
 		}
 
 		writer.endElement("textarea");

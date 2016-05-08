@@ -39,7 +39,7 @@ import java.io.Serializable;
 public class Settings implements Serializable
 {
 	//Singleton versions
-	public static final Settings SIMPLE_GAME = new Settings(7, 7, Field.DifficultySetting.EASY,
+	public static final Settings SIMPLE_GAME = new Settings(6, 6, Field.DifficultySetting.EASY,
 	                                                        FieldTemplate.Setting.RECTANGLE);
 
 	//Fields
