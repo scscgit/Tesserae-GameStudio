@@ -17,8 +17,6 @@ import java.util.LinkedList;
 @SessionScoped
 public class ThemeChooser implements Serializable
 {
-	private Theme theme = DEFAULT_THEME;
-
 	public static final Theme DEFAULT_THEME = new Theme("Default text-only theme");
 	private static Collection<Theme> allThemes = new LinkedList<>();
 
@@ -27,6 +25,8 @@ public class ThemeChooser implements Serializable
 		allThemes.add(new Theme("Text-Only"));
 		allThemes.add(new Theme("Browser War", "browser"));
 	}
+
+	private Theme theme = DEFAULT_THEME;
 
 	public Collection<Theme> getAllThemes()
 	{

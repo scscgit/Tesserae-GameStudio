@@ -39,7 +39,9 @@
           href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css"/>
     <h:outputStylesheet library="css" name="stylesheet.css"/>
     <!-- Blue Skies template -->
-    <link rel="stylesheet" type="text/css" href="resources/css/blueskies.css"/>
+    <link rel="stylesheet"
+          type="text/css"
+          href="resources/css/blueskies.css"/>
     <!-- Gamestudio -->
     <h:outputStylesheet library="css" name="gamestudio.css"/>
 
@@ -88,17 +90,25 @@
         <div id="menubar">
             <ul id="menu">
                 <!-- Navigácia medzi hlavnými časťami stránky -->
-                <li class="current"><a href="games.xhtml">Zoznam hier</a></li>
+                <ui:insert name="menuGames">
+                    <li><a href="games.xhtml">Zoznam hier</a></li>
+                </ui:insert>
 
                 <c:if test="#{loggedUser.logged}">
-                    <li><a href="favorites.xhtml">Moje obľúbené hry</a></li>
+                    <ui:insert name="menuFavorites">
+                        <li><a href="favorites.xhtml">Moje obľúbené hry</a></li>
+                    </ui:insert>
                 </c:if>
 
-                <li><a href="statistics.xhtml">Štatistiky</a></li>
+                <ui:insert name="menuStatistics">
+                    <li><a href="statistics.xhtml">Štatistiky</a></li>
+                </ui:insert>
 
                 <!-- Prihlasovanie -->
                 <c:if test="#{not loggedUser.logged}">
-                    <li><a href="login.xhtml">Prihlásenie</a></li>
+                    <ui:insert name="menuLogin">
+                        <li><a href="login.xhtml">Prihlásenie</a></li>
+                    </ui:insert>
                 </c:if>
 
                 <ui:insert name="additionalMenu">

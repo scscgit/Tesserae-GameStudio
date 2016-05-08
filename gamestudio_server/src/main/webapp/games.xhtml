@@ -5,13 +5,16 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:f="http://xmlns.jcp.org/jsf/core"
 >
 
     <ui:define name="title">Zoznam hier</ui:define>
 
     <ui:define name="style">
         <h:outputStylesheet library="css" name="games.css"/>
+    </ui:define>
+
+    <ui:define name="menuGames">
+        <li class="current"><a href="games.xhtml">Zoznam hier</a></li>
     </ui:define>
 
     <ui:define name="content">

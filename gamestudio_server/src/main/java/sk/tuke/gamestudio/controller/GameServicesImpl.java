@@ -88,7 +88,7 @@ public class GameServicesImpl implements GameServices
 			}
 		}
 		//This function is called on every page of a logged user,
-		//we will encapsulate errors into returned null value.
+		//we will encapsulate any errors into returned null value.
 		catch (Exception e)
 		{
 			e.printStackTrace();

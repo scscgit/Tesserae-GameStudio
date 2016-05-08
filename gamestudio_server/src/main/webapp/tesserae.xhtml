@@ -53,8 +53,10 @@
         <h:form id="tesseraeform" styleClass="gameForm">
 
             <!-- Tesserae Field (based on a current Theme) -->
-            <div class="centerField">
-                <g:tesserae value="#{tesseraemanager}"/>
+            <div class="tesseraeField centerField">
+                <g:tesserae value="#{tesseraemanager}"
+                            tileHeight="80"
+                />
             </div>
 
             <!-- Message from the Player -->

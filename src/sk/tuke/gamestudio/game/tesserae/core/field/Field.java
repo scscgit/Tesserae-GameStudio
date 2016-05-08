@@ -136,7 +136,7 @@ public class Field
 	}
 
 	//Uses HashMap, which was loaded during Tile selection, to decode whether the selected tile can move to coordinates
-	private boolean isAllowedMovement(int row, int column)
+	public boolean isAllowedMovementTo(int row, int column)
 	{
 		if (this.allowedDirections == null)
 		{
@@ -416,7 +416,7 @@ public class Field
 			                     getSelectedColumn() == column;
 
 			fieldDrawing.append(isSelected ? graphicSelected
-				                    : (isAllowedMovement(row, column) ? graphicAllowedMovement : graphicNormal));
+				                    : (isAllowedMovementTo(row, column) ? graphicAllowedMovement : graphicNormal));
 		}
 		fieldDrawing.append("\n");
 	}
@@ -471,11 +471,11 @@ public class Field
 
 			//Draws the Tile
 			fieldDrawing.append(isSelected ? graphicSelectedLeft
-				                    : (isAllowedMovement(row, column) ? graphicAllowedMovementLeft
+				                    : (isAllowedMovementTo(row, column) ? graphicAllowedMovementLeft
 					                       : graphicNormalLeft));
 			fieldDrawing.append(getTile(row, column).toString(color));
 			fieldDrawing.append(isSelected ? graphicSelectedRight
-				                    : (isAllowedMovement(row, column) ? graphicAllowedMovementRight
+				                    : (isAllowedMovementTo(row, column) ? graphicAllowedMovementRight
 					                       : graphicNormalRight));
 		}
 		fieldDrawing.append("\n");

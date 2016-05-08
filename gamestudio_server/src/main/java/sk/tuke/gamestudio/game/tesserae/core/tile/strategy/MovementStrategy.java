@@ -54,6 +54,11 @@ public abstract class MovementStrategy
 		this.tileColumn = tileColumn;
 	}
 
+	//Delegate adding score to the Field, lets subclass implement the amount
+	protected void addScore()
+	{
+	}
+
 	protected final Field getField()
 	{
 		return this.field;
@@ -177,6 +182,9 @@ public abstract class MovementStrategy
 
 			//After jumping on a new position, current position gets modified.
 			getField().selectTile(rowMoveTo, columnMoveTo);
+
+			//Score gets updated
+			addScore();
 		}
 	}
 

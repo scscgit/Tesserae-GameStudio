@@ -1,11 +1,14 @@
 package sk.tuke.gamestudio.game.tesserae.jsf;
 
 import org.primefaces.context.RequestContext;
+import sk.tuke.gamestudio.game.tesserae.Tesserae;
+import sk.tuke.gamestudio.game.tesserae.core.field.Direction;
 import sk.tuke.gamestudio.game.tesserae.core.field.Field;
 import sk.tuke.gamestudio.game.tesserae.core.field.Settings;
 import sk.tuke.gamestudio.game.tesserae.core.field.builder.SimpleFieldBuilder;
 import sk.tuke.gamestudio.game.tesserae.core.tile.Tile;
 import sk.tuke.gamestudio.game.tesserae.cui.interpreter.FieldInterpreter;
+import sk.tuke.gamestudio.service.GameServices;
 import sk.tuke.gamestudio.service.favorites.FavoriteGameDatabaseService;
 
 import javax.ejb.EJB;
@@ -25,8 +28,12 @@ import java.util.Set;
 @FacesComponent ("Tesserae")
 public class TesseraeComponent extends UICommand
 {
+	//FavoriteService for the Interpreter
 	@EJB
 	private FavoriteGameDatabaseService favoriteService;
+
+	@Inject
+	private GameServices gameServices;
 
 	@Inject
 	FieldInstanceManager manager;
@@ -35,6 +42,8 @@ public class TesseraeComponent extends UICommand
 	private ThemeChooser themeChooser;
 
 	private Theme theme;
+	private Integer tileWidth;
+	private Integer tileHeight;
 
 	public Theme getTheme()
 	{
@@ -66,6 +75,65 @@ public class TesseraeComponent extends UICommand
 			);
 	}
 
+	private void action(Field field, int row, int column)
+	{
+		Direction direction = field.getAllowedDirectionToCoordinates(row, column);
+
+		//If the direction is a valid direction movement, current Tile gets moved
+		if (direction != null)
+		{
+			field.move(direction);
+
+			//Callback that does required tasks after the field changed its state
+			//(As of time of writing this, the only task is saving a new history state in the timeline)
+			this.manager.fieldUpdatedCallback();
+		}
+		//Otherwise a new Tile gets selected
+		else
+		{
+			field.selectTile(row, column);
+		}
+	}
+
+	private void processParamsAndHandleAction(Field field, FacesContext context)
+	{
+		Field.GameState state = field.getState();
+
+		if (state == Field.GameState.PLAYING)
+		{
+			try
+			{
+				String row = (String) context.getExternalContext().getRequestParameterMap().get("row");
+				String column = (String) context.getExternalContext().getRequestParameterMap().get("column");
+				action(field, Integer.parseInt(row), Integer.parseInt(column));
+
+				GameServices gameServices = this.gameServices;
+				if (gameServices != null)
+				{
+					if (state.equals(Field.GameState.WON) || state.equals(Field.GameState.LOST))
+					{
+						gameServices.saveScore(Tesserae.getGame().getName(), field.getScore());
+					}
+				}
+				else
+				{
+					throw new RuntimeException("GameServices is null");
+				}
+
+			}
+			catch (NumberFormatException e)
+			{
+				return;
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+				//TODO replace by non-intrusive exception
+				throw new RuntimeException(e.getMessage());
+			}
+		}
+	}
+
 	//Component drawing as an HTML reply to the client
 	@Override
 	public void encodeAll(FacesContext context) throws IOException
@@ -74,8 +142,35 @@ public class TesseraeComponent extends UICommand
 		//super.encodeAll(context);
 
 		//Updates theme attribute from the tag and loads respective textOnly setting
-		//setTheme((Theme) getAttributes().get("theme"));
-		setTheme(this.themeChooser.getTheme());
+		Theme attributeTheme = (Theme) getAttributes().get("theme");
+
+		//If there is no theme tag, users ThemeChooser theme (default usage for user-controlled theme)
+		if (attributeTheme == null)
+		{
+			setTheme(this.themeChooser.getTheme());
+		}
+		else
+		{
+			setTheme(attributeTheme);
+		}
+
+		//Size of the Tile as displayed in HTML, optionally chosen by attributes
+		try
+		{
+			tileWidth = Integer.parseInt((String) getAttributes().get("tileWidth"));
+		}
+		catch (Exception e)
+		{
+			tileWidth = null;
+		}
+		try
+		{
+			tileHeight = Integer.parseInt((String) getAttributes().get("tileHeight"));
+		}
+		catch (Exception e)
+		{
+			tileHeight = null;
+		}
 
 		//HTML output response to the client
 		ResponseWriter writer = context.getResponseWriter();
@@ -108,6 +203,12 @@ public class TesseraeComponent extends UICommand
 		if (manager != null)
 		{
 			field = manager.getManagedField();
+		}
+
+		//Processes parameters before drawing a new Field
+		if (field != null)
+		{
+			processParamsAndHandleAction(field, context);
 		}
 
 		//TextOnly mode draws a text-only version of the Field using textarea
@@ -206,12 +307,14 @@ public class TesseraeComponent extends UICommand
 		if (field == null)
 		{
 			writer.startElement("p", this);
+			writer.writeAttribute("class", "informationalText", null);
 			writer.writeText("Start the game please :-)", null);
 			writer.endElement("p");
 		}
 		else if (field.getState().equals(Field.GameState.PAUSED))
 		{
 			writer.startElement("p", this);
+			writer.writeAttribute("class", "informationalText", null);
 			writer.write("Game postponed for later :-)");
 			writer.endElement("p");
 		}
@@ -247,22 +350,7 @@ public class TesseraeComponent extends UICommand
 					//Draws a Tile only if it exists
 					if (tile != null)
 					{
-						//Empty tile will not be a hyperlink
-						if (!tile.getType().isEmpty())
-						{
-							writer.startElement("a", this);
-							writer.writeAttribute("href",
-							                      getURL(context, String.format("?row=%d&column=%d", row, column)),
-							                      null);
-						}
-
-						writer.startElement("img", this);
-						writer.writeAttribute("src", getTileImage(tile), null);
-						writer.endElement("img");
-						if (!tile.getType().isEmpty())
-						{
-							writer.endElement("a");
-						}
+						writeTesseraeTile(tile, row, column, field, writer, context);
 					}
 
 					writer.endElement("td");
@@ -272,6 +360,53 @@ public class TesseraeComponent extends UICommand
 
 			writer.endElement("table");
 		}
+	}
+
+	private void writeTesseraeTile(Tile tile, int row, int column, Field field, ResponseWriter writer,
+	                               FacesContext context) throws IOException
+	{
+		//Dispatches a style class to the table data cell based on the current Tile meaning
+		if
+			(
+			field.getSelectedTile() != null &&
+			row == field.getSelectedRow() &&
+			column == field.getSelectedColumn()
+			)
+		{
+			writer.writeAttribute("class", "tesseraeSelectedTile", null);
+		}
+		else if (field.isAllowedMovementTo(row, column))
+		{
+			writer.writeAttribute("class", "tesseraeAllowedTile", null);
+		}
+
+		//Empty tile will be a hyperlink so that tile can also jump to an empty tile
+		//if (!tile.getType().isEmpty())
+		//{
+		writer.startElement("a", this);
+		writer.writeAttribute("href",
+		                      getURL(context, String.format("?row=%d&column=%d", row, column)),
+		                      null);
+		//}
+
+		writer.startElement("img", this);
+		writer.writeAttribute("src", getTileImage(tile), null);
+
+		//Optionally sets tileWidth and tileHeight based on attributes
+		if (tileWidth != null)
+		{
+			writer.writeAttribute("width", tileWidth, null);
+		}
+		if (tileHeight != null)
+		{
+			writer.writeAttribute("height", tileHeight, null);
+		}
+
+		writer.endElement("img");
+		//if (!tile.getType().isEmpty())
+		//{
+		writer.endElement("a");
+		//}
 	}
 
 	//Draws a text-only version of the Field using textarea
@@ -311,13 +446,6 @@ public class TesseraeComponent extends UICommand
 		}
 
 		writer.endElement("textarea");
-	}
-
-	//No longer used: the service reference flow was expected to be in an opposite direction
-	@Deprecated
-	public FavoriteGameDatabaseService getFavoriteService()
-	{
-		return this.favoriteService;
 	}
 
 	//Does some magic I guess? But may not be needed.

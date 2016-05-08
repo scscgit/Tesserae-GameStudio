@@ -2,17 +2,51 @@
  * Tesserae
  */
 
-.fieldTextArea {
-    width: 100%;
-    text-align: center;
-    resize: none;
+.gameForm {
+    margin: 20px 0 20px 0;
 }
+
+/*
+ * Graphical Field
+ */
 
 .centerField > table {
     display: block;
     margin-left: auto;
     margin-right: auto;
 }
+
+.informationalText {
+    text-align: center;
+    font-size: 33px;
+    font-family: fantasy;
+}
+
+.tesseraeField > table > tbody > tr > td {
+    border: 1px solid #0043A8;
+}
+
+.tesseraeSelectedTile {
+    background-color: ghostwhite;
+}
+
+.tesseraeAllowedTile {
+    background-color: greenyellow;
+}
+
+/*
+ * Text Field
+ */
+
+.fieldTextArea {
+    width: 100%;
+    text-align: center;
+    resize: none;
+}
+
+/*
+ * Interpreter and command objects
+ */
 
 .fieldCommandArea {
     width: 100%;
@@ -30,14 +64,4 @@
     background-color: paleturquoise;
     font-family: monospace;
     font-size: 14px
-}
-
-.gameForm {
-    margin: 20px 0 20px 0;
-}
-
-.informationalText {
-    text-align: center;
-    font-size: 33px;
-    font-family: fantasy;
 }

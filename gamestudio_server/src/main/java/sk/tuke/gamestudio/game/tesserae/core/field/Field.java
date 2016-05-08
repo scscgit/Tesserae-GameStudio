@@ -84,7 +84,10 @@ public class Field implements Serializable
 	private Tile selectedTile;
 	private int selectedRow;
 	private int selectedColumn;
-	private Map<Integer, Boolean> allowedDirections = null;
+	private Map<Integer, Direction> allowedDirections = null;
+
+	//Score
+	private int score;
 
 	//Objects
 	private Tile[][] tiles;
@@ -97,9 +100,20 @@ public class Field implements Serializable
 		this.columns = builder.getColumns();
 		this.tiles = builder.makeTiles();
 
+		this.score = 0;
+
 		//Initializing a game state
 		this.state = GameState.PLAYING;
 		updateGameState();
+	}
+
+	public void addScore(int score)
+	{
+		this.score += score;
+	}
+	public int getScore()
+	{
+		return this.score;
 	}
 
 	//Updates game state
@@ -110,6 +124,9 @@ public class Field implements Serializable
 			if (isSolved())
 			{
 				this.state = GameState.WON;
+
+				//More score for the Winner
+				score *= 8;
 			}
 			else if (!isSolvable())
 			{
@@ -137,20 +154,30 @@ public class Field implements Serializable
 	}
 
 	//Uses HashMap, which was loaded during Tile selection, to decode whether the selected tile can move to coordinates
-	private boolean isAllowedMovement(int row, int column)
+	public boolean isAllowedMovementTo(int row, int column)
 	{
 		if (this.allowedDirections == null)
 		{
 			return false;
 		}
-		Boolean result = this.allowedDirections.get(row * getRows() + column);
-		return result == null ? false : result;
+		Direction result = this.allowedDirections.get(row * getRows() + column);
+		return result != null;
+	}
+
+	//Making conversion within TesseraeComponent easier, even though this can always be reversely calculated
+	public Direction getAllowedDirectionToCoordinates(int row, int column)
+	{
+		if (this.allowedDirections == null)
+		{
+			return null;
+		}
+		return this.allowedDirections.get(row * getRows() + column);
 	}
 
 	//Puts allowed movement directions in format of row*getRows()+column into a HashMap
 	private void loadAllowedDirections(Set<Direction> directions)
 	{
-		this.allowedDirections = new HashMap<Integer, Boolean>();
+		this.allowedDirections = new HashMap<Integer, Direction>();
 		for (Direction direction : directions)
 		{
 			//Upwards movements
@@ -158,15 +185,27 @@ public class Field implements Serializable
 			{
 				if (direction.getHorizontal().equals(Direction.HorizontalDirection.LEFT))
 				{
-					this.allowedDirections.put((getSelectedRow() - 2) * getRows() + getSelectedColumn() - 2, true);
+					this.allowedDirections.put((getSelectedRow() - 2) * getRows() + getSelectedColumn() - 2,
+					                           Direction.getDirection(
+						                           Direction.HorizontalDirection.LEFT,
+						                           Direction.VerticalDirection.UP
+					                           ));
 				}
 				else if (direction.getHorizontal().equals(Direction.HorizontalDirection.RIGHT))
 				{
-					this.allowedDirections.put((getSelectedRow() - 2) * getRows() + getSelectedColumn() + 2, true);
+					this.allowedDirections.put((getSelectedRow() - 2) * getRows() + getSelectedColumn() + 2,
+					                           Direction.getDirection(
+						                           Direction.HorizontalDirection.RIGHT,
+						                           Direction.VerticalDirection.UP
+					                           ));
 				}
 				else
 				{
-					this.allowedDirections.put((getSelectedRow() - 2) * getRows() + getSelectedColumn(), true);
+					this.allowedDirections.put((getSelectedRow() - 2) * getRows() + getSelectedColumn(),
+					                           Direction.getDirection(
+						                           Direction.HorizontalDirection.NONE,
+						                           Direction.VerticalDirection.UP
+					                           ));
 				}
 			}
 			//Downwards movements
@@ -174,25 +213,45 @@ public class Field implements Serializable
 			{
 				if (direction.getHorizontal().equals(Direction.HorizontalDirection.LEFT))
 				{
-					this.allowedDirections.put((getSelectedRow() + 2) * getRows() + getSelectedColumn() - 2, true);
+					this.allowedDirections.put((getSelectedRow() + 2) * getRows() + getSelectedColumn() - 2,
+					                           Direction.getDirection(
+						                           Direction.HorizontalDirection.LEFT,
+						                           Direction.VerticalDirection.DOWN
+					                           ));
 				}
 				else if (direction.getHorizontal().equals(Direction.HorizontalDirection.RIGHT))
 				{
-					this.allowedDirections.put((getSelectedRow() + 2) * getRows() + getSelectedColumn() + 2, true);
+					this.allowedDirections.put((getSelectedRow() + 2) * getRows() + getSelectedColumn() + 2,
+					                           Direction.getDirection(
+						                           Direction.HorizontalDirection.RIGHT,
+						                           Direction.VerticalDirection.DOWN
+					                           ));
 				}
 				else
 				{
-					this.allowedDirections.put((getSelectedRow() + 2) * getRows() + getSelectedColumn(), true);
+					this.allowedDirections.put((getSelectedRow() + 2) * getRows() + getSelectedColumn(),
+					                           Direction.getDirection(
+						                           Direction.HorizontalDirection.NONE,
+						                           Direction.VerticalDirection.DOWN
+					                           ));
 				}
 			}
 			//Only left or right
 			else if (direction.getHorizontal().equals(Direction.HorizontalDirection.LEFT))
 			{
-				this.allowedDirections.put((getSelectedRow()) * getRows() + getSelectedColumn() - 2, true);
+				this.allowedDirections.put((getSelectedRow()) * getRows() + getSelectedColumn() - 2,
+				                           Direction.getDirection(
+					                           Direction.HorizontalDirection.LEFT,
+					                           Direction.VerticalDirection.NONE
+				                           ));
 			}
 			else if (direction.getHorizontal().equals(Direction.HorizontalDirection.RIGHT))
 			{
-				this.allowedDirections.put((getSelectedRow()) * getRows() + getSelectedColumn() + 2, true);
+				this.allowedDirections.put((getSelectedRow()) * getRows() + getSelectedColumn() + 2,
+				                           Direction.getDirection(
+					                           Direction.HorizontalDirection.RIGHT,
+					                           Direction.VerticalDirection.NONE
+				                           ));
 			}
 			//No action on empty direction
 		}
@@ -417,7 +476,7 @@ public class Field implements Serializable
 			                     getSelectedColumn() == column;
 
 			fieldDrawing.append(isSelected ? graphicSelected
-				                    : (isAllowedMovement(row, column) ? graphicAllowedMovement : graphicNormal));
+				                    : (isAllowedMovementTo(row, column) ? graphicAllowedMovement : graphicNormal));
 		}
 		fieldDrawing.append("\n");
 	}
@@ -472,11 +531,11 @@ public class Field implements Serializable
 
 			//Draws the Tile
 			fieldDrawing.append(isSelected ? graphicSelectedLeft
-				                    : (isAllowedMovement(row, column) ? graphicAllowedMovementLeft
+				                    : (isAllowedMovementTo(row, column) ? graphicAllowedMovementLeft
 					                       : graphicNormalLeft));
 			fieldDrawing.append(getTile(row, column).toString(color));
 			fieldDrawing.append(isSelected ? graphicSelectedRight
-				                    : (isAllowedMovement(row, column) ? graphicAllowedMovementRight
+				                    : (isAllowedMovementTo(row, column) ? graphicAllowedMovementRight
 					                       : graphicNormalRight));
 		}
 		fieldDrawing.append("\n");

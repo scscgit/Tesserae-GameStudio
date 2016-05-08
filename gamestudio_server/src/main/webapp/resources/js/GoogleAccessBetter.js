@@ -42,13 +42,17 @@ var updateSignIn = function () {
         document.getElementById("userName").innerHTML = auth2.currentUser.get().getBasicProfile().getName();
 
         console.log('Google Signed In Event');
-        googleSignedInEvent();
+        if (googleSignedInEvent) {
+            googleSignedInEvent();
+        }
     } else {
         document.getElementById("SignInButton").classList.remove("skryty");
         //document.getElementById("SignedIn").classList.add("skryty");
 
         console.log('Google Signed Out Event');
-        googleSignedOutEvent();
+        if (googleSignedOutEvent) {
+            googleSignedOutEvent();
+        }
     }
 
     var userInfoElm = document.getElementById("userStatus");

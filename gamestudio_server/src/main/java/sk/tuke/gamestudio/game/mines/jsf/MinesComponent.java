@@ -1,5 +1,6 @@
 package sk.tuke.gamestudio.game.mines.jsf;
 
+import sk.tuke.gamestudio.game.mines.Mines;
 import sk.tuke.gamestudio.service.GameServices;
 import sk.tuke.gamestudio.game.mines.core.*;
 
@@ -7,20 +8,21 @@ import javax.faces.component.FacesComponent;
 import javax.faces.component.UICommand;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import javax.inject.Inject;
 import java.io.IOException;
 
 @FacesComponent("Mines")
 public class MinesComponent extends UICommand {
 
-    private static final String GAME = "mines";
+	@Inject
+	GameServices gameServices;
 
-    public GameServices getGameServices() {
+    /*public GameServices getGameServices() {
         return (GameServices) getStateHelper().eval("gameServices");
     }
-
     public void setGameServices(GameServices gameServices) {
         getStateHelper().put("gameServices", gameServices);
-    }
+    }*/
 
     private void processParamsAndHandleAction(FacesContext context) {
         Field field = (Field) getValue();
@@ -37,10 +39,10 @@ public class MinesComponent extends UICommand {
                 field.action(Integer.parseInt(row), Integer.parseInt(column));
                 if (field.getState() == GameState.SOLVED)
                 {
-                    GameServices gameServices = getGameServices();
+                    GameServices gameServices = this.gameServices;
                     if (gameServices != null)
                     {
-                        gameServices.saveScore(GAME, field.getScore());
+                        gameServices.saveScore(Mines.getGame().getName(), field.getScore());
                     }
 	                else
                     {
@@ -51,6 +53,8 @@ public class MinesComponent extends UICommand {
                 return;
             } catch (Exception e) {
                 e.printStackTrace();
+                //TODO replace by non-intrusive exception
+                throw new RuntimeException(e.getMessage());
             }
         }
     }

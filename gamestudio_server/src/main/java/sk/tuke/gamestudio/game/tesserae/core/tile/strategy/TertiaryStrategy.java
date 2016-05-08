@@ -42,6 +42,12 @@ public class TertiaryStrategy extends MovementStrategy
 	}
 
 	@Override
+	protected void addScore()
+	{
+		getField().addScore(30);
+	}
+
+	@Override
 	protected boolean canMove(int rowMoveOver, int columnMoveOver, int rowMoveTo, int columnMoveTo)
 	{
 		Tile moveOverTile = getTile(rowMoveOver, columnMoveOver);

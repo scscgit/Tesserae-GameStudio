@@ -17,11 +17,23 @@
         <component>
             <component-type>Tesserae</component-type>
         </component>
-        <!--<attribute>-->
-            <!--<description>-->
-                <!--<![CDATA[Theme used for displaying the component in case textOnly attribute was not used.]]>-->
-            <!--</description>-->
-            <!--<name>theme</name>-->
-        <!--</attribute>-->
+        <attribute>
+            <description>
+                <![CDATA[Width of a Tile as displayed in html img tag.]]>
+            </description>
+            <name>tileWidth</name>
+        </attribute>
+        <attribute>
+            <description>
+                <![CDATA[Height of a Tile as displayed in html img tag.]]>
+            </description>
+            <name>tileHeight</name>
+        </attribute>
+        <attribute>
+            <description>
+                <![CDATA[Theme used for displaying the component.]]>
+            </description>
+            <name>theme</name>
+        </attribute>
     </tag>
 </facelet-taglib>

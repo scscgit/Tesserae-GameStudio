@@ -108,6 +108,17 @@ public class FieldInterpreter extends AbstractInterpreter implements Serializabl
 		       getManager().getManagedField().getState() == Field.GameState.PLAYING;
 	}
 
+	protected boolean isGameFinished()
+	{
+		return getManager().getManagedField() != null
+		       &&
+		       (
+			       getManager().getManagedField().getState() == Field.GameState.WON
+			       ||
+			       getManager().getManagedField().getState() == Field.GameState.LOST
+		       );
+	}
+
 	protected FavoriteGameDatabaseService getFavoriteService() throws InterpreterException
 	{
 		if (this.service != null)
@@ -361,7 +372,7 @@ public class FieldInterpreter extends AbstractInterpreter implements Serializabl
 	private String executeHistory() throws InterpreterException
 	{
 		ColorMode color = getManager().getFieldColor();
-		if (isGameRunning())
+		if (isGameRunning() || isGameFinished())
 		{
 			int i = 0;
 			StringBuilder timelineString = new StringBuilder();
