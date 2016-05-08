@@ -1,14 +1,21 @@
-package sk.tuke.gamestudio.controller;
+package sk.tuke.gamestudio.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.validation.constraints.Size;
 
 /**
- * Common functionality between a temporary User and a current LoggedUser.
+ * Common functionality between a temporary RequestedUser and a current LoggedUser.
  * <p>
  * Created by Steve on 07.05.2016.
  */
-public abstract class AbstractUser
+@Entity (name = "GamestudioUser")
+@NamedQuery (name = "User.getByUsername",
+	query = "SELECT u FROM GamestudioUser u WHERE u.username=:username")
+public class GamestudioUser
 {
+	@Id
 	@Size (min = 5, max = 10)
 	private String username;
 
@@ -23,20 +30,20 @@ public abstract class AbstractUser
 	private String emailAddress;
 	private String profileImage;
 
-	public AbstractUser()
+	public GamestudioUser()
 	{
 	}
 
 	/*
-	public AbstractUser(String username)
+	public GamestudioUser(String username)
 	{
 		set(username);
 	}
-	public AbstractUser(String username, String password)
+	public GamestudioUser(String username, String password)
 	{
 		set(username, password);
 	}
-	public AbstractUser(long idGoogle, String realName, String profileImage, String emailAddress)
+	public GamestudioUser(long idGoogle, String realName, String profileImage, String emailAddress)
 	{
 		set(idGoogle, realName, profileImage, emailAddress);
 	}

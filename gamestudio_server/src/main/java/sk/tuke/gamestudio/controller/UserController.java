@@ -1,6 +1,9 @@
 package sk.tuke.gamestudio.controller;
 
 import org.primefaces.context.RequestContext;
+import sk.tuke.gamestudio.entity.GamestudioUser;
+import sk.tuke.gamestudio.service.user.UserException;
+import sk.tuke.gamestudio.service.user.UserService;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -15,37 +18,56 @@ import java.util.Map;
 public class UserController
 {
 	@Inject
-	private User user;
+	private RequestedUser requestedUser;
 
 	@Inject
 	private LoggedUser loggedUser;
 
+	@Inject
+	private UserService userService;
+
 	public String login()
 	{
-		if ("heslo".equals(user.getPassword()))
+		try
 		{
-			loggedUser.setGoogle(false);
-			loggedUser.setUsername(user.getUsername());
+			GamestudioUser user = userService.login(requestedUser.getUsername(), requestedUser.getPassword());
+
+			loggedUser.set(user.getUsername(), user.getPassword());
 			loggedUser.login();
 
-			return "index.xhtml";
+			return "favorites.xhtml";
 		}
-		else
+		catch (UserException e)
 		{
 			FacesContext.getCurrentInstance().addMessage(
 				null,
-				new FacesMessage(FacesMessage.SEVERITY_WARN,
-				                 "Incorrect Username and Password",
-				                 "Please enter correct username and Password"));
-			return "favorites.xhtml";
+				new FacesMessage(FacesMessage.SEVERITY_ERROR,
+				                 "Could not log the User in",
+				                 e.getMessage()));
+			//Do not navigate out of the page if the user information is not valid
+			return null;
 		}
 	}
 
 	public String register()
 	{
-		loggedUser.set(user.getUsername());
-		loggedUser.login();
-		return "index.xhtml";
+		try
+		{
+			userService.register(requestedUser.getUsername(), requestedUser.getPassword());
+
+			//Logs the user in
+			return login();
+		}
+		catch (UserException e)
+		{
+			FacesContext.getCurrentInstance().addMessage(
+				null,
+				new FacesMessage(FacesMessage.SEVERITY_ERROR,
+				                 "Could not register the User",
+				                 e.getMessage()));
+			//Do not navigate out of the page if the user information is not valid
+			return null;
+		}
 	}
 
 	/*public void logout()

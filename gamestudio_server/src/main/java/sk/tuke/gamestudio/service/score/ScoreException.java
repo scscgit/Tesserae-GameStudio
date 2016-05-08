@@ -1,6 +1,9 @@
 package sk.tuke.gamestudio.service.score;
 
-public class ScoreException extends Exception {
+import sk.tuke.gamestudio.service.DatabaseException;
+
+public class ScoreException extends DatabaseException
+{
     public ScoreException(String message, Throwable cause) {
         super(message, cause);
     }

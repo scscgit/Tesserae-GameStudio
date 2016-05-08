@@ -41,13 +41,13 @@
                             Prezývka:
                             <h:inputText id="nameLogin"
                                          styleClass="loginOrRegisterLabel"
-                                         value="#{user.username}"/>
+                                         value="#{requestedUser.username}"/>
                             <h:message for="nameLogin" errorClass="invalid"/>
 
                             Heslo:
                             <h:inputSecret id="passLogin"
                                            styleClass="loginOrRegisterLabel"
-                                           value="#{user.password}"/>
+                                           value="#{requestedUser.password}"/>
                             <h:message for="passLogin" errorClass="invalid"/>
                         </h:panelGrid>
 
@@ -68,13 +68,13 @@
                             Prezývka:
                             <h:inputText id="nameRegister"
                                          styleClass="loginOrRegisterLabel"
-                                         value="#{user.username}"/>
+                                         value="#{requestedUser.username}"/>
                             <h:message for="nameRegister" errorClass="invalid"/>
 
                             Heslo:
                             <h:inputSecret id="passRegister"
                                            styleClass="loginOrRegisterLabel"
-                                           value="#{user.password}"/>
+                                           value="#{requestedUser.password}"/>
                             <h:message for="passRegister" errorClass="invalid"/>
                         </h:panelGrid>
 

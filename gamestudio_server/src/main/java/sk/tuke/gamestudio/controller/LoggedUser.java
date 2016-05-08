@@ -1,12 +1,14 @@
 package sk.tuke.gamestudio.controller;
 
+import sk.tuke.gamestudio.entity.GamestudioUser;
+
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import java.io.Serializable;
 
 @Named
 @SessionScoped
-public class LoggedUser extends AbstractUser implements Serializable
+public class LoggedUser extends GamestudioUser implements Serializable
 {
 	private boolean logged;
 
