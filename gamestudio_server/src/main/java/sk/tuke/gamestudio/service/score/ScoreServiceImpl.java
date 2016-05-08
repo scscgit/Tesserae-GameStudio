@@ -23,7 +23,7 @@ public class ScoreServiceImpl implements ScoreService {
         "INSERT INTO score (ident, player, game, points, playedon) VALUES (?, ?, ?, ?, ?)";
 
     private static final String SELECT_STMT_BEST =
-        "SELECT ident, player, game, points, playedon FROM score WHERE game = ? ORDER BY points DESC LIMIT 10";
+        "SELECT ident, player, game, points, playedon FROM score WHERE game = ? ORDER BY points DESC LIMIT 100";
 
     private static final String SELECT_STMT_ALL =
         "SELECT ident, player, game, points, playedon FROM score WHERE game = ? ORDER BY points DESC";

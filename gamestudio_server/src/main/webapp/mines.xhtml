@@ -6,9 +6,9 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:g="http://www.tuke.sk/games"
                 xmlns:p="http://primefaces.org/ui"
->
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
 
-    <ui:param name="gameName" value="Minesweeper"/>
+    <ui:param name="gameName" value="#{minesweeper.game.name}"/>
 
     <ui:define name="style">
         <h:outputStylesheet library="css" name="mines.css"/>
@@ -22,7 +22,7 @@
                 $(document).ready(function () {
                     /*
                      $.ajax({
-                     url: "webapi/score/mines",
+                     url: "webapi/score/Minesweeper",
                      }).done(function(json) {
                      for(var i = 0; i < json.length; i++) {
                      var score = json[i];
@@ -37,7 +37,7 @@
                             {data: "points"},
                             {data: "playedOn"}
                         ],
-                        ajax: {url: "webapi/score/mines", dataSrc: ''}
+                        ajax: {url: "webapi/score/Minesweeper", dataSrc: ''}
                     });
                 });
             } catch (e) {
@@ -49,40 +49,70 @@
     </ui:define>
 
     <ui:define name="content">
-        <h:form id="form" styleClass="gameForm">
-            <div class="centerTable">
-                <table>
-                    <tr>
-                        <td>
+
+        <div class="centerTable">
+            <table>
+                <tr>
+                    <td>
+
+                        <!-- Minesweeper Field and buttons -->
+                        <h:form id="minesForm" styleClass="gameForm">
                             <div class="centerField">
                                 <g:mines value="#{minefield}"/>
                             </div>
-                            <p:commandButton value="New game" action="#{minefield.generate}" update="form"/>
+                            <p:commandButton value="New game" action="#{minefield.generate}" update="minesForm"/>
                             <p:selectBooleanButton onLabel="Mark" offLabel="Open" value="#{minefield.marking}">
-                                <p:ajax event="change" update="form"/>
+                                <p:ajax event="change" update="minesForm"/>
                             </p:selectBooleanButton>
-                        </td>
-                    </tr>
-                </table>
-            </div>
+                            <p:poll interval="1" update="mineScore"/>
+                        </h:form>
 
-            <div class="score">
-                Score: <h:outputLabel value="#{minefield.score}"/>
-            </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
 
-            <br/>
+        <table width="100%">
+            <tr>
+                <td>
+                    <div class="score">Skóre: <h:outputLabel id="mineScore" value="#{minefield.score}"/></div>
+                </td>
+                <td align="right">
 
-            <p:calendar mode="popup" styleClass="centerCalendar"/>
-        </h:form>
+                    <!-- Favorite Game button -->
+                    <c:if test="#{loggedUser.logged}">
+                        <h:form id="favoriteForm">
+                            <p:selectBooleanButton value="#{gameServices.isFavorite(minesweeper.game.name)}"
+                                                   onLabel="Hra patrí medzi vaše obľúbené"
+                                                   offLabel="Nastavte si hru ako obľúbenú"
+                                                   onIcon="ui-icon-heart"
+                                                   offIcon="ui-icon-heart"
+                                                   style="width:155px"
+                                                   valueChangeListener="#{gameServices.switchFavorite(minesweeper.game.name)}"
+
+                            >
+                                <p:ajax update="favoriteForm"/>
+                            </p:selectBooleanButton>
+                        </h:form>
+                    </c:if>
+
+                </td>
+            </tr>
+        </table>
+
+        <br/>
+
+        <p:calendar mode="popup" styleClass="centerCalendar"/>
+
 
         <div class="hallOfFame">
-            <h2>Hall of Fame</h2>
+            <h2>Sieň slávy</h2>
             <table id="scoreTable">
                 <thead>
                 <tr bgcolor="#f0ffff">
-                    <th>Player</th>
-                    <th>Points</th>
-                    <th>Played on</th>
+                    <th>Hráč</th>
+                    <th>Počet bodov</th>
+                    <th>Dátum hrania</th>
                 </tr>
                 </thead>
             </table>

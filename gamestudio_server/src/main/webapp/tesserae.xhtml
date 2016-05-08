@@ -7,9 +7,9 @@
                 xmlns:g="http://www.tuke.sk/games"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core"
->
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
 
-    <ui:param name="gameName" value="Tesserae"/>
+    <ui:param name="gameName" value="#{tesserae.game.name}"/>
 
     <ui:define name="style">
         <h:outputStylesheet library="css" name="tesserae.css"/>
@@ -94,20 +94,49 @@
 
         </h:form>
 
-        <!-- Theme chooser -->
-        <h:form>
-            <p style="font-size: 16px;">Grafický motív:</p>
+        <!-- Theme chooser and Favorite Game button -->
+        <table width="100%">
+            <tr>
+                <td>
 
-            <p:selectOneMenu value="#{themeChooser.themeByName}"
-                             onchange="submit()"
-            >
-                <f:selectItems value="#{themeChooser.allThemes}"
-                               var="Theme"
-                               itemValue="#{Theme.displayedName}"
-                               itemLabel="#{Theme.displayedName}"
-                />
-            </p:selectOneMenu>
-        </h:form>
+                    <!-- Theme chooser -->
+                    <h:form>
+                        <p style="font-size: 16px;">Grafický motív:</p>
+
+                        <p:selectOneMenu value="#{themeChooser.themeByName}"
+                                         onchange="submit()"
+                        >
+                            <f:selectItems value="#{themeChooser.allThemes}"
+                                           var="Theme"
+                                           itemValue="#{Theme.displayedName}"
+                                           itemLabel="#{Theme.displayedName}"
+                            />
+                        </p:selectOneMenu>
+                    </h:form>
+
+                </td>
+                <td align="right">
+
+                    <!-- Favorite Game button -->
+                    <c:if test="#{loggedUser.logged}">
+                        <h:form id="favoriteForm">
+                            <p:selectBooleanButton value="#{gameServices.isFavorite(tesserae.game.name)}"
+                                                   onLabel="Hra patrí medzi vaše obľúbené"
+                                                   offLabel="Nastavte si hru ako obľúbenú"
+                                                   onIcon="ui-icon-heart"
+                                                   offIcon="ui-icon-heart"
+                                                   style="width:155px"
+                                                   valueChangeListener="#{gameServices.switchFavorite(tesserae.game.name)}"
+                            >
+                                <p:ajax update="favoriteForm"/>
+                            </p:selectBooleanButton>
+                        </h:form>
+                    </c:if>
+
+                </td>
+            </tr>
+        </table>
+
     </ui:define>
 
 </ui:composition>

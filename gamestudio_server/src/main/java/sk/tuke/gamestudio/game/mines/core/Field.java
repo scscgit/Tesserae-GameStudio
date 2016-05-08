@@ -22,6 +22,8 @@ public class Field implements Serializable {
 
     private boolean marking;
 
+    private int score;
+
     public Field() {
         this(9, 9, 2);
     }
@@ -165,12 +167,23 @@ public class Field implements Serializable {
         return count;
     }
 
+	//Generates a new Score for a solved game
+    public int getNewScore() {
+	    int seconds = (int) ((System.currentTimeMillis() - startMillis) / 1000);
+	    this.score = rowCount * columnCount * 3 - seconds;
+	    if(this.score < 0) {
+		    this.score = 0;
+	    }
+	    return this.score;
+    }
+
+	//Returns last generated Score, or generates it again if the game is not yet solved
     public int getScore() {
         if (state == GameState.SOLVED) {
-            int seconds = (int) ((System.currentTimeMillis() - startMillis) / 1000);
-            return rowCount * columnCount * 3 - seconds;
+            return this.score;
+        } else {
+            return getNewScore();
         }
-        return 0;
     }
 
     public void setMarking(boolean marking) {

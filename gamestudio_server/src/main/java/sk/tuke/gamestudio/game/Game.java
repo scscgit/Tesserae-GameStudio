@@ -26,13 +26,13 @@
 
 package sk.tuke.gamestudio.game;
 
-import sk.tuke.gamestudio.game.mines.Mines;
-import sk.tuke.gamestudio.game.tesserae.Tesserae;
-
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * A game.
@@ -44,27 +44,44 @@ import java.util.*;
 public class Game implements Serializable
 {
 	private String name;
+	private String internalPathName;
 
 	private static List<Game> allGames = new LinkedList<>();
 
 	static
 	{
-		allGames.add(Tesserae.getGame());
-		allGames.add(Mines.getGame());
+		//AD-HOC solution to null minesweeper problem
+		allGames.add(new Game("Tesserae"));
+		allGames.add(new Game("Minesweeper", "mines"));
+
+		//allGames.add(Tesserae.getGameStatic());
+		//allGames.add(Minesweeper.getGameStatic());
 	}
 
 	public Game()
 	{
 	}
 
-	public Game(String name)
+	//Full Game constructor
+	public Game(String name, String internalPathName)
 	{
 		this.name = name;
+		this.internalPathName = internalPathName;
+	}
+
+	//Implicit path name
+	public Game(String name)
+	{
+		this(name, name.toLowerCase());
 	}
 
 	public String getName()
 	{
 		return name;
+	}
+	public String getInternalPathName()
+	{
+		return internalPathName;
 	}
 
 	@Override
@@ -79,18 +96,47 @@ public class Game implements Serializable
 		return object instanceof Game && ((Game) object).getName().equals(getName());
 	}
 
-	public static String getAddress(String game)
+	//Sometimes JSF can only work with Strings
+	public static Game getGameByName(String gameName)
 	{
-		return game.toLowerCase() + ".xhtml";
+		for (Game game : allGamesStatic())
+		{
+			if (game.getName().equals(gameName))
+			{
+				return game;
+			}
+		}
+		return null;
 	}
 
-	public static String getImageOverview(String game)
+	public static String getAddress(String gameName)
 	{
-		return "resources/images/" + game.toLowerCase() + "/overview.png";
+		return getGameByName(gameName).getInternalPathName() + ".xhtml";
 	}
 
-	public static Collection<Game> allGames()
+	public static String getImageOverview(String gameName)
 	{
-		return Collections.unmodifiableCollection(Game.allGames);
+		return "resources/images/" + getGameByName(gameName).getInternalPathName() + "/overview.png";
+	}
+
+	public Collection<Game> getAllGames()
+	{
+		return Game.allGamesStatic();
+	}
+
+	public static Collection<Game> allGamesStatic()
+	{
+		Collection<Game> games = Collections.unmodifiableCollection(Game.allGames);
+
+		//Easy DEBUG hook with neutral action if everything is OK
+		for (Game game : Game.allGames)
+		{
+			if (game == null)
+			{
+				throw new RuntimeException("GAME IN ALL GAMES IS NULL!");
+			}
+		}
+
+		return games;
 	}
 }

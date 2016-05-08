@@ -22,15 +22,15 @@
         <hr/>
 
         <!-- Dynamically "spawns" all games -->
-        <p:dataScroller value="#{game.allGames()}"
+        <p:dataScroller value="#{game.allGames}"
                         var="curentGame"
                         styleClass="dataScrollerOverride"
         >
 
             <div class="games">
-                <a href="#{game.getAddress(curentGame)}">
-                    <p>#{curentGame}</p>
-                    <img src="#{game.getImageOverview(curentGame)}"/>
+                <a href="#{game.getAddress(curentGame.name)}">
+                    <p>#{curentGame.name}</p>
+                    <img src="#{game.getImageOverview(curentGame.name)}"/>
                 </a>
             </div>
             <hr/>

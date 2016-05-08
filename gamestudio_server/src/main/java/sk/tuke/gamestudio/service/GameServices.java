@@ -12,8 +12,10 @@ import java.util.List;
 public interface GameServices
 {
 	void saveScore(String game, int points) throws ScoreException;
-	public List<Score> getBestScores(String game) throws ScoreException;
+	List<Score> getBestScores(String game) throws ScoreException;
 	List<Score> getMyAllScores() throws ScoreException;
 
 	List<FavoriteGameEntity> getFavorites() throws FavoriteException;
+	void switchFavorite(String game) throws FavoriteException;
+	boolean isFavorite(String game) throws FavoriteException;
 }

@@ -62,7 +62,7 @@ public class GameServicesImpl implements GameServices
 			{
 				final String currentPlayer = userController.getLoggedUser().getName();
 				LinkedList<Score> myAllScores = new LinkedList<>();
-				for (Game game : Game.allGames())
+				for (Game game : Game.allGamesStatic())
 				{
 					//Downloads all scores for a single game
 					String gameName = game.getName();
@@ -106,6 +106,49 @@ public class GameServicesImpl implements GameServices
 		else
 		{
 			return null;
+		}
+	}
+	@Override
+	public void switchFavorite(String game) throws FavoriteException
+	{
+		LoggedUser user = userController.getLoggedUser();
+
+		boolean logged = user.isLogged();
+		if (logged)
+		{
+			if (isFavorite(game))
+			{
+				favoriteGameService.removeFavorite(user.getName(), game);
+			}
+			else
+			{
+				favoriteGameService.addFavorite(user.getName(), game);
+			}
+		}
+	}
+	@Override
+	public boolean isFavorite(String game) throws FavoriteException
+	{
+		if (userController.getLoggedUser().isLogged())
+		{
+			String userName = userController.getLoggedUser().getName();
+
+			List<FavoriteGameEntity> favorites = favoriteGameService.getFavorites(userName);
+
+			for (FavoriteGameEntity favorite : favorites)
+			{
+				if (favorite.getGame().equals(game))
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+		else
+		{
+			//User who is not logged in implicitly sees all games as his favorite
+			//This may be subject to further discussion, of course
+			return true;
 		}
 	}
 }

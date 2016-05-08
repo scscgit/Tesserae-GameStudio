@@ -171,7 +171,18 @@
                                     <c:if test="#{not empty loggedUser.realName}">
                                         <p>Vitajte, <h:outputLabel id="userName" value="#{loggedUser.realName}"/>.</p>
                                     </c:if>
-                                    <p>Získal som dokopy #{utility.sumScores(gameServices.myAllScores)} skóre.</p>
+                                    <h:form>
+                                        <p>
+                                            Máte dokopy <h:outputText id="myAllScores"
+                                                                      value="#{utility.sumScores(gameServices.myAllScores)}"/> skóre.
+                                        </p>
+                                        <p>
+                                            Počet obľúbených hier: <h:outputText id="numberOfFavGames"
+                                                                                 value="#{gameServices.favorites.size()}"
+                                        />.
+                                        </p>
+                                        <p:poll interval="1" update="myAllScores numberOfFavGames"/>
+                                    </h:form>
                                 </ui:insert>
 
                                 <!-- Sign Out option -->

@@ -98,7 +98,7 @@ public class FieldInterpreter extends AbstractInterpreter implements Serializabl
 	//Field Interpreter interprets everything for a Tesserae game
 	protected Game getGame()
 	{
-		return Tesserae.getGame();
+		return Tesserae.getGameStatic();
 	}
 
 	protected boolean isGameRunning()

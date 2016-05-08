@@ -1,6 +1,6 @@
 package sk.tuke.gamestudio.game.mines.jsf;
 
-import sk.tuke.gamestudio.game.mines.Mines;
+import sk.tuke.gamestudio.game.mines.Minesweeper;
 import sk.tuke.gamestudio.service.GameServices;
 import sk.tuke.gamestudio.game.mines.core.*;
 
@@ -42,7 +42,7 @@ public class MinesComponent extends UICommand {
                     GameServices gameServices = this.gameServices;
                     if (gameServices != null)
                     {
-                        gameServices.saveScore(Mines.getGame().getName(), field.getScore());
+                        gameServices.saveScore(Minesweeper.getGameStatic().getName(), field.getNewScore());
                     }
 	                else
                     {

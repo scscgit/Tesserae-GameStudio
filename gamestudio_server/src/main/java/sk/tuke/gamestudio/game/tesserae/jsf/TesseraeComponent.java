@@ -112,7 +112,7 @@ public class TesseraeComponent extends UICommand
 				{
 					if (state.equals(Field.GameState.WON) || state.equals(Field.GameState.LOST))
 					{
-						gameServices.saveScore(Tesserae.getGame().getName(), field.getScore());
+						gameServices.saveScore(Tesserae.getGameStatic().getName(), field.getScore());
 					}
 				}
 				else

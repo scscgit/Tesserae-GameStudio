@@ -28,17 +28,26 @@ package sk.tuke.gamestudio.game.tesserae;
 
 import sk.tuke.gamestudio.game.Game;
 
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
+
 /**
  * Game representation.
  * <p/>
  * Created by Steve on 22.2.2016.
  */
+@Named
+@RequestScoped
 public class Tesserae
 {
 	//Singleton game representation
 	private static Game tesserae = new Game("Tesserae");
 
-	public static Game getGame()
+	public Game getGame()
+	{
+		return Tesserae.tesserae;
+	}
+	public static Game getGameStatic()
 	{
 		return Tesserae.tesserae;
 	}

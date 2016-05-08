@@ -133,7 +133,7 @@ public class ConsoleUI implements FieldManager
 			//If the user did not like the game yet, let's annoy him by offering him that option
 			if (favoriteGames != null)
 			{
-				Game currentGame = Tesserae.getGame();
+				Game currentGame = Tesserae.getGameStatic();
 				if (!isGameAlreadyFavorite(currentGame, favoriteGames))
 				{
 					System.out.println("Did you like this game? Make it your favorite by saying \"yes please\"!");
