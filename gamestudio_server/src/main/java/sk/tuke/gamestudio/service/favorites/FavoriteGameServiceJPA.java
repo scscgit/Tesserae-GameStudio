@@ -37,11 +37,19 @@ public class FavoriteGameServiceJPA implements FavoriteGameDatabaseService
 			.executeUpdate();
 	}
 	@Override
-	public List<FavoriteGameEntity> getFavorites(String player) throws FavoriteException
+	public List<FavoriteGameEntity> getFavoriteGames(String player) throws FavoriteException
 	{
 		return entityManager
 			.createNamedQuery("FavoriteGameEntity.getFavoriteGames")
 			.setParameter("player", player)
+			.getResultList();
+	}
+	@Override
+	public List<FavoriteGameEntity> getFavoriteGamePlayers(String game) throws FavoriteException
+	{
+		return entityManager
+			.createNamedQuery("FavoriteGameEntity.getFavoriteGamePlayers")
+			.setParameter("game", game)
 			.getResultList();
 	}
 }

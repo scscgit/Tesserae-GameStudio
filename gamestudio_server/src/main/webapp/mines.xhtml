@@ -20,17 +20,6 @@
             try {
                 //Scripts launched on page load
                 $(document).ready(function () {
-                    /*
-                     $.ajax({
-                     url: "webapi/score/Minesweeper",
-                     }).done(function(json) {
-                     for(var i = 0; i < json.length; i++) {
-                     var score = json[i];
-                     $("#scoreList").append($("<li>" + score.player + " " + score.points + " " + score.playedOn + "</li>"));
-                     }
-                     });
-                     */
-
                     $('#scoreTable').DataTable({
                         columns: [
                             {data: "player"},
@@ -101,10 +90,9 @@
         </table>
 
         <br/>
-
         <p:calendar mode="popup" styleClass="centerCalendar"/>
 
-
+        <!-- Hall of Fame created using REST api using javascript -->
         <div class="hallOfFame">
             <h2>Sieň slávy</h2>
             <table id="scoreTable">

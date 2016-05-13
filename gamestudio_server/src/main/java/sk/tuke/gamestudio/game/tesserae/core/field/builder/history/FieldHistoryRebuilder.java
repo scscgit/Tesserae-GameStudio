@@ -46,10 +46,13 @@ public class FieldHistoryRebuilder extends FieldBuilder
 {
 	private LinkedList<Tile[][]> history;
 
+	private LinkedList<Integer> scoreHistory;
+
 	public FieldHistoryRebuilder(int rows, int columns)
 	{
 		super(rows, columns);
-		this.history = new LinkedList<Tile[][]>();
+		this.history = new LinkedList<>();
+		this.scoreHistory = new LinkedList<>();
 	}
 
 	public void saveState(Field field)
@@ -72,13 +75,14 @@ public class FieldHistoryRebuilder extends FieldBuilder
 			}
 		}
 		this.history.addLast(tilesState);
+		this.scoreHistory.addLast(field.getScore());
 	}
 
 	//Returns an entire timeline of the game since it began
 	public LinkedList<Field> getTimeline()
 	{
-		LinkedList<Field> timeline = new LinkedList<Field>();
-		//Anonymously generating a field for each movement in the history
+		LinkedList<Field> timeline = new LinkedList<>();
+		//Anonymously generating a Field for each movement in the history
 		for (final Tile[][] tiles : this.history)
 		{
 			timeline.addLast
@@ -121,10 +125,19 @@ public class FieldHistoryRebuilder extends FieldBuilder
 	}
 
 	//Returns a previous state by doing an actual timetravel.
+	//Also pops score, never call new Field(this) directly without taking a score out too
 	//A.K.A Pop();Top();
 	@Override
 	public Field getField()
 	{
-		return new Field(this);
+		Field field = new Field(this);
+		field.setScore(getScore());
+		return field;
+	}
+
+	public int getScore()
+	{
+		this.scoreHistory.removeLast();
+		return this.scoreHistory.getLast();
 	}
 }

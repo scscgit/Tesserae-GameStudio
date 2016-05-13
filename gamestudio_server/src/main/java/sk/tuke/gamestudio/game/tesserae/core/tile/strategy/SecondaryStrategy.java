@@ -46,7 +46,7 @@ public class SecondaryStrategy extends MovementStrategy
 	@Override
 	protected void addScore()
 	{
-		getField().addScore(10);
+		getField().addScoreBeforeModification(10);
 	}
 
 	@Override

@@ -23,15 +23,18 @@
 }
 
 .tesseraeField > table > tbody > tr > td {
-    border: 1px solid #0043A8;
+    border: 3px solid #0043A8;
+    border-style: dotted;
 }
 
 .tesseraeSelectedTile {
     background-color: ghostwhite;
+    border: 3px solid green !important;
 }
 
 .tesseraeAllowedTile {
     background-color: greenyellow;
+    border: 3px solid white !important;
 }
 
 /*
@@ -64,4 +67,15 @@
     background-color: paleturquoise;
     font-family: monospace;
     font-size: 14px
+}
+
+/**
+ * Current game status information
+ */
+.scoreAndMoves {
+    margin-top: 20px;
+}
+
+.scoreAndMoves > tbody > tr > td > label {
+    color: lightyellow;
 }

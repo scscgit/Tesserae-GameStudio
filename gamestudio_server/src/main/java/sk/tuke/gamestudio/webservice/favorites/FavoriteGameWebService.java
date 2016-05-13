@@ -37,6 +37,6 @@ public class FavoriteGameWebService
 	}
 	public List<FavoriteGameEntity> getFavorites(String player) throws FavoriteException
 	{
-		return favoriteGameDatabaseService.getFavorites(player);
+		return favoriteGameDatabaseService.getFavoriteGames(player);
 	}
 }

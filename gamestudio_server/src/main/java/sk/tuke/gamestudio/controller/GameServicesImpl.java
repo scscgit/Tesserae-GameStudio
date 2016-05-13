@@ -101,7 +101,7 @@ public class GameServicesImpl implements GameServices
 	{
 		if (userController.getLoggedUser().isLogged())
 		{
-			return favoriteGameService.getFavorites(userController.getLoggedUser().getName());
+			return favoriteGameService.getFavoriteGames(userController.getLoggedUser().getName());
 		}
 		else
 		{
@@ -133,7 +133,7 @@ public class GameServicesImpl implements GameServices
 		{
 			String userName = userController.getLoggedUser().getName();
 
-			List<FavoriteGameEntity> favorites = favoriteGameService.getFavorites(userName);
+			List<FavoriteGameEntity> favorites = favoriteGameService.getFavoriteGames(userName);
 
 			for (FavoriteGameEntity favorite : favorites)
 			{
@@ -148,6 +148,7 @@ public class GameServicesImpl implements GameServices
 		{
 			//User who is not logged in implicitly sees all games as his favorite
 			//This may be subject to further discussion, of course
+			//The button is hidden though
 			return true;
 		}
 	}

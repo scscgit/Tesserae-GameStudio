@@ -41,10 +41,6 @@ public interface FavoriteGameDatabaseService
 	void addFavorite(FavoriteGameEntity favorite) throws FavoriteException;
 	void removeFavorite(String player, String game) throws FavoriteException;
 
-	List<FavoriteGameEntity> getFavorites(String player) throws FavoriteException;
-
-	//Deprecated support, will be optional for implementations
-	//void recreateTable() throws FavoriteException;
-	//void createTable() throws FavoriteException;
-	//void dropTable() throws FavoriteException;
+	List<FavoriteGameEntity> getFavoriteGames(String player) throws FavoriteException;
+	List<FavoriteGameEntity> getFavoriteGamePlayers(String game) throws FavoriteException;
 }

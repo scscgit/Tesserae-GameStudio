@@ -31,7 +31,7 @@ public class FavoriteGameRestService
 	{
 		try
 		{
-			List<FavoriteGameEntity> favorites = favoriteGameService.getFavorites(player);
+			List<FavoriteGameEntity> favorites = favoriteGameService.getFavoriteGames(player);
 			return favorites;
 		}
 		catch (FavoriteException e)

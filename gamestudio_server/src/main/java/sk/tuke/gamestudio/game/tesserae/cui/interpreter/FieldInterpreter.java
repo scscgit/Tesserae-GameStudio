@@ -333,7 +333,7 @@ public class FieldInterpreter extends AbstractInterpreter implements Serializabl
 			{
 				getManager().getManagedField().move(Direction.getDirection(horizontalDirection, verticalDirection));
 				//Callback that does required tasks after the field changed its state
-				//(As of time of writing this, the only task is saving a new history state in the timeline)
+				//As of time of writing this, tasks are saving a new history state in the timeline and updating the score
 				getManager().fieldUpdatedCallback();
 			}
 			catch (TileCannotMoveException e)
@@ -527,7 +527,7 @@ public class FieldInterpreter extends AbstractInterpreter implements Serializabl
 		}
 		try
 		{
-			favorites = favoriteService.getFavorites(getManager().getPlayer());
+			favorites = favoriteService.getFavoriteGames(getManager().getPlayer());
 			if (favorites == null)
 			{
 				throw new InterpreterException("Database service for favorite games returned invalid list.");

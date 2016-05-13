@@ -25,7 +25,7 @@ public class Field implements Serializable {
     private int score;
 
     public Field() {
-        this(9, 9, 2);
+        this(9, 9, 8);
     }
 
     public Field(int rowCount, int columnCount, int mineCount) {

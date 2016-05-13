@@ -34,9 +34,7 @@ public class LoggedUser extends GamestudioUser implements Serializable
 	{
 		if (isGoogle())
 		{
-			//TODO demo lol
-			//return getRealName();
-			return "Steve";
+			return getNickName();
 		}
 		else
 		{

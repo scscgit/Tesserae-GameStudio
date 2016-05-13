@@ -44,7 +44,7 @@ public class TertiaryStrategy extends MovementStrategy
 	@Override
 	protected void addScore()
 	{
-		getField().addScore(30);
+		getField().addScoreBeforeModification(30);
 	}
 
 	@Override

@@ -44,7 +44,7 @@ public class PrimaryStrategy extends MovementStrategy
 	@Override
 	protected void addScore()
 	{
-		getField().addScore(5);
+		getField().addScoreBeforeModification(5);
 	}
 
 	@Override

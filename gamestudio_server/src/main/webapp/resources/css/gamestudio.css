@@ -15,7 +15,7 @@ a:visited {
 }
 
 /**
- * Farby
+ * Colors
  */
 
 #redText {
@@ -52,4 +52,13 @@ a:visited {
 
 .centerText {
     text-align: center;
+}
+
+/*
+ * Included in all Games
+ */
+
+.hallOfFame {
+    margin-top: 20px;
+    color: white;
 }

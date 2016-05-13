@@ -23,7 +23,9 @@ public class ThemeChooser implements Serializable
 	static
 	{
 		allThemes.add(new Theme("Text-Only"));
-		allThemes.add(new Theme("Browser War", "browser"));
+		allThemes.add(new Theme("Android Classics", "android"));
+		allThemes.add(new Theme("RGB Color Mixing", "rgb"));
+		allThemes.add(new Theme("Browser Wars", "browser"));
 	}
 
 	private Theme theme = DEFAULT_THEME;

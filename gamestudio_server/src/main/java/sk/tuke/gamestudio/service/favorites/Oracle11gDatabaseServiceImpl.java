@@ -68,6 +68,9 @@ public class Oracle11gDatabaseServiceImpl extends AbstractDatabaseService implem
 	private static final String SELECT_STMT =
 		"player, game, chosen_on FROM favorites WHERE player = ? ORDER BY game DESC";
 
+	private static final String SELECT_PLAYERS_STMT =
+		"player, game, chosen_on FROM favorites WHERE game = ? ORDER BY player DESC";
+
 	public Oracle11gDatabaseServiceImpl()
 	{
 		super(URL, LOGIN, PASSWORD);
@@ -121,7 +124,7 @@ public class Oracle11gDatabaseServiceImpl extends AbstractDatabaseService implem
 		}
 	}
 
-	public List<FavoriteGameEntity> getFavorites(String player) throws FavoriteException
+	public List<FavoriteGameEntity> getFavoriteGames(String player) throws FavoriteException
 	{
 		List<FavoriteGameEntity> favorites = new ArrayList<FavoriteGameEntity>();
 
@@ -129,6 +132,38 @@ public class Oracle11gDatabaseServiceImpl extends AbstractDatabaseService implem
 		{
 			PreparedStatement ps = getConnection().prepareStatement("SELECT " + SELECT_STMT);
 			StatementAttribute.set(ps, 1, player);
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next())
+			{
+				favorites.add
+					(
+						new FavoriteGameEntity
+							(
+								rs.getString(1),
+								rs.getString(2),
+								rs.getTimestamp(3)
+							)
+					);
+			}
+		}
+		catch (SQLException e)
+		{
+			throw new FavoriteException("Error loading favorite games: " + e.getMessage(), e);
+		}
+
+		return favorites;
+	}
+
+	@Override
+	public List<FavoriteGameEntity> getFavoriteGamePlayers(String game) throws FavoriteException
+	{
+		List<FavoriteGameEntity> favorites = new ArrayList<FavoriteGameEntity>();
+
+		try
+		{
+			PreparedStatement ps = getConnection().prepareStatement("SELECT " + SELECT_PLAYERS_STMT);
+			StatementAttribute.set(ps, 1, game);
 			ResultSet rs = ps.executeQuery();
 
 			while (rs.next())

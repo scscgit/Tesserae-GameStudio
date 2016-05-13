@@ -93,7 +93,7 @@ function startGSingIn() {
 function onSuccess(googleUser) {
     //Reading the user data
     var profile = googleUser.getBasicProfile();
-    
+
     //Filtering the reqired data
     var id = profile.getId();
     var name = profile.getName();
@@ -102,19 +102,30 @@ function onSuccess(googleUser) {
     var imageUrl = profile.getImageUrl();
     var email = profile.getEmail();
 
-    $('Gname').val(name);
-    $('GgivenName').val(givenName);
-    $('GfamilyName').val(familyName);
+    //ID sa nema pouzivat na komunikaciu so serverom, takze v pripade rozsirovania aplikacie
+    //bude potrebne nacitavat ho pomocou overenych sposobov na zaklade Google OAuth navodu
+    $('.Gid > input').val(id);
+    $('.GnickName > input').val(name);
+    if (familyName != null) {
+        $('.GrealName > input').val(givenName + " " + familyName);
+    } else {
+        $('.GrealName > input').val(givenName);
+    }
+
+    $('.Gemail > input').val(email);
+    $('.Gimage > input').val(imageUrl);
 
     //PrimeFaces RemoteCommand call
-    onSuccessGoogleController([{
-        id: id,
-        name: name,
-        givenName: givenName,
-        familyName: familyName,
-        imageUrl: imageUrl,
-        email: email
-    }]);
+    onSuccessGoogleController(
+        // [{
+        //     id: id,
+        //     name: name,
+        //     givenName: givenName,
+        //     familyName: familyName,
+        //     imageUrl: imageUrl,
+        //     email: email
+        // }]
+    );
 
     //Logging updated state
     console.log('Logged in as: ' + name);

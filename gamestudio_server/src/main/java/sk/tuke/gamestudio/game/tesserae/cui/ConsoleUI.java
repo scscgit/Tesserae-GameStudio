@@ -187,7 +187,7 @@ public class ConsoleUI implements FieldManager
 		try
 		{
 			FavoriteGameDatabaseService favoriteGameService = getFavoriteService();
-			favoriteGames = favoriteGameService.getFavorites(player);
+			favoriteGames = favoriteGameService.getFavoriteGames(player);
 		}
 		catch (FavoriteException e)
 		{

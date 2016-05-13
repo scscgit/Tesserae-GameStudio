@@ -7,11 +7,9 @@ import sk.tuke.gamestudio.service.user.UserService;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.Map;
 
 @Named
 @RequestScoped
@@ -71,7 +69,9 @@ public class UserController
 		}
 	}
 
-	/*public void logout()
+	/*
+	//Logout request changed to opposite direction, logout() gets called indirectly from the signOut hook
+	public void logout()
 	{
 		//Current context
 		//RequestContext context = RequestContext.getCurrentInstance();
@@ -83,7 +83,8 @@ public class UserController
 		loggedUser.logout();
 
 		//context.execute("window.location.reload();");
-	}*/
+	}
+	*/
 
 	public LoggedUser getLoggedUser()
 	{
@@ -101,27 +102,23 @@ public class UserController
 		//Current context
 		RequestContext context = RequestContext.getCurrentInstance();
 
-		//TODO do by bean, js set value to managed object
-
-		//Received parameters
+		//Attempt at receiving parameters in old version
 		//Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-
-		//Hidden input fields
-		Map<Object, Object> params = FacesContext.getCurrentInstance().getAttributes();
-		String id = (String)params.get("id");
-		String name = (String)params.get("name");
+		//Map<Object, Object> params = FacesContext.getCurrentInstance().getAttributes();
+		//String id = (String)params.get("id");
+		//String name = (String)params.get("name");
 		//String givenName = (String)params.get("givenName");
 		//String familyName = (String)params.get("familyName");
-		String imageUrl = (String)params.get("imageUrl");
-		String email = (String)params.get("email");
+		//String imageUrl = (String)params.get("imageUrl");
+		//String email = (String)params.get("email");
 
 		//Logging in
-		loggedUser.set(id, name, imageUrl, email);
+		loggedUser.set(requestedUser.getIdGoogle(), requestedUser.getNickName(), requestedUser.getRealName(),
+		               requestedUser.getProfileImage(), requestedUser.getEmailAddress());
 		loggedUser.login();
 
 		//Navigates to the main page
-		//context.execute("window.location.replace('.');");
-		context.execute("window.location.replace('"+name+"');"); //todo del debug
+		context.execute("window.location.replace('.');");
 
 		//Notify the user about success of the action
 		//Does not work

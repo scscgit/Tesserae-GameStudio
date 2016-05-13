@@ -51,6 +51,11 @@ import java.sql.Timestamp;
 			),
 		@NamedQuery
 			(
+				name = "FavoriteGameEntity.getFavoriteGamePlayers"
+				, query = "SELECT e FROM FavoriteGameEntity e WHERE e.game = :game"
+			),
+		@NamedQuery
+			(
 				name = "FavoriteGameEntity.removeEntity"
 				, query = "DELETE FROM FavoriteGameEntity WHERE player = :player AND game = :game"
 			)

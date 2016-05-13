@@ -27,7 +27,7 @@
                             {data: "points"},
                             {data: "playedOn"}
                         ],
-                        ajax: {url: "webapi/score/mines", dataSrc: ''}
+                        ajax: {url: "webapi/score/Tesserae", dataSrc: ''}
                     });
 
                     //Text areas will scale dynamically
@@ -73,7 +73,7 @@
                 <p:commandButton id="fieldCommandButton"
                                  value="interpret command!"
                                  action="#{tesseraemanager.interpretCommand}"
-                                 update="@form"
+                                 update="@form scoreAndMovesForm"
                 />
 
                 <p:commandButton id="helpButton"
@@ -100,9 +100,8 @@
                 <td>
 
                     <!-- Theme chooser -->
+                    <h2>Grafický motív:</h2>
                     <h:form>
-                        <p style="font-size: 16px;">Grafický motív:</p>
-
                         <p:selectOneMenu value="#{themeChooser.themeByName}"
                                          onchange="submit()"
                         >
@@ -115,6 +114,7 @@
                     </h:form>
 
                 </td>
+
                 <td align="right">
 
                     <!-- Favorite Game button -->
@@ -137,6 +137,33 @@
             </tr>
         </table>
 
+        <!-- Current score and number of moves -->
+        <h:form id="scoreAndMovesForm">
+            <table width="100%" class="scoreAndMoves">
+                <tr>
+                    <td width="50%">
+                        <p:outputLabel>Current score: #{tesseraemanager.score}</p:outputLabel>
+                    </td>
+                    <td width="50%">
+                        <p:outputLabel>Number of moves: #{tesseraemanager.timelineSize}</p:outputLabel>
+                    </td>
+                </tr>
+            </table>
+        </h:form>
+
+        <!-- Hall of Fame created using REST api using javascript -->
+        <div class="hallOfFame">
+            <h2>Sieň slávy</h2>
+            <table id="scoreTable">
+                <thead>
+                <tr bgcolor="#f0ffff">
+                    <th>Hráč</th>
+                    <th>Počet bodov</th>
+                    <th>Dátum hrania</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
     </ui:define>
 
 </ui:composition>

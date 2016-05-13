@@ -100,16 +100,22 @@ public class Field implements Serializable
 		this.columns = builder.getColumns();
 		this.tiles = builder.makeTiles();
 
-		this.score = 0;
+		setScore(0);
 
 		//Initializing a game state
 		this.state = GameState.PLAYING;
 		updateGameState();
 	}
 
-	public void addScore(int score)
+	//Should not be used directly except in special scenarios, obviously
+	public void setScore(int score)
 	{
-		this.score += score;
+		this.score = score;
+	}
+	public void addScoreBeforeModification(int score)
+	{
+		double coefficient = Math.sqrt((double) getRows() * (double) getColumns());
+		this.score += score * coefficient;
 	}
 	public int getScore()
 	{

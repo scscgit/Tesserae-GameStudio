@@ -26,6 +26,7 @@ public class GamestudioUser
 	private boolean isGoogle;
 
 	private String idGoogle;
+	private String nickName;
 	private String realName;
 	private String emailAddress;
 	private String profileImage;
@@ -60,10 +61,11 @@ public class GamestudioUser
 		setUsername(username);
 		setPassword(password);
 	}
-	public void set(String idGoogle, String realName, String profileImage, String emailAddress)
+	public void set(String idGoogle, String nickName, String realName, String profileImage, String emailAddress)
 	{
 		setGoogle(true);
 		setIdGoogle(idGoogle);
+		setNickName(nickName);
 		setRealName(realName);
 		setProfileImage(profileImage);
 		setEmailAddress(emailAddress);
@@ -108,6 +110,15 @@ public class GamestudioUser
 	public void setIdGoogle(String idGoogle)
 	{
 		this.idGoogle = idGoogle;
+	}
+
+	public String getNickName()
+	{
+		return nickName;
+	}
+	public void setNickName(String nickName)
+	{
+		this.nickName = nickName;
 	}
 
 	public String getRealName()

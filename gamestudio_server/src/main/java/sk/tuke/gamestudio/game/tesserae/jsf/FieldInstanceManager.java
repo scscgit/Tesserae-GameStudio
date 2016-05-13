@@ -170,15 +170,17 @@ public class FieldInstanceManager implements Serializable, FieldManager
 	}
 
 	//Goes forwards in time
-	//Also updates score
+	//Also updates Score
+	//Central Score saving point, decision to save the Score to the player account happens here
 	@Override
 	public void fieldUpdatedCallback()
 	{
 		this.history.saveState(this.field);
 
 		//Ad-hoc solution really
-		//todo verify if awarded correctly
-		if(this.field.isSolved() || !this.field.isSolvable() && !this.scoreAwarded)
+		//TODO verify if awarded correctly in all situations
+		//By the way, the score is not added if the player forfeits
+		if (this.field.isSolved() || !this.field.isSolvable() && !this.scoreAwarded)
 		{
 			this.scoreAwarded = true;
 
@@ -188,8 +190,7 @@ public class FieldInstanceManager implements Serializable, FieldManager
 			}
 			catch (ScoreException e)
 			{
-				//todo inform about score saving problem
-				e.printStackTrace();
+				throw new RuntimeException("Problem during saving the game score:\n" + e.getMessage());
 			}
 		}
 	}
@@ -220,5 +221,31 @@ public class FieldInstanceManager implements Serializable, FieldManager
 	public void setInputMessage(String inputMessage)
 	{
 		this.inputMessage = inputMessage;
+	}
+
+	public int getScore()
+	{
+		if (getManagedField() != null)
+		{
+			return getManagedField().getScore();
+		}
+		return 0;
+	}
+
+	//(Safely) returns number of currently made moves within the game
+	public int getTimelineSize()
+	{
+		try
+		{
+			if (getTimeline() != null)
+			{
+				return getTimeline().size() - 1;
+			}
+		}
+		catch (FieldHistoryRebuilderNoHistoryException e)
+		{
+			return 0;
+		}
+		return 0;
 	}
 }

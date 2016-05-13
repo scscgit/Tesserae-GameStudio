@@ -85,7 +85,7 @@ public class TesseraeComponent extends UICommand
 			field.move(direction);
 
 			//Callback that does required tasks after the field changed its state
-			//(As of time of writing this, the only task is saving a new history state in the timeline)
+			//As of time of writing this, tasks are saving a new history state in the timeline and updating the score
 			this.manager.fieldUpdatedCallback();
 		}
 		//Otherwise a new Tile gets selected
@@ -331,14 +331,14 @@ public class TesseraeComponent extends UICommand
 					writer.write("Congratz, you've won!");
 					writer.startElement("br", this);
 					writer.endElement("br");
-					writer.write("Score: "+field.getScore());
+					writer.write("Score: " + field.getScore());
 				}
 				else if (field.getState().equals(Field.GameState.LOST))
 				{
 					writer.write("GG, you've lost.");
 					writer.startElement("br", this);
 					writer.endElement("br");
-					writer.write("Score: "+field.getScore());
+					writer.write("Score: " + field.getScore());
 				}
 				writer.endElement("p");
 			}

@@ -22,14 +22,17 @@
                     <h:form>
                         <p class="centerText">Okamžité prihlásenie:</p>
                         <div id="SignInButton"></div>
-                        <!-- RemoteCommand for communication between Bean and JavaScript -->
-                        <!--googleLoggedInEvent-->
+
                         <p:growl id="msgs" showDetail="true"/>
 
-                        <input id="Gname" hidden="hidden"/>
-                        <input id="GgivenName" hidden="hidden"/>
-                        <input id="GfamilyName" hidden="hidden"/>
+                        <!--googleLoggedInEvent values-->
+                        <div class="Gid"><h:inputHidden value="#{requestedUser.idGoogle}"/></div>
+                        <div class="GnickName"><h:inputHidden value="#{requestedUser.nickName}"/></div>
+                        <div class="GrealName"><h:inputHidden value="#{requestedUser.realName}"/></div>
+                        <div class="Gemail"><h:inputHidden value="#{requestedUser.emailAddress}"/></div>
+                        <div class="Gimage"><h:inputHidden value="#{requestedUser.profileImage}"/></div>
 
+                        <!-- RemoteCommand for communication between Bean and JavaScript -->
                         <p:remoteCommand name="onSuccessGoogleController"
                                          update="msgs @form"
                                          actionListener="#{userController.loginGoogle}"/>
