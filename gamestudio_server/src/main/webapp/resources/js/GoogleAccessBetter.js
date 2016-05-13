@@ -102,6 +102,10 @@ function onSuccess(googleUser) {
     var imageUrl = profile.getImageUrl();
     var email = profile.getEmail();
 
+    $('Gname').val(name);
+    $('GgivenName').val(givenName);
+    $('GfamilyName').val(familyName);
+
     //PrimeFaces RemoteCommand call
     onSuccessGoogleController([{
         id: id,

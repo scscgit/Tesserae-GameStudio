@@ -7,6 +7,7 @@ import sk.tuke.gamestudio.service.user.UserService;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -100,24 +101,30 @@ public class UserController
 		//Current context
 		RequestContext context = RequestContext.getCurrentInstance();
 
+		//TODO do by bean, js set value to managed object
+
 		//Received parameters
-		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-		String id = params.get("id");
-		String name = params.get("name");
-		//String givenName = params.get("givenName");
-		//String familyName = params.get("familyName");
-		String imageUrl = params.get("imageUrl");
-		String email = params.get("email");
+		//Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+
+		//Hidden input fields
+		Map<Object, Object> params = FacesContext.getCurrentInstance().getAttributes();
+		String id = (String)params.get("id");
+		String name = (String)params.get("name");
+		//String givenName = (String)params.get("givenName");
+		//String familyName = (String)params.get("familyName");
+		String imageUrl = (String)params.get("imageUrl");
+		String email = (String)params.get("email");
 
 		//Logging in
 		loggedUser.set(id, name, imageUrl, email);
 		loggedUser.login();
 
 		//Navigates to the main page
-		context.execute("window.location.replace('.');");
+		//context.execute("window.location.replace('.');");
+		context.execute("window.location.replace('"+name+"');"); //todo del debug
 
 		//Notify the user about success of the action
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
-			FacesMessage.SEVERITY_INFO, "Google account logged in", "Welcome, " + name + "."));
+		//Does not work
+		//FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Google account logged in", "Welcome, " + name + "."));
 	}
 }

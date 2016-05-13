@@ -26,6 +26,10 @@
                         <!--googleLoggedInEvent-->
                         <p:growl id="msgs" showDetail="true"/>
 
+                        <input id="Gname" hidden="hidden"/>
+                        <input id="GgivenName" hidden="hidden"/>
+                        <input id="GfamilyName" hidden="hidden"/>
+
                         <p:remoteCommand name="onSuccessGoogleController"
                                          update="msgs @form"
                                          actionListener="#{userController.loginGoogle}"/>

@@ -329,10 +329,16 @@ public class TesseraeComponent extends UICommand
 				if (field.getState().equals(Field.GameState.WON))
 				{
 					writer.write("Congratz, you've won!");
+					writer.startElement("br", this);
+					writer.endElement("br");
+					writer.write("Score: "+field.getScore());
 				}
 				else if (field.getState().equals(Field.GameState.LOST))
 				{
 					writer.write("GG, you've lost.");
+					writer.startElement("br", this);
+					writer.endElement("br");
+					writer.write("Score: "+field.getScore());
 				}
 				writer.endElement("p");
 			}
@@ -434,11 +440,11 @@ public class TesseraeComponent extends UICommand
 			{
 				if (field.getState().equals(Field.GameState.WON))
 				{
-					writer.write("Congratz, you've won!\n\n");
+					writer.write("Congratz, you've won!\nScore: " + field.getScore() + "\n\n");
 				}
 				else if (field.getState().equals(Field.GameState.LOST))
 				{
-					writer.write("GG, you've lost.\n\n");
+					writer.write("GG, you've lost.\nScore: " + field.getScore() + "\n\n");
 				}
 			}
 

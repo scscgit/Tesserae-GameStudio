@@ -1,6 +1,7 @@
 package sk.tuke.gamestudio.game.tesserae.jsf;
 
 import sk.tuke.gamestudio.controller.LoggedUser;
+import sk.tuke.gamestudio.game.tesserae.Tesserae;
 import sk.tuke.gamestudio.game.tesserae.core.field.Field;
 import sk.tuke.gamestudio.game.tesserae.core.field.builder.history.FieldHistoryRebuilder;
 import sk.tuke.gamestudio.game.tesserae.core.field.builder.history.FieldHistoryRebuilderNoHistoryException;
@@ -8,6 +9,8 @@ import sk.tuke.gamestudio.game.tesserae.cui.ColorMode;
 import sk.tuke.gamestudio.game.tesserae.cui.FieldManager;
 import sk.tuke.gamestudio.game.tesserae.cui.interpreter.FieldInterpreter;
 import sk.tuke.gamestudio.game.tesserae.cui.interpreter.InterpreterException;
+import sk.tuke.gamestudio.service.GameServices;
+import sk.tuke.gamestudio.service.score.ScoreException;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -38,11 +41,16 @@ public class FieldInstanceManager implements Serializable, FieldManager
 	private FieldHistoryRebuilder history;
 
 	@Inject
-	LoggedUser loggedUser;
+	private LoggedUser loggedUser;
+
+	@Inject
+	private GameServices gameServices;
 
 	//Interpreter input and output
 	private String lastMessage;
 	private String inputMessage;
+
+	private boolean scoreAwarded;
 
 	//EJB constructor
 	public FieldInstanceManager()
@@ -131,6 +139,9 @@ public class FieldInstanceManager implements Serializable, FieldManager
 		//Prepares a new timeline for the Field and saves the first position on top of the "stack"
 		this.history = new FieldHistoryRebuilder(field.getRows(), field.getColumns());
 		this.history.saveState(field);
+
+		//Score can be awarded again
+		this.scoreAwarded = false;
 	}
 
 	@Override
@@ -159,10 +170,28 @@ public class FieldInstanceManager implements Serializable, FieldManager
 	}
 
 	//Goes forwards in time
+	//Also updates score
 	@Override
 	public void fieldUpdatedCallback()
 	{
 		this.history.saveState(this.field);
+
+		//Ad-hoc solution really
+		//todo verify if awarded correctly
+		if(this.field.isSolved() || !this.field.isSolvable() && !this.scoreAwarded)
+		{
+			this.scoreAwarded = true;
+
+			try
+			{
+				this.gameServices.saveScore(Tesserae.getGameStatic().getName(), this.field.getScore());
+			}
+			catch (ScoreException e)
+			{
+				//todo inform about score saving problem
+				e.printStackTrace();
+			}
+		}
 	}
 	//Goes back in time
 	@Override
